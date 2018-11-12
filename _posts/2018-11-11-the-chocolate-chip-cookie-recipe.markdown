@@ -2,7 +2,7 @@
 layout: post
 title:  "The Perfect Chocolate Chip Cookie"
 date:   2018-11-11 12:54:45 -0800
-categories: jekyll update
+categories: misc
 ---
 I'm a staunch believer in a somewhat famous New York Times recipe for chocolate chip cookies. Following the [recipe][nyt-recipe] is fairly simple, but there are some specific tips I have after years of chasing the perfect chocolate chip cookie. Combine the recipe with these tips and like me, you might be able to convince your friends that you're a good baker.
 
