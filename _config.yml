@@ -1,0 +1,22 @@
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+title: Christian Selig
+email: seligchristian@gmail.com
+description: >- # this means to ignore newlines until "baseurl:"
+  a space for my  thoughts on analytics / music / misc. topics
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+github_username:  cselig
+linkedin_username: c-selig
+spotify_username: cselig
+
+
+# Build settings
+markdown: kramdown
+remote_theme: broccolini/swiss
+theme_color: gray
+plugins:
+  - jekyll-feed
