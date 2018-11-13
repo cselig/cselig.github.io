@@ -1,7 +1,8 @@
 ---
 layout: page
 title: music
+category: im listening to
 permalink: /music/
 ---
 
-Placeholder for music
+Albums I like a lot
