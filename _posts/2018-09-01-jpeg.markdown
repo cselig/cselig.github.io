@@ -1,0 +1,20 @@
+---
+layout: post
+title:  "What I'm listening to: Sep 2018"
+date:   2018-09-01 12:54:45 -0800
+categories: [im listening to]
+genre: [hip hop]
+artist: JPEGMAFIA
+album: Veteran
+image: jpeg_veteran.jpg
+---
+
+# JPEGMAFIA - Veteran
+<!--excerpt-->
+![](/assets/albums/jpeg_veteran.jpg){:height="300px"}
+
+**Listen to it for:** Textured production, satire, and confrontational lyrics
+
+**Favorite tracks:** 1529 N. Calvert, Baby I'm Bleeding, Rock N Roll is Dead
+
+[Spotify](spotify:album:51WLEfPEEkzAWurvuY6Gco)

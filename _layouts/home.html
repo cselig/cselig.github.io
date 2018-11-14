@@ -50,14 +50,8 @@
         <h1 style="font-size: 40px;">I'm listening to...</h1>
           <!-- get most latest post in "im listening to" category -->
           {% for post in site.categories["im listening to"] limit:1 %}
-            <!-- Renders album of text. -->
-            <div class="py-2 mb-2 prose">
-              <div class="inline-block px-2"><img src="/assets/albums/{{ post.image }}" alt="" height="200px"/></div>
-              <div class="inline-block" style="vertical-align: top;">
-              <h2 class="h1 lh-condensed col-6 mt-0">
-                <a class="link-primary"  title="{{ post.url | prepend: site.baseurl }}" style="vertical-align: middle;" href="{{ post.url | prepend: site.baseurl }}">{{ post.artist }}:<br>{{ post.album }}</a>
-              </h2></div>
-            </div>
+            <!-- Render album image and title -->
+            {% include album_block.html %}
           {% endfor %}
         <h1 style="font-size: 65px;">Posts</h1>
         {% for post in site.posts %}

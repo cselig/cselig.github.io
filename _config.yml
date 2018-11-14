@@ -12,7 +12,7 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  cselig
 linkedin_username: c-selig
 spotify_username: cselig
-
+excerpt_separator: <!--excerpt-->
 
 # Build settings
 markdown: kramdown

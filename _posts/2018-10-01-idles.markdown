@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "What I'm listening to: Nov 2018"
-date:   2018-11-01 12:54:45 -0800
+title:  "What I'm listening to: Oct 2018"
+date:   2018-10-01 12:54:45 -0800
 categories: [im listening to]
 genre: [punk]
 artist: IDLES
@@ -10,9 +10,11 @@ image: idles_joy.jpg
 ---
 
 # IDLES - Joy as an Act of Resistance
-
+<!--excerpt-->
 ![](/assets/albums/idles_joy.jpg){:height="300px"}
 
-British punk band IDLES's second album makes for highly energic, political, and enjoyable commentary on many themes of modern society.
+**Listen to it for:** Furiously energic, political, and enjoyable societal commentary
 
 **Favorite tracks:** Danny Nedelko, I'm Scum, Television
+
+[Spotify](spotify:album:7BbRSUBwTB37ut0Ht3yAqt)
