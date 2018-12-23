@@ -1,0 +1,20 @@
+---
+layout: post
+title:  "What I'm listening to: Dec 2018"
+date:   2018-12-01 12:54:45 -0800
+categories: [im listening to]
+genre: [hip hop]
+artist: Earl Sweatshirt
+album: Some Rap Songs
+image: earl.jpg
+---
+
+# Earl Sweatshirt - Some Rap Songs
+<!--excerpt-->
+![](/assets/albums/earl.jpg){:height="300px"}
+
+**Listen to it for:** Low-fi, layered, and sample heavy production and beats
+
+**Favorite tracks:** Nowhere2go, The Mint, Onetheway!
+
+[Spotify](spotify:album:66at85wgO2pu5CccvqUF6i)
