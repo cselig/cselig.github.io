@@ -1,0 +1,20 @@
+---
+layout: post
+title:  "What I'm listening to: Feb 2019"
+date:   2019-02-01 12:54:45 -0800
+categories: [im listening to]
+genre: []
+artist: James Blake
+album: Assume Form
+image: jblake.jpg
+---
+
+# James Blake - Assume Form
+<!--excerpt-->
+![](/assets/albums/jblake.jpg){:height="300px"}
+
+**Listen to it for:** Silky production and infatuated lyricism.
+
+**Favorite tracks:** Where's the Catch?, I'll Come Too, Don't Miss It
+
+[Spotify](spotify:album:23dKNZpiadggKHrQgHLi3L)
