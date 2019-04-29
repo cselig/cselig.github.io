@@ -1,0 +1,20 @@
+---
+layout: post
+title:  "What I'm listening to: Mar 2019"
+date:   2019-03-01 12:54:45 -0800
+categories: [im listening to]
+genre: [alt rock]
+artist: Radiohead
+album: In Rainbows
+image: rainbows.jpg
+---
+
+# Radiohead - In Rainbows
+<!--excerpt-->
+![](/assets/albums/rainbows.jpg){:height="300px"}
+
+**Listen to it for:** Beautiful songwriting and an unmatched sense of flow and progression
+
+**Favorite tracks:** 15 Step, Jigsaw Falling into Place, Videotape
+
+[Spotify](spotify:album:7eyQXxuf2nGj9d2367Gi5f)
