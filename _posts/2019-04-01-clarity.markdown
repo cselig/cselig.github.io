@@ -1,0 +1,20 @@
+---
+layout: post
+title:  "What I'm listening to: Mar 2019"
+date:   2019-03-01 12:54:45 -0800
+categories: [im listening to]
+genre: [alt rock]
+artist: Clarence Clarity
+album: No Now
+image: clarity.jpg
+---
+
+# Clarence Clarity - No Now
+<!--excerpt-->
+![](/assets/albums/clarity.jpg){:height="300px"}
+
+**Listen to it for:** Creative, dense, and off the wall songwriting and production
+
+**Favorite tracks:** Will to Believe, Those Who Can't Cheat, Cancer in the Water
+
+[Spotify](spotify:album:2u5TtrM2q61VepuKI8lHdu)
