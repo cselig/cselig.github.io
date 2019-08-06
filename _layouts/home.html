@@ -26,19 +26,7 @@
 
           <div class="clearfix mb-4 py-1">
             <div class="col-8 sm-width-full left border-top-thin">
-              <div class="table">
-                <div class="inline-block mt-3">
-                  {% include github.html %}
-                </div>
-                <!-- some extra dots I don't need at the moment -->
-<!--                 <div class="inline-block mt-3 mr-1">
-                  {% include dot-accent.html %}
-                </div>
-                <div class="inline-block mt-3 mr-1">
-                  {% include dot-accent.html %}
-                </div> -->
-
-              </div>
+              {% include social_links.html %}
               <!-- Set site description in config.yml -->
               <p class="h4 lh-condensed font-smoothing mt-2 py-1">{{ site.description }}</p>
             </div>
@@ -46,19 +34,26 @@
         </div>
       </header>
 
-      <div class="container mx-auto px-2 py-4">
-        <h1 style="font-size: 40px;">I'm listening to...</h1>
-          <!-- get most latest post in "im listening to" category -->
-          {% for post in site.categories["im listening to"] limit:1 %}
-            <!-- Render album image and title -->
-            {% include album_block.html %}
-          {% endfor %}
-        <h1 style="font-size: 65px;">Posts</h1>
-        {% for post in site.posts %}
+      <div class="container mx-auto px-2 py-2">
+    
+        <h1 style="font-size: 55px; color: #E74727;">Projects</h1>
+        {% for post in site.categories["projects"] %}
+          {% include project_block.html %}
+        {% endfor %}
+
+        <h1 style="font-size: 55px; color: #E74727;">Music</h1>
+        {% for post in site.categories["im listening to"] | limit: 3 %}
           {% include post_block.html %}
         {% endfor %}
-      </div>
+        <p><a class="align-middle link-primary header-link mr-2" href="/music/">see all -></a></p>
 
+        <h1 style="font-size: 55px; color: #E74727;">Personal</h1>
+        {% for post in site.categories["personal"] | limit: 3 %}
+          {% include post_block.html %}
+        {% endfor %}
+
+        
+      </div>
     </div>
 
     {% include footer.html %}

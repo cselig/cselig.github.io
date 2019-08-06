@@ -1,0 +1,8 @@
+<!-- Renders post date, title, and snippet of text. -->
+<div class="py-2 mb-2 prose">
+    <h2 class="h1 lh-condensed col-9 mt-0">
+      {{ post.title }}
+      {% include github_link.html %}
+    </h2>
+    <p>{{ post.excerpt}}</p>
+  </div>
