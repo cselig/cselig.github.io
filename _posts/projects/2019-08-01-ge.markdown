@@ -5,4 +5,4 @@ categories: [projects]
 github_link: https://github.com/great-expectations/great_expectations
 ---
 
-I had the great opportunity to add Spark compatibility and do some refactoring to this data quality library. See [here](https://greatexpectations.io/blog/great-expectations-now-supports-executions-in-spark-a-blog-with-much-clapping/) for a post from the core contributors on my work.
+I had the great opportunity to add Spark compatibility and do some refactoring to this data quality library. See [here](https://greatexpectations.io/blog/great-expectations-now-supports-executions-in-spark-a-blog-with-much-clapping/) for a post from the library authors on my work.
