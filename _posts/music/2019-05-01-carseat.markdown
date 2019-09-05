@@ -1,0 +1,20 @@
+---
+layout: post
+title:  "What I'm listening to: May 2019"
+date:   2019-05-01 12:54:45 -0800
+categories: [im listening to]
+genre: [indie]
+artist: Carseat Headrest
+album: Teens of Denial
+image: carseat.jpg
+---
+
+# Carseat Headrest - Teens of Denial
+<!--excerpt-->
+![](/assets/albums/carseat.jpg){:height="300px"}
+
+**Listen to it for:** Raw and intimate songwriting
+
+**Favorite tracks:** Fill in the Blank, Destroyed by Hippie Powers, The Ballad of the Costa Concordia
+
+[Spotify](spotify:album:26DseQO366JfXwIP7dIgQj)
