@@ -17,7 +17,3 @@ excerpt_separator: <!--excerpt-->
 
 # Build settings
 markdown: kramdown
-remote_theme: broccolini/swiss
-theme_color: gray
-plugins:
-  - jekyll-feed
