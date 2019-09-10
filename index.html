@@ -6,10 +6,17 @@ layout: default
   <h1>About</h1>
   <hr class="mt-0 mb-0 py-2">
   <p>Hi!</p>
+  <p>I'm a data scientist/engineer based in Seattle. I also play cello.</p>
 </div>
 
 <div class="content-section">
   <h1>Projects</h1>
   <hr class="mt-0 mb-0 py-2">
-  <p>Content</p>
+  <div id="projects">
+    {% for post in site.categories["projects"] %}
+      {% include project_block.html %}
+    {% endfor %}
+  </div>
 </div>
+
+<div id="spacer" style="height:30px;"></div>

@@ -1,8 +1,10 @@
 <!-- Renders post date, title, and snippet of text. -->
-<div class="py-2 mb-2 prose">
-    <h2 class="h1 lh-condensed col-9 mt-0">
+<div id="project-block" class="py-2 mb-2 mr-2 ml-2">
+  <div class="px-2">
+    <h2>
       {{ post.title }}
       {% include github_link.html %}
     </h2>
-    <p>{{ post.excerpt}}</p>
+    <div class="px-1">{{ post.excerpt }}</div>
   </div>
+</div>
