@@ -1,0 +1,20 @@
+---
+layout: post
+title:  "What I'm listening to: September 2019"
+date:   2019-09-01 12:54:45 -0800
+categories: [im listening to]
+genre: [rap]
+artist: Brockhampton
+album: Ginger
+image: ginger.jpg
+---
+
+# Brockhamptop - Ginger
+<!--excerpt-->
+![](/assets/albums/ginger.jpg){:height="300px"}
+
+**Listen to it for:** 
+
+**Favorite tracks:**
+
+[Spotify](spotify:album:1jToVugwBEzcak8gJNZG2f)
