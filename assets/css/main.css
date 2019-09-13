@@ -1,10 +1,8 @@
 :root {
-	--color-1: #17252a;
-	--color-2: #2b717b;
-	--color-3: #3aafa9;
-	--color-4: #def2f1;
-    --color-5: #feffff;
-    
+    /* https://flatuicolors.com/palette/cn */
+	--color-1: #d1d8e0;
+	--color-2: #57606f;
+
     --spacer-1: 10px;
     --spacer-2: 20px;
     --spacer-3: 30px;
@@ -27,7 +25,7 @@ h1 {
 
 /* header and footer */
 .header, .footer {
-	background-color: var(--color-3);
+	background-color: var(--color-1);
     width: 100%;
     display: flex;
 }
@@ -83,7 +81,7 @@ h1 {
     border-style: solid;
     border-radius: 15px;
     border-width: thin;
-    border-color: #3aafa9;
+    border-color: var(--color-2);
 }
 
 #project-block a > svg {
@@ -97,31 +95,34 @@ h1 {
     flex-wrap: wrap;
 }
 
-#albums:hover > #album-cover {
-    opacity: 0.3;
+#album-cover {
+    opacity: 0.2;
 }
 
-#albums:hover > #album-cover:hover {
+#album-block {
+    position: relative;
+}
+
+#album-cover:hover {
     opacity: 1;
 }
 
-#album-cover .hover-text {
-    visibility: hidden;
-    width: 140px;
-    background-color: var(--color-4);
-    /* color: #fff; */
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
-   
-    /* Position the tooltip */
+#album-block .cover-text {
     position: absolute;
-    z-index: 1;
-    margin-left: 50px;
+    top: 10px;
+    left: 15px;
+    width: 190px;
+    font-family: "Arial Black", sans-serif;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    overflow-wrap: break-word;
+    color: black;
+    opacity: 1;
+    z-index: 10;
 }
 
-#album-cover:hover .hover-text {
-    visibility: visible;
+#album-block:hover .cover-text {
+    visibility: hidden;
 }
 
 

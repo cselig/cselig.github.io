@@ -1,7 +1,7 @@
-<div class="py-2 mb-2 prose" id="album-cover">
+<div class="py-2 mb-2 prose" id="album-block">
   <a class="link-primary"  title="{{ post.url | prepend: site.baseurl }}" style="vertical-align: middle;" href="{{ post.url | prepend: site.baseurl }}">
-    <div class="inline-block px-2"><img src="/assets/albums/{{ post.image }}" alt="" height="200px"/></div>
+    <div id="album-cover" class="inline-block px-2"><img src="/assets/albums/{{ post.image }}" alt="" height="200px"/></div>
     <div class="inline-block" style="vertical-align: top;"></div>
   </a>
-  <span class="hover-text">{{ post.artist }}:<br>{{ post.album }}</span>
+  <span class="cover-text"><div style="color:#4b6584;">{{ post.artist }}</div>{{ post.album }}</span>
 </div>
