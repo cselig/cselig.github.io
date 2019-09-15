@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: album
 title:  "What I'm listening to: Jan 2019"
 date:   2019-01-01 12:54:45 -0800
 categories: [im listening to]
@@ -7,14 +7,7 @@ genre: [math rock]
 artist: Hella
 album: Hold Your Horse Is
 image: hella.jpg
+listen_to_it_for: Raw and bright math rock grooves.
+favorite_tracks: Biblical Violence, 1-800-GHOST-DANCE, City Folk Sitting, Sitting
+spotify_link: spotify:album:4E8OP5rtu4s87cGG4RgUHR
 ---
-
-# Hella - Hold Your Horse Is
-<!--excerpt-->
-![](/assets/albums/hella.jpg){:height="300px"}
-
-**Listen to it for:** Raw and bright math rock grooves.
-
-**Favorite tracks:** Biblical Violence, 1-800-GHOST-DANCE, City Folk Sitting, Sitting
-
-[Spotify](spotify:album:4E8OP5rtu4s87cGG4RgUHR)

@@ -30,4 +30,12 @@ layout: default
   </div>
 </div>
 
-<div id="spacer" style="height:30px;"></div>
+<div class="content-section">
+  <h1>Blog</h1>
+  <hr class="mt-0 mb-0 py-2">
+  <div id="blog">
+    {% for post in site.categories["blog"] %}
+      {% include blog_block.html %}
+    {% endfor %}
+  </div>
+</div>

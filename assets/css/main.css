@@ -1,7 +1,8 @@
 :root {
     /* https://flatuicolors.com/palette/cn */
-	--color-1: #d1d8e0;
-	--color-2: #57606f;
+	--color-1: #747d8c;
+    --color-2: #57606f;
+    --color-3: #4b6584;
 
     --spacer-1: 10px;
     --spacer-2: 20px;
@@ -32,6 +33,11 @@ h1 {
 
 .header h1 {
     font-size: 3rem;
+    color: black;
+}
+
+.header a:hover {
+    text-decoration: none;
 }
 
 #title {
@@ -64,20 +70,25 @@ h1 {
 }
 
 .content-section {
-    padding-top: var(--spacer-3);
+    padding-bottom: var(--spacer-3);
 }
 
 .content-section h1 {
     padding-bottom: 5px;
 }
 
+hr {
+    color: var(--color-1);
+    border-top: 1px solid;
+}
+
 /* Projects */
-#projects {
+#projects, #blog {
     display: flex;
     flex-direction: column;
 }
 
-#project-block {
+#project-block, #blog-block {
     border-style: solid;
     border-radius: 15px;
     border-width: thin;
@@ -125,6 +136,14 @@ h1 {
     visibility: hidden;
 }
 
+/* Blog */
+#blog-block h2 {
+    color: var(--color-3);
+}
+
+#blog-block a:hover {
+    text-decoration: none;
+}
 
 /* Padding */
 .px-0 { padding-left: 0; padding-right:  0 }

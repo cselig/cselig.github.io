@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: album
 title:  "What I'm listening to: September 2019"
 date:   2019-09-01 12:54:45 -0800
 categories: [im listening to]

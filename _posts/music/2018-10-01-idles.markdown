@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: album
 title:  "What I'm listening to: Oct 2018"
 date:   2018-10-01 12:54:45 -0800
 categories: [im listening to]
@@ -7,14 +7,7 @@ genre: [punk]
 artist: IDLES
 album: Joy as an Act of Resistance
 image: idles_joy.jpg
+listen_to_it_for: Furiously energic, political, and enjoyable societal commentary
+favorite_tracks: Danny Nedelko, I'm Scum, Television
+spotify_link: spotify:album:7BbRSUBwTB37ut0Ht3yAqt
 ---
-
-# IDLES - Joy as an Act of Resistance
-<!--excerpt-->
-![](/assets/albums/idles_joy.jpg){:height="300px"}
-
-**Listen to it for:** Furiously energic, political, and enjoyable societal commentary
-
-**Favorite tracks:** Danny Nedelko, I'm Scum, Television
-
-[Spotify](spotify:album:7BbRSUBwTB37ut0Ht3yAqt)
