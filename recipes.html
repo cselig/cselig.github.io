@@ -10,7 +10,11 @@ layout: default
     <b>{{ recipe.name | replace:'_',' ' }}</b>
   </p>
   <div class="collapse" id="{{ recipe.name }}">
+
     <div class="card card-body">
+        {% if recipe.source %}
+          <a href="{{ recipe.source }}" target="_blank">Source</a>
+        {% endif %}
         <b>Ingredients</b>
         <ul>
           {% for x in recipe.ingredients %}
