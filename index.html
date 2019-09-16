@@ -20,22 +20,22 @@ layout: default
 </div>
 
 <div class="content-section">
+  <h1>Blog</h1>
+  <hr class="mt-0 mb-0 py-2">
+  <div id="blog">
+    {% for post in site.categories["blog"] %}
+      {% include blog_block.html %}
+    {% endfor %}
+  </div>
+</div>
+
+<div class="content-section">
   <h1>Music</h1>
   <hr class="mt-0 mb-0 py-2">
   <p>Check out what I've been listening to!</p>
   <div id="albums">
     {% for post in site.categories["im listening to"]  | limit: 10 %}
       {% include album_cover.html %}
-    {% endfor %}
-  </div>
-</div>
-
-<div class="content-section">
-  <h1>Blog</h1>
-  <hr class="mt-0 mb-0 py-2">
-  <div id="blog">
-    {% for post in site.categories["blog"] %}
-      {% include blog_block.html %}
     {% endfor %}
   </div>
 </div>
