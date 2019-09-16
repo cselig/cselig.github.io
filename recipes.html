@@ -1,0 +1,28 @@
+---
+layout: default
+---
+
+<h1 class="py-3">Recipes</h1>
+
+{% for recipe_hash in site.data.recipes %}
+{% assign recipe = recipe_hash[1] %}
+  <p data-toggle="collapse" data-target="#{{ recipe.name }}" style="cursor:pointer; text-transform:capitalize">
+    <b>{{ recipe.name | replace:'_',' ' }}</b>
+  </p>
+  <div class="collapse" id="{{ recipe.name }}">
+    <div class="card card-body">
+        <b>Ingredients</b>
+        <ul>
+          {% for x in recipe.ingredients %}
+            <li>{{ x }}</li>
+          {% endfor %}
+        </ul>
+        <b>Instructions</b>
+        <ol>
+          {% for x in recipe.instructions %}
+            <li>{{ x }}</li>
+          {% endfor %}
+        </ol>
+    </div>
+  </div>
+{% endfor %}
