@@ -7,6 +7,8 @@
     --spacer-1: 10px;
     --spacer-2: 20px;
     --spacer-3: 30px;
+
+    --transition-length: 0.3s;
 }
 
 body {
@@ -116,6 +118,11 @@ hr {
 
 #album-cover:hover {
     opacity: 1;
+}
+
+
+#album-cover, #album-cover:hover {
+    transition: visibility var(--transition-length), opacity var(--transition-length) linear;
 }
 
 #album-block .cover-text {
