@@ -26,6 +26,24 @@ h1 {
     margin: 0;
 }
 
+/* Links */
+a {
+    color: var(--color-3);
+    text-decoration: underline;
+}
+
+a:hover {
+    color: var(--color-3);
+}
+
+.title-link {
+    text-decoration: none;
+}
+
+.title-link:hover {
+    text-decoration: underline;
+}
+
 /* header and footer */
 .header, .footer {
 	background-color: var(--color-1);
@@ -97,11 +115,6 @@ hr {
     border-color: var(--color-2);
 }
 
-#project-block a > svg {
-    /* get github link to line up with title */
-    padding: 0 0 6px 0;
-}
-
 /* Albums */
 #albums {
     display: flex;
@@ -143,14 +156,6 @@ hr {
     visibility: hidden;
 }
 
-/* Blog */
-#blog-block h2 {
-    color: var(--color-3);
-}
-
-#blog-block a:hover {
-    text-decoration: none;
-}
 
 /* Padding */
 .px-0 { padding-left: 0; padding-right:  0 }
