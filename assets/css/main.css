@@ -44,6 +44,15 @@ a:hover {
     text-decoration: underline;
 }
 
+/* code formatting */
+pre {
+    padding-left: 0.5em;
+}
+
+.highlighter-rouge {
+    padding: 0 10% 0 10%;
+}
+
 /* header and footer */
 .header, .footer {
 	background-color: var(--color-1);
