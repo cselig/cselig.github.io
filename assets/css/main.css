@@ -24,6 +24,13 @@ body {
 
 h1 {
     margin: 0;
+    font-size: 3rem;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Links */
