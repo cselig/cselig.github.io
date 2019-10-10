@@ -5,7 +5,7 @@ date: 2019-10-05 00:00:00 -0800
 categories: [blog]
 ---
 
-Over the course of studying for coding interviews, I had been thinking a lot about topics like complexity analysis and graph traversals. After finishing the job search, I got the idea to put these concepts into practice by writing some graph traversals across the Wikipedia link graph. Of course this had been done [before][rate-with-science], but like any engineer who thinks they have a good idea, I wasn't going to let that stop me.
+Over the course of studying for coding interviews I'd been thinking a lot about topics like complexity analysis and graph traversals, and eventually I got the idea to put these concepts into practice by implementing some searches across the Wikipedia link graph. Of course this had been done [before][rate-with-science], but like any engineer who thinks they have a good idea, I wasn't going to let that stop me.
  <!--excerpt-->
 
 ## Representing Wikipedia links as a graph
