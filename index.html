@@ -10,12 +10,20 @@ layout: default
 </div>
 
 <div class="content-section">
-  <h1>Blog</h1>
+  <h1 data-toggle="collapse" data-target="#blog-expand" style="cursor:pointer;">
+    <b style="font-weight:inherit;">Blog</b>
+  </h1>
   <hr class="mt-0 mb-0 py-2">
   <div id="blog">
-    {% for post in site.categories["blog"] %}
+    {% assign blog_limit = 3 %}
+    {% for post in site.categories["blog"] limit:blog_limit %}
       {% include blog_block.html %}
     {% endfor %}
+    <div class="collapse" id="blog-expand">
+      {% for post in site.categories["blog"] offset:blog_limit %}
+        {% include blog_block.html %}
+      {% endfor %}    
+    </div>
   </div>
 </div>
 
@@ -30,12 +38,21 @@ layout: default
 </div>
 
 <div class="content-section">
-  <h1>Music</h1>
+  <h1 data-toggle="collapse" data-target="#music-expand" style="cursor:pointer;">
+    <b style="font-weight:inherit;">Music</b>
+  </h1>
   <hr class="mt-0 mb-0 py-2">
   <p>Check out what I've been listening to!</p>
   <div id="albums">
-    {% for post in site.categories["im listening to"]  | limit: 10 %}
+    {% assign music_limit = 10 %}
+    {% for post in site.categories["im listening to"] limit:music_limit %}
       {% include album_cover.html %}
+    {% endfor %}
+    
+    {% for post in site.categories["im listening to"] offset:music_limit %}
+      <div class="collapse" id="music-expand">
+        {% include album_cover.html %}
+      </div>
     {% endfor %}
   </div>
 </div>
