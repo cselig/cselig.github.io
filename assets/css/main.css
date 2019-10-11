@@ -27,6 +27,10 @@ h1 {
     font-size: 3rem;
 }
 
+h3 {
+    font-size: 1.5rem;
+}
+
 .center {
     display: block;
     margin-left: auto;
