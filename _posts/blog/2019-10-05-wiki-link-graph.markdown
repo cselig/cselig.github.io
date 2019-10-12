@@ -127,7 +127,7 @@ Wall time: 2.13 s
  'Illuminati']
 ```
 
-We found a path between Jeff Bezos and the Illuminati (unsurprisingly), and pretty quickly too. To test out performance for longer shortest paths, I tried out the code on two randomly choosen Wikipedia articles: Craig Evans (an Australian footballer), and *Calliandra conferta* (a species of flowering plants).
+We found a short path between Jeff Bezos and the Illuminati (unsurprisingly), and pretty quickly too. To test out performance for longer shortest paths, I tried out the code on two randomly choosen Wikipedia articles: Craig Evans (an Australian footballer), and *Calliandra conferta* (a species of flowering plants).
 ```
 Path of length 7 found
 CPU times: user 58.1 s, sys: 20.3 s, total: 1min 18s

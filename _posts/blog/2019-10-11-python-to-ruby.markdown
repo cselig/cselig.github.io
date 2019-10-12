@@ -40,7 +40,7 @@ arr = [1, 2, 3, 4]
 new_arr = arr.reverse!
 ```
 
-However there's a strange edge case here: if the object is not modified by the operation, it **will not** return a copy. This isn't the case with Array's <code>reverse</code>, but it is the case with String's <code>downcase</code>.
+However there's a strange edge case here: if the object is not modified by the operation, it sometimes **will not** return a copy. This isn't the case with Array's <code>reverse</code>, but it is the case with String's <code>downcase</code>.
 
 ```ruby
 #rb
@@ -58,5 +58,15 @@ hello
 We can see that <code>nil</code> (Ruby's null value, same as <code>None</code> in Python) was returned instead of a copy of the string. This means there's definitely some things to be wary of if you want to exploit this feature in your Ruby code.
 
 <code>unless</code>, by the way, doesn't exist in Python and is basically the opposite of <code>if</code>.
+
+## Other differences
+
+### Truthy and Falsey values
+
+In contrast to Python, in Ruby only <code>false</code> and <code>nil</code> are falsey. All others (0, empty lists/hashes, empty string) are considered truthy.
+
+### Mutable Strings 😱
+
+<br>
 
 ### To be continued...

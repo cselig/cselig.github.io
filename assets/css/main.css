@@ -9,10 +9,21 @@
     --spacer-3: 30px;
 
     --transition-length: 0.3s;
+
+    --footer-height: 48px;
 }
 
 body {
     margin: 0;
+}
+
+#page-container {
+    position: relative;
+    min-height: 100vh;
+}
+
+#content {
+    padding-bottom: var(--footer-height);
 }
 
 .container-fluid {
@@ -69,6 +80,12 @@ pre {
 	background-color: var(--color-1);
     width: 100%;
     display: flex;
+}
+
+.footer {
+    position:absolute;
+    bottom:0;
+    height: var(--footer-height);
 }
 
 .header h1 {
