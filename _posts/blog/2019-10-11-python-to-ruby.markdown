@@ -10,11 +10,67 @@ As I embark on learning Ruby for my new job, I thought it would be useful as som
 
 ## Lots of nice shortcuts
 
-Ruby provides a ton of shortcuts to carry out common tasks. 
+Ruby provides a ton of shortcuts to carry out common tasks.
+
+### Loops and Iteration
+
+In Python, the <code>for</code> (and sometimes <code>while</code>) loop will take you quite far. The <code>for</code> loop goes through an "iterable", which could be a range of numbers, list, etc. Iterables are an important and central concept in Python. 
+
+In Ruby there's a wide variety of mechanisms to achieve looping, each with its own flavor and use cases. See the following code for examples:
+
+```ruby
+# rb
+3.times {puts "Ruby!"}
+
+for i in 1..3 do
+    puts i
+end
+
+3.downto(1) {|i| puts i}
+```
+
+Each one of these mechanisms achieves the same thing: repeating a code block 3 times. But each has a slightly different meaning. Because of things like this it seems that in Ruby there's more room for writing expressive code, a concept which to me means the code conveys a certain subtlety of intention.
+
+For enumerable objects, there's yet another iteration mechanism: <code>each</code>.
+
+```ruby
+# rb
+arr = [1, 2, 3, 4]
+arr.each {|x| puts x * 2}
+
+hash = {key1: "val1", key2: "val2"}
+hash.each {|k, v| print "#{k}, #{v}\n"}
+```
+```
+2
+4
+6
+8
+key1, val1
+key2, val2
+```
+
+### Pipelines
+
+Ruby seems generally better suited for "pipeline" programming:
+
+```ruby
+# rb
+arr = [1, 2, 3, 4]
+arr.map {|x| x ** 2}.select {|x| x % 2 == 0}.each {|x| puts x}
+```
+```
+4
+16
+```
+
+This is super awesome coming from Python, where often code that could be expressed as a simple pipeline was spread over multiple lines and in the form of comprehensions, method calls, and other transformations.
+
+The above code doesn't modify the array, but what if I wanted to have my <code>map</code> step modify the array in place (but maybe not my <code>select</code> step)? This bring us to...
 
 ### Bang Methods
 
-One example is the <code>!</code> operator for performing operations in-place. For example, the following code is equivalent:
+Many Ruby classes define pairs of methods <code>method_name</code> and <code>method_name!</code>, the latter generally meaning that the operation is performed in-place. For example, the following code is equivalent:
 
 ```python
 # py
@@ -59,13 +115,35 @@ We can see that <code>nil</code> (Ruby's null value, same as <code>None</code> i
 
 <code>unless</code>, by the way, doesn't exist in Python and is basically the opposite of <code>if</code>.
 
-## Other differences
+## Other Differences
 
-### Truthy and Falsey values
+### Truthy and Falsey Values
 
 In contrast to Python, in Ruby only <code>false</code> and <code>nil</code> are falsey. All others (0, empty lists/hashes, empty string) are considered truthy.
 
 ### Mutable Strings 😱
+
+However, symbols (essentially just immutable strings) exist and are often used as the keys of hashes.
+
+### Single vs Double quotes
+
+Single quoted strings in Ruby are "raw", and double quoted strings allow for escape sequences and string interpolation.
+
+```ruby
+# rb
+a = "my"
+b = "string"
+
+puts 'This is\n#{a} #{b}'
+puts
+puts "This is\n#{a} #{b}"
+```
+```
+This is\n#{a} #{b}
+
+This is
+my string
+```
 
 <br>
 
