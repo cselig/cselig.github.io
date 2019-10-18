@@ -67,7 +67,7 @@ def bfs(src: int, dst: int) -> int:
     breadth = 1
     while not q.empty():
         print('breadth, qsize:', breadth, q.qsize())
-        for i in range(q.qsize()):
+        for _ in range(q.qsize()):
             offset = q.get()
             ind = offset // 4
             num_links = arr[ind + 1]
