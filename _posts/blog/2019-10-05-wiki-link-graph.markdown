@@ -27,6 +27,7 @@ Another interesting question we can ask is what is the shortest path between two
 Before coding this up I needed to find an already-built representation of the graph, since scraping from the web would take a long time. I came across [Wikicrush][wikicrush], a project to create a representation of the link graph that will fit in memory and allow for fast processing. The format is a large binary file representing a series of integers. Each page is represented by an offset in bytes where it is located in the file, and links are also offsets. We can follow a link by going to that offset in the file. We can load this file into memory as an int array using the following Python code:
 
 ```python
+# py
 import struct
 
 with open('./wikidata/indexbi.bin', 'rb') as f:
@@ -55,6 +56,7 @@ All we need to do now is populate parent pointers in our nodes as we reach them,
 From here, we can code up our BFS. The only tricky thing here is remembering when to convert between the byte offset format and array indices.
 
 ```python
+# py
 def bfs(src: int, dst: int) -> int:  
     assert src != dst
 
@@ -92,6 +94,7 @@ def bfs(src: int, dst: int) -> int:
 We'll also define a utility method for tracing back parent pointers and reconstructing the shortest path.
 
 ```python
+# py
 def trace_path(offset: int) -> List[int]:
     path = []
     path.append(offset)
@@ -107,6 +110,7 @@ def trace_path(offset: int) -> List[int]:
 Let's try it out!
 
 ```python
+# py
 src = 'Jeff Bezos'
 dst = 'Illuminati'
 
@@ -141,7 +145,60 @@ Wall time: 1min 35s
  'Calliandra conferta']
 ```
 
-This shortest path was of length 7, and took quite a bit longer to find. There are a couple of ways we might improve this, including bidirectional BFS and rewriting the code in a language other than Python. Both of these ideas I may come back to in the future.
+This shortest path was of length 7, and took quite a bit longer to find. 
+
+## Let's try a faster language
+
+I was curious what kind of performance boost I could get by rewriting this code in C++.
+
+```c++
+// cpp
+int bfs(int src, int dst, int arr[], int graph_len)
+{
+    queue<int> q;
+    int breadth, offset, ind, num_links, link_start_ind, to_visit_offset, qsize;
+
+    q.push(src);
+
+    // mark start node with parent = -1
+    arr[src / 4] = -1;
+
+    breadth = 1;
+    while (!q.empty()) {
+        printf("breadth, qsize: %d, %lu\n", breadth, q.size());
+
+        qsize = q.size();
+        for (int i = 0; i < qsize; i++) {
+            offset = q.front();
+            q.pop();
+            ind = offset / 4;
+            num_links = arr[ind + 1];
+            link_start_ind = ind + 4;
+            for (int j = link_start_ind; j < link_start_ind + num_links; j++) {
+                to_visit_offset = arr[j];
+                if (arr[to_visit_offset / 4] == 0) {
+                    // mark parent
+                    arr[to_visit_offset / 4] = offset;
+                    if (to_visit_offset == dst) {
+                        printf("Path of length %d found\n", (breadth + 1));
+                        return to_visit_offset;
+                    }
+                    // add to queue
+                    q.push(to_visit_offset);
+                }
+            }
+        }
+        breadth++;
+    }
+
+    return -1;
+}
+```
+```
+Path of length 7 found in 3.1655 seconds
+```
+
+For our randomly chosen articles from above, we got quite a significant speed up of ~30x. It's also worth noting that loading the binary file into an int array is ~200 times faster in C++.
 
 
 [rate-with-science]: http://ratewithscience.thume.net/
