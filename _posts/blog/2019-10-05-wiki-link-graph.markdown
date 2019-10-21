@@ -198,7 +198,9 @@ int bfs(int src, int dst, int arr[], int graph_len)
 Path of length 7 found in 3.1655 seconds
 ```
 
-For our randomly chosen articles from above, we got quite a significant speed up of ~30x. It's also worth noting that loading the binary file into an int array is ~200 times faster in C++.
+For our randomly chosen articles from above, we got a significant speed up of ~30x. It's also worth noting that loading the binary file into an int array is ~200x faster in C++.
+
+See all code [here][code].
 
 
 [rate-with-science]: http://ratewithscience.thume.net/
@@ -206,3 +208,4 @@ For our randomly chosen articles from above, we got quite a significant speed up
 [six-degrees]: http://mu.netsoc.ie/wiki/
 [wikicrush]: https://github.com/trishume/wikicrush/tree/master
 [topological-sort]: https://en.wikipedia.org/wiki/Topological_sorting
+[code]: https://github.com/cselig/wiki-graph
