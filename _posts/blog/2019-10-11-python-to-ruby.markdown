@@ -64,7 +64,7 @@ arr.map {|x| x ** 2}.select {|x| x % 2 == 0}.each {|x| puts x}
 16
 ```
 
-This is super awesome coming from Python, where often code that could be expressed as a simple pipeline was spread over multiple lines and in the form of comprehensions, method calls, and other transformations.
+This is super awesome coming from Python, where often similarly simple code had to be spread over multiple lines in the form of comprehensions, method calls, and other transformations.
 
 The above code doesn't modify the array, but what if I wanted to have my <code>map</code> step modify the array in place (but maybe not my <code>select</code> step)? This bring us to...
 
@@ -114,6 +114,55 @@ hello
 We can see that <code>nil</code> (Ruby's null value, same as <code>None</code> in Python) was returned instead of a copy of the string. This means there's definitely some things to be wary of if you want to exploit this feature in your Ruby code.
 
 <code>unless</code>, by the way, doesn't exist in Python and is basically the opposite of <code>if</code>.
+
+### Everything is an expression
+
+In some languages (like Python), there is a distinction between expressions which produce a value and statements (e.g. control flow). In Ruby there is no such distinction. Everything is an expression, which means that everything produces a value.
+
+One example of this is <code>if</code> / <code>else</code>: the value returned by <code>if</code> is the value of the code block executed.
+
+```ruby
+# rb
+x = 3
+
+s = if x == 1 then "one"
+elsif x == 2 then "two"
+elsif x == 3 then "three"
+else "other"
+end
+
+puts s
+```
+```
+three
+```
+
+Another example is assignment. An assignment expression evaluates to the right-hand value of the statement, which is the reason why the following code works.
+
+```ruby
+# rb
+x = y = 0
+```
+
+This is equivalent to:
+
+```ruby
+# rb
+x = (y = 0)
+```
+
+This concept should be familiar to C programmers; the following pattern is used quite a bit.
+
+```c
+// c
+char string[] = "abc";
+
+char c;
+// assumes the string is null-terminated
+for (int i = 0; (c = string[i]); i++) {
+    printf("%c", c);
+}
+```
 
 ## Other Differences
 
