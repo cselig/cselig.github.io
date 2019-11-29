@@ -1,3 +1,7 @@
+---
+# front matter
+---
+
 :root {
     /* https://flatuicolors.com/palette/cn */
 	--color-1: #747d8c;
@@ -53,18 +57,18 @@ h3 {
 a {
     color: var(--color-3);
     text-decoration: underline;
-}
 
-a:hover {
-    color: var(--color-3);
+    &:hover {
+        color: var(--color-3);
+    }
 }
 
 .title-link {
     text-decoration: none;
-}
 
-.title-link:hover {
-    text-decoration: underline;
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 /* code formatting */
@@ -87,15 +91,22 @@ pre {
     position:absolute;
     bottom:0;
     height: var(--footer-height);
+    justify-content: center;
 }
 
-.header h1 {
-    font-size: 3rem;
-    color: black;
-}
+.header {
+    & h1 {
+        font-size: 3rem;
+        color: black;
+    }
 
-.header a:hover {
-    text-decoration: none;
+    & a:hover {
+        text-decoration: none;
+    }
+
+    &> #socials > #social-links {
+        transform: translateY(50%);
+    }
 }
 
 #title {
@@ -110,16 +121,8 @@ pre {
     width: 150px;
 }
 
-.header > #socials > #social-links {
-    transform: translateY(50%);
-}
-
 #social-links.col-sm {
     padding: 0 0;
-}
-
-.footer {
-    justify-content: center;
 }
 
 /* Section blocks */
@@ -129,10 +132,10 @@ pre {
 
 .expand-button{
     transition: all 0.2s linear;
-}
 
-.expand-button.down{
-    transform: rotate(90deg);
+    &.down {
+        transform: rotate(90deg);
+    }
 }
 
 #content {
@@ -141,10 +144,10 @@ pre {
 
 .content-section {
     padding-bottom: var(--spacer-3);
-}
 
-.content-section h1 {
-    padding-bottom: 5px;
+    & h1 {
+        padding-bottom: 5px;
+    }
 }
 
 hr {
@@ -173,39 +176,34 @@ hr {
 
 #album-cover {
     opacity: 0.2;
+
+    &:hover {
+        opacity: 1;
+        transition: visibility var(--transition-length), opacity var(--transition-length) linear;
+    }
 }
 
 #album-block {
     position: relative;
+
+    & .cover-text {
+        position: absolute;
+        top: 10px;
+        left: 15px;
+        width: 190px;
+        font-family: "Arial Black", sans-serif;
+        font-size: 1.5rem;
+        text-transform: uppercase;
+        overflow-wrap: break-word;
+        color: black;
+        opacity: 1;
+        z-index: 10;
+    }
+
+    &:hover .cover-text {
+        visibility: hidden;
+    }
 }
-
-#album-cover:hover {
-    opacity: 1;
-}
-
-
-#album-cover, #album-cover:hover {
-    transition: visibility var(--transition-length), opacity var(--transition-length) linear;
-}
-
-#album-block .cover-text {
-    position: absolute;
-    top: 10px;
-    left: 15px;
-    width: 190px;
-    font-family: "Arial Black", sans-serif;
-    font-size: 1.5rem;
-    text-transform: uppercase;
-    overflow-wrap: break-word;
-    color: black;
-    opacity: 1;
-    z-index: 10;
-}
-
-#album-block:hover .cover-text {
-    visibility: hidden;
-}
-
 
 /* Padding */
 .px-0 { padding-left: 0; padding-right:  0 }
