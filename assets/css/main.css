@@ -123,6 +123,18 @@ pre {
 }
 
 /* Section blocks */
+#section-header i {
+    padding: 0.8em 0.1em;
+}
+
+.expand-button{
+    transition: all 0.2s linear;
+}
+
+.expand-button.down{
+    transform: rotate(90deg);
+}
+
 #content {
     width: 80%;
 }

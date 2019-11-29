@@ -10,25 +10,26 @@ layout: default
 </div>
 
 <div class="content-section">
-  <h1 data-toggle="collapse" data-target="#blog-expand" style="cursor:pointer;">
-    <b style="font-weight:inherit;">Blog</b>
-  </h1>
+  {% assign blog_limit = 3 %}
+  {% assign num_blog_posts = site.categories["blog"]|size %}
+  {% include section_header.html title="Blog" num_posts=num_blog_posts limit=blog_limit %}
   <hr class="mt-0 mb-0 py-2">
   <div id="blog">
-    {% assign blog_limit = 3 %}
     {% for post in site.categories["blog"] limit:blog_limit %}
       {% include blog_block.html %}
     {% endfor %}
     <div class="collapse" id="blog-expand">
       {% for post in site.categories["blog"] offset:blog_limit %}
         {% include blog_block.html %}
-      {% endfor %}    
+      {% endfor %}
     </div>
   </div>
 </div>
 
 <div class="content-section">
-  <h1>Projects</h1>
+  {% assign project_limit = 3 %}
+  {% assign num_projects = site.categories["projects"]|size %}
+  {% include section_header.html title="Projects" num_posts=num_projects limit=project_limit %}
   <hr class="mt-0 mb-0 py-2">
   <div id="projects">
     {% for post in site.categories["projects"] %}
@@ -38,17 +39,16 @@ layout: default
 </div>
 
 <div class="content-section">
-  <h1 data-toggle="collapse" data-target="#music-expand" style="cursor:pointer;">
-    <b style="font-weight:inherit;">Music</b>
-  </h1>
+  {% assign music_limit = 10 %}
+  {% assign num_albums = site.categories["im listening to"]|size %}
+  {% include section_header.html title="Music" num_posts=num_albums limit=music_limit %}
   <hr class="mt-0 mb-0 py-2">
   <p>Check out what I've been listening to!</p>
   <div id="albums">
-    {% assign music_limit = 10 %}
     {% for post in site.categories["im listening to"] limit:music_limit %}
       {% include album_cover.html %}
     {% endfor %}
-    
+
     {% for post in site.categories["im listening to"] offset:music_limit %}
       <div class="collapse" id="music-expand">
         {% include album_cover.html %}
