@@ -174,15 +174,6 @@ hr {
     flex-wrap: wrap;
 }
 
-#album-cover {
-    opacity: 0.2;
-
-    &:hover {
-        opacity: 1;
-        transition: visibility var(--transition-length), opacity var(--transition-length) linear;
-    }
-}
-
 #album-block {
     position: relative;
 
@@ -200,8 +191,19 @@ hr {
         z-index: 10;
     }
 
-    &:hover .cover-text {
-        visibility: hidden;
+    #album-cover {
+        opacity: 0.2;
+    }
+
+    &:hover {
+        & .cover-text {
+            visibility: hidden;
+        }
+
+        & #album-cover {
+            opacity: 1;
+            transition: visibility var(--transition-length), opacity var(--transition-length) linear;
+        }
     }
 }
 
