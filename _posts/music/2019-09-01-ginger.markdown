@@ -7,14 +7,5 @@ genre: [rap]
 artist: Brockhampton
 album: Ginger
 image: ginger.jpg
+spotify_link: spotify:album:1jToVugwBEzcak8gJNZG2f
 ---
-
-# Brockhamptop - Ginger
-<!--excerpt-->
-![](/assets/albums/ginger.jpg){:height="300px"}
-
-**Listen to it for:** 
-
-**Favorite tracks:**
-
-[Spotify](spotify:album:1jToVugwBEzcak8gJNZG2f)
