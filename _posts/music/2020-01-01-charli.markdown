@@ -1,0 +1,11 @@
+---
+layout: album
+title:
+date:   2020-01-01 08:00:00 -0800
+categories: [im listening to]
+genre: [pop]
+artist: Charli XCX
+album: Charli
+image: charli.png
+spotify_link: spotify:album:386IqvSuljaZsMjwDGGdLj
+---
