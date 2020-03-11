@@ -5,8 +5,7 @@ layout: default
 <div class="content-section">
   <h1>About</h1>
   <hr class="mt-0 mb-0 py-2">
-  <p>Hi!</p>
-  <p>I'm a software engineer based in the Bay Area. I also play cello.</p>
+  <p>Hi! I'm a software engineer based in the Bay Area. I also play cello.</p>
 </div>
 
 <div class="content-section">
@@ -43,7 +42,7 @@ layout: default
   {% assign num_albums = site.categories["im listening to"]|size %}
   {% include section_header.html title="Music" num_posts=num_albums limit=music_limit %}
   <hr class="mt-0 mb-0 py-2">
-  <p>Check out what I've been listening to!</p>
+  <p>Check out what I'm listening to.</p>
   <div id="albums">
     {% for post in site.categories["im listening to"] limit:music_limit %}
       {% include album_cover.html %}
