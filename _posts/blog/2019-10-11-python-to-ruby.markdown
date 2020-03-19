@@ -14,7 +14,7 @@ Ruby provides a ton of shortcuts to carry out common tasks.
 
 ### Loops and Iteration
 
-In Python, the <code>for</code> (and sometimes <code>while</code>) loop will take you quite far. The <code>for</code> loop goes through an "iterable", which could be a range of numbers, list, etc. Iterables are an important and central concept in Python. 
+In Python, the <code>for</code> (and sometimes <code>while</code>) loop will take you quite far. The <code>for</code> loop goes through an "iterable", which could be a range of numbers, list, etc. Iterables are an important and central concept in Python.
 
 In Ruby there's a wide variety of mechanisms to achieve looping, each with its own flavor and use cases. See the following code for examples:
 

@@ -2,19 +2,19 @@
 layout: default
 ---
 
-<div class="content-section">
+<div class="section">
   <h1>About</h1>
-  <hr class="mt-0 mb-0 py-2">
+  <hr>
   <p>Hi!</p>
   <p>I'm a software engineer based in the Bay Area. I also play cello.</p>
 </div>
 
-<div class="content-section">
+<div class="section">
   {% assign blog_limit = 3 %}
   {% assign num_blog_posts = site.categories["blog"]|size %}
   {% include section_header.html title="Blog" num_posts=num_blog_posts limit=blog_limit %}
-  <hr class="mt-0 mb-0 py-2">
-  <div id="blog">
+  <hr>
+  <div class="post-container">
     {% for post in site.categories["blog"] limit:blog_limit %}
       {% include blog_block.html %}
     {% endfor %}
@@ -26,25 +26,25 @@ layout: default
   </div>
 </div>
 
-<div class="content-section">
+<div class="section">
   {% assign project_limit = 3 %}
   {% assign num_projects = site.categories["projects"]|size %}
   {% include section_header.html title="Projects" num_posts=num_projects limit=project_limit %}
-  <hr class="mt-0 mb-0 py-2">
-  <div id="projects">
+  <hr>
+  <div class="post-container">
     {% for post in site.categories["projects"] %}
       {% include project_block.html %}
     {% endfor %}
   </div>
 </div>
 
-<div class="content-section">
+<div class="section">
   {% assign music_limit = 10 %}
   {% assign num_albums = site.categories["im listening to"]|size %}
   {% include section_header.html title="Music" num_posts=num_albums limit=music_limit %}
-  <hr class="mt-0 mb-0 py-2">
+  <hr>
   <p>Check out what I've been listening to!</p>
-  <div id="albums">
+  <div class="album-container">
     {% for post in site.categories["im listening to"] limit:music_limit %}
       {% include album_cover.html %}
     {% endfor %}

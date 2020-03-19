@@ -1,11 +1,12 @@
-<!-- Renders post date, title, and snippet of text. -->
-<div id="project-block" class="py-2 mb-2 mr-2 ml-2">
-  <div class="px-2">
-    <a class="title-link"  title="{{ post.url | prepend: site.baseurl }}" href="{{ post.github_link }}" target="_blank">
+<div class="post">
+    <a class="title-link"
+       title="{{ post.url | prepend: site.baseurl }}"
+       href="{{ post.github_link }}"
+       target="_blank"
+    >
       <h2>
         {{ post.title }}
       </h2>
     </a>
-    <div class="px-1">{{ post.excerpt }}</div>
-  </div>
+    <div class="excerpt">{{ post.excerpt }}</div>
 </div>

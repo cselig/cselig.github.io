@@ -1,7 +1,10 @@
-<div class="py-2 mb-2 prose" id="album-block">
-  <a class="link-primary"  style="vertical-align: middle;" href="{{ post.spotify_link }}">
-    <div id="album-cover" class="inline-block px-2"><img src="/assets/albums/{{ post.image }}" alt="" height="200px"/></div>
-    <div class="inline-block" style="vertical-align: top;"></div>
+<div class="album-block">
+  <a href="{{ post.spotify_link }}">
+    <img class="album-cover" src="/assets/albums/{{ post.image }}"/>
   </a>
-  <span class="cover-text"><div style="color:#4b6584;">{{ post.artist }}</div>{{ post.album }}</span>
+  <div class="cover-text">
+    <span class="artist">{{ post.artist }}</span>
+    <br>
+    <span>{{ post.album }}</span>
+  </div>
 </div>
