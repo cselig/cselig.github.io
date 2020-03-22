@@ -12,6 +12,13 @@ I'm using some of my "shelter in place" free time to learn D3 and create some to
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="//d3js.org/d3-scale-chromatic.v0.3.min.js"></script>
 
+<style>
+/* scrollable code */
+pre {
+  height: 75vh;
+}
+</style>
+
 ### Some sort of bubble chart
 
 I'm not sure what this chart would be called, but something like this could be used for visualizing a single variable.
