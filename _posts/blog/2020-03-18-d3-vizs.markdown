@@ -16,84 +16,34 @@ I'm using some of my "shelter in place" free time to learn D3 and create some to
 
 I'm not sure what this chart would be called, but something like this could be used for visualizing a single variable.
 
-<div id="bubble-chart" style="display:flex; justify-content:center;">
+<div id="bubble-chart" style="display:flex; justify-content:center; margin:20px;">
   <svg width="200" height="200"></svg>
 </div>
 
 <script>
-let center_x = 100;
-let center_y = 165;
-let circleData = [50, 25, 15, 10];
-let colors = d3["schemeCategory20c"];
-let radius = d3.scaleSqrt()
-  .domain([0, d3.max(circleData)])
-  .range([0, 80]);
-
-let svg = d3.select("#bubble-chart svg");
-
-function handleMouseover(d, i) {
-  d3.select(this).style("stroke", "black");
-  svg.append("text")
-    .attr("id", "tooltip")
-    .attr("x", center_x - 65)
-    .attr("y", center_y + 20)
-    .text("Circle radius: " + d + "px");
-}
-
-function handleMouseout(d, i) {
-  d3.select(this).style("stroke", "none");
-  svg.select("#tooltip").remove();
-}
-
-svg.append("g")
-  .selectAll("circle")
-    .data(circleData)
-  .enter().append("circle")
-    .attr("cy", (d) => { return center_y - radius(d); })
-    .attr("cx", center_x)
-    .attr("r", radius)
-    .style("fill", (d, i) => { return colors[i]; })
-    .style("stroke-width", "3px")
-    .on("mouseover", handleMouseover)
-    .on("mouseout", handleMouseout);
+// extra curly braces for scoping variables
+{ {% include blog/d3_vizs/bubble_chart.js %} }
 </script>
 
 ```js
-let center_x = 250;
-let center_y = 175;
-let circleData = [50, 25, 15, 10];
-let colors = d3["schemeCategory20c"];
-let radius = d3.scaleSqrt()
-  .domain([0, d3.max(circleData)])
-  .range([0, 80]);
+{% include blog/d3_vizs/bubble_chart.js %}
+```
 
-let svg = d3.select("#bubble-chart svg");
+### Volume Calendar
 
-function handleMouseover(d, i) {
-  d3.select(this).style("stroke", "black");
-  svg.append("text")
-    .attr("id", "tooltip")
-    .attr("x", center_x - 65)
-    .attr("y", center_y + 20)
-    .text("Circle radius: " + d + "px");
-}
+My take on a nice Strava visualization that shows how much you ran/biked/swam on given days over the past month, along with a weekly aggregation.
+The original version displays the calendar day on hover, which I think could be easy to confuse with distance ran on that day.
 
-function handleMouseout(d, i) {
-  d3.select(this).style("stroke", "none");
-  svg.select("#tooltip").remove();
-}
+<div id="volume-calendar" style="display:flex; justify-content:center; margin:20px;">
+  <svg width="500" height="200"></svg>
+</div>
 
-svg.append("g")
-  .selectAll("circle")
-    .data(circleData)
-  .enter().append("circle")
-    .attr("cy", (d) => { return center_y - radius(d); })
-    .attr("cx", center_x)
-    .attr("r", radius)
-    .style("fill", (d, i) => { return colors[i]; })
-    .style("stroke-width", "3px")
-    .on("mouseover", handleMouseover)
-    .on("mouseout", handleMouseout);
+<script>
+{ {% include blog/d3_vizs/volume_calendar.js %} }
+</script>
+
+```js
+{% include blog/d3_vizs/volume_calendar.js %}
 ```
 
 ### To be continued...
