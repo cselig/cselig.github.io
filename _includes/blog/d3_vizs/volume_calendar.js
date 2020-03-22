@@ -33,6 +33,61 @@ let bar_scale = d3.scaleLinear()
 
 let day_names = ["M", "T", "W", "T", "F", "S", "S"]
 
+const renderRow = function(d) {
+  let day_cell = d3.select(this).selectAll("g.day")
+    .data(d)
+    .enter().append("g")
+      .attr("class", "day")
+      .style("transform", (d, i) => "translate(" + x_scale(i) + "px,0)");
+  // make uniformly sized area to capture mouseover
+  day_cell.append("rect")
+    .attr("class", "event-capture")
+    .attr("fill", "none")
+    .attr("stroke", "none")
+    .style("pointer-events", "all")
+    .style("x", -cell_width / 2)
+    .style("y", -cell_height / 2)
+    .style("width", cell_width)
+    .style("height", cell_height)
+    .on("mouseover", handleMouseover)
+    .on("mouseout", handleMouseout);
+  day_cell.append("circle")
+    .style("shape-rendering", "geometricPrecision")
+    .style("pointer-events", "none")
+    .attr("r", (d) => (d == 0) ? 1 : r_scale(d))
+    .attr("fill", (d) => (d == 0) ? "#a1a1aa" : "black");
+  day_cell.append("text")
+    .style("pointer-events", "none")
+    .attr("x", -5)
+    .attr("y", 6)
+    .style("opacity", 0)
+    .style("font-weight", 500)
+    .text((d) => (d == 0) ? "" : d);
+}
+
+const handleMouseover = function(d) {
+  if (d > 0) {
+    let g = d3.select(this.parentNode);
+    opacityTransition(g.select("circle"), 0);
+    opacityTransition(g.select("text"), 1);
+  }
+}
+
+const handleMouseout = function(d) {
+  if (d > 0) {
+    let g = d3.select(this.parentNode);
+    opacityTransition(g.select("circle"), 1);
+    opacityTransition(g.select("text"), 0);
+  }
+}
+
+const opacityTransition = function(d3_node, opacity) {
+  d3_node.transition()
+    .style("opacity", opacity)
+    .duration(300);
+}
+
+
 let frame = svg.append("g")
   .style("transform", "translate(" + calendar_top_x + "px," + calendar_top_y + "px)");
 
@@ -82,58 +137,3 @@ weekly_row.append("text")
   .attr("fill", "#212529")
   .attr("x", (d) => bar_scale(arr_sum(d)) + 7)
   .attr("y", 13);
-
-
-function renderRow(d) {
-  let day_cell = d3.select(this).selectAll("g.day")
-    .data(d)
-    .enter().append("g")
-      .attr("class", "day")
-      .style("transform", (d, i) => "translate(" + x_scale(i) + "px,0)");
-  // make uniformly sized area to capture mouseover
-  day_cell.append("rect")
-    .attr("class", "event-capture")
-    .attr("fill", "none")
-    .attr("stroke", "none")
-    .style("pointer-events", "all")
-    .style("x", -cell_width / 2)
-    .style("y", -cell_height / 2)
-    .style("width", cell_width)
-    .style("height", cell_height)
-    .on("mouseover", handleMouseover)
-    .on("mouseout", handleMouseout);
-  day_cell.append("circle")
-    .style("shape-rendering", "geometricPrecision")
-    .style("pointer-events", "none")
-    .attr("r", (d) => (d == 0) ? 1 : r_scale(d))
-    .attr("fill", (d) => (d == 0) ? "#a1a1aa" : "black");
-  day_cell.append("text")
-    .style("pointer-events", "none")
-    .attr("x", -5)
-    .attr("y", 6)
-    .style("opacity", 0)
-    .style("font-weight", 500)
-    .text((d) => (d == 0) ? "" : d);
-}
-
-function handleMouseover(d) {
-  if (d > 0) {
-    let g = d3.select(this.parentNode);
-    opacityTransition(g.select("circle"), 0);
-    opacityTransition(g.select("text"), 1);
-  }
-}
-
-function handleMouseout(d) {
-  if (d > 0) {
-    let g = d3.select(this.parentNode);
-    opacityTransition(g.select("circle"), 1);
-    opacityTransition(g.select("text"), 0);
-  }
-}
-
-function opacityTransition(d3_node, opacity) {
-  d3_node.transition()
-    .style("opacity", opacity)
-    .duration(300);
-}

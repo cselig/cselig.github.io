@@ -8,7 +8,7 @@ let radius = d3.scaleSqrt()
 
 let svg = d3.select("#bubble-chart svg");
 
-function handleMouseover(d, i) {
+const handleMouseover = function(d, i) {
   d3.select(this).style("stroke", "black");
   svg.append("text")
     .attr("id", "tooltip")
@@ -17,7 +17,7 @@ function handleMouseover(d, i) {
     .text("Circle area: " + d);
 }
 
-function handleMouseout(d, i) {
+const handleMouseout = function(d, i) {
   d3.select(this).style("stroke", "none");
   svg.select("#tooltip").remove();
 }
