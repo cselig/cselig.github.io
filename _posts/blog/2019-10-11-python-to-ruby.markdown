@@ -197,7 +197,3 @@ my string
 ### <code>and</code> and <code>&&</code>
 
 Python's logical <code>and</code> and <code>or</code> directly translate to Ruby's <code>&&</code> and <code>||</code>. However, Ruby also has <code>and</code> and <code>or</code>. The caution here is that these are not two different ways of spelling the same operator: <code>and</code> and <code>or</code> actually have lower precedence than <code>&&</code> and <code>||</code>. I've seen in some style guides that it's best to just ignore the English versions and use <code>&&</code> and <code>||</code>.
-
-<br>
-
-### To be continued...

@@ -2,57 +2,149 @@
 layout: default
 ---
 
-<div class="section">
-  <h1>About</h1>
-  <hr>
-  <p>Hi!</p>
-  <p>I'm a software engineer based in the Bay Area. I also play cello.</p>
-</div>
+<!-- TODO header for posts to take back to index -->
+<div id="index">
+  <div id="splash">
+    <div class="splash-content">
+      <h2 class="greeting slide-in fade-in hidden">Hi, my name is Christian</h2>
+      <p class="about fade-in hidden">I'm a software engineer based in the Bay Area. I also play cello.</p>
+    </div>
 
-<div class="section">
-  {% assign blog_limit = 3 %}
-  {% assign num_blog_posts = site.categories["blog"]|size %}
-  {% include section_header.html title="Blog" num_posts=num_blog_posts limit=blog_limit %}
-  <hr>
-  <div class="post-container">
-    {% for post in site.categories["blog"] limit:blog_limit %}
-      {% include blog_block.html %}
-    {% endfor %}
-    <div class="collapse" id="blog-expand">
-      {% for post in site.categories["blog"] offset:blog_limit %}
+    <div class="links fade-in hidden">
+      <p class="blog-button">BLOG</p>
+      <p class="projects-button">PROJECTS</p>
+      <p class="contact-button">CONTACT</p>
+    </div>
+  </div>
+
+  <div id="sidebar-nav" class="hidden">
+    <div class="links">
+      <p class="blog-button focused">BLOG</p>
+      <p class="projects-button">PROJECTS</p>
+      <p class="contact-button">CONTACT</p>
+    </div>
+  </div>
+
+  <div class="section focused" id="blog">
+    <div class="section-header">
+      <h1>Blog</h1>
+    </div>
+    <hr>
+    <div class="post-container">
+      {% for post in site.categories["blog"] %}
         {% include blog_block.html %}
       {% endfor %}
     </div>
   </div>
-</div>
 
-<div class="section">
-  {% assign project_limit = 3 %}
-  {% assign num_projects = site.categories["projects"]|size %}
-  {% include section_header.html title="Projects" num_posts=num_projects limit=project_limit %}
-  <hr>
-  <div class="post-container">
-    {% for post in site.categories["projects"] %}
-      {% include project_block.html %}
-    {% endfor %}
+  <div class="section" id="projects">
+    <div class="section-header">
+      <h1>Projects</h1>
+    </div>
+    <hr>
+    <div class="post-container">
+      {% for post in site.categories["projects"] %}
+        {% include project_block.html %}
+      {% endfor %}
+    </div>
+  </div>
+
+<!-- I'd like to bring back this section but can't think of a clean/logical way to fit it in atm -->
+<!--   <div class="section" id="music">
+    {% assign music_limit = 6 %}
+    <div class="section-header">
+      <h1>Albums I Like</h1>
+    </div>
+    <hr>
+    <div class="album-container">
+      {% for post in site.categories["im listening to"] limit:music_limit %}
+        <a class="album-block" href="{{ post.spotify_link }}">
+          <p class="artist">{{ post.artist }}</p>
+          <p class="album">{{ post.album }}</p>
+        </a>
+      {% endfor %}
+    </div>
+  </div> -->
+
+  <div class="section" id="contact">
+    {% include social_links.html size=64 %}
   </div>
 </div>
 
-<div class="section">
-  {% assign music_limit = 10 %}
-  {% assign num_albums = site.categories["im listening to"]|size %}
-  {% include section_header.html title="Music" num_posts=num_albums limit=music_limit %}
-  <hr>
-  <p>Check out what I've been listening to!</p>
-  <div class="album-container">
-    {% for post in site.categories["im listening to"] limit:music_limit %}
-      {% include album_cover.html %}
-    {% endfor %}
 
-    {% for post in site.categories["im listening to"] offset:music_limit %}
-      <div class="collapse" id="music-expand">
-        {% include album_cover.html %}
-      </div>
-    {% endfor %}
-  </div>
-</div>
+<script>
+// animate in splash screen
+let t1 = 10,
+    t2 = t1 + 1000,
+    t3 = t2 + 500;
+setTimeout(
+  () => $("#splash .splash-content .greeting").toggleClass("hidden"),
+  t1,
+);
+setTimeout(
+  () => $("#splash .splash-content .about").toggleClass("hidden"),
+  t2,
+);
+setTimeout(
+  () => $("#splash .links").toggleClass("hidden"),
+  t3,
+);
+
+// navigation
+let sections = ["blog", "projects", "contact"];
+
+for (const section of sections) {
+  for (const nav of ["splash", "sidebar-nav"]) {
+    $(`#${nav} .links .${section}-button`).click(() => {
+      $(`#${section}`)[0].scrollIntoView({behavior: "smooth", block: "start"});
+    });
+  }
+}
+
+// attach stateful scroll handler
+const scrollHandler = () => {
+  let splashSectionInView = true;
+  let focusedSection = "blog";
+
+  return () => {
+    // determine whether to show sidebar
+    topLinksBbox = $("#splash .splash-content")[0].getBoundingClientRect();
+    if (topLinksBbox.bottom < 0 && splashSectionInView ||
+        topLinksBbox.bottom >= 0 && !splashSectionInView) {
+      $("#sidebar-nav").toggleClass("hidden");
+      splashSectionInView = !splashSectionInView;
+    }
+
+    oldFocusedSection = focusedSection;
+    // for each section, determine if it's focused
+    // doesn't work for really tall screens
+    windowHeight = window.innerHeight;
+    for (const section of sections) {
+      bbox = $(`#${section}`)[0].getBoundingClientRect();
+      console.log(section);
+      console.log(bbox);
+      console.log(windowHeight);
+      console.log();
+      if (section === "contact" && bbox.bottom - 20 < windowHeight - 90) {
+        // special case: intersecting the midpoint doesn't work when the last section
+        // is short, so focus this section if it's right at the bottom of the window
+        focusedSection = section;
+      } else if (bbox.top <= windowHeight / 2 && bbox.bottom > windowHeight / 2) {
+        focusedSection = section;
+      }
+    }
+    // if we have new focused section, update UI
+    if (oldFocusedSection !== focusedSection) {
+      $(`#sidebar-nav .links .${oldFocusedSection}-button`).toggleClass("focused");
+      $(`#sidebar-nav .links .${focusedSection}-button`).toggleClass("focused");
+      $(`#${focusedSection}`).toggleClass("focused");
+      $(`#${oldFocusedSection}`).toggleClass("focused");
+    }
+  };
+};
+
+handler = scrollHandler();
+$(window).scroll(handler);
+$(window).resize(handler);
+
+</script>

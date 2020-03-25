@@ -1,0 +1,9 @@
+---
+layout: post
+title:  "Chat App"
+categories: [projects]
+github_link: https://github.com/cselig/chat-app
+technologies: [react, websocket]
+---
+
+A toy chat app I made for learning how to use some websocket libraries.

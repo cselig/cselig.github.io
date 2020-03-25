@@ -83,4 +83,5 @@ to simulate pressure equalization (with darker colors corresponding to higher pr
 ```js
 {% include blog/cellular_automata/fluid_flow.js %}
 ```
+<br>
 ### To be continued...

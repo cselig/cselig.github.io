@@ -100,4 +100,5 @@ Type a new word or phrase and hit "Update".
 {% include blog/d3_vizs/edit_distance.js %}
 ```
 
+<br>
 ### To be continued...
