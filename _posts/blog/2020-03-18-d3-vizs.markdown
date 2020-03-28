@@ -15,7 +15,7 @@ I'm using some of my "shelter in place" free time to learn D3 and create some to
 <style>
 /* scrollable code */
 pre {
-  height: 75vh;
+  max-height: 75vh;
 }
 </style>
 
@@ -51,6 +51,22 @@ The original version displays the calendar day on hover, which I think could be 
 
 ```js
 {% include blog/d3_vizs/volume_calendar.js %}
+```
+
+### Sunburst Chart
+
+This chart (in conjunction with some informative text/tooltips) could be used to visualize data that breaks up into two sets of hierarchical categories.
+
+<div id="sunburst-chart" style="display:flex; justify-content:center; margin:20px;">
+  <svg></svg>
+</div>
+
+<script>
+{ {% include blog/d3_vizs/sunburst.js %} }
+</script>
+
+```js
+{% include blog/d3_vizs/sunburst.js %}
 ```
 
 ### To be continued...
