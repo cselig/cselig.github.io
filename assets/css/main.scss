@@ -130,6 +130,24 @@ pre {
           border-width: thin;
           border-color: $color-2;
 
+          &.project {
+            .title-bar {
+              display: flex;
+              align-items: center;
+
+              .tech-badge {
+                background-color: lightgrey;
+                border-radius: 5px;
+                padding: 3px 5px;
+                margin: 0 0px 7px 10px;
+                color: grey;
+                height: fit-content;
+                font-size: 12px;
+                pointer-events: none;
+              }
+            }
+          }
+
           .title-link {
             text-decoration: none;
 
