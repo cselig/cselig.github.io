@@ -74,4 +74,30 @@ This chart (in conjunction with some informative text/tooltips) could be used to
 {% include blog/d3_vizs/sunburst.js %}
 ```
 
+### Edit Distance
+
+I thought it would be cool to visualize the shortest edit distance between two words with the below animation.
+However, the way that D3 does updates and object constancy doesn't make this easy. The key function I'm
+providing to <code>.data()</code> is just the letter itself, which means that repeat letters
+aren't keyed properly. I'd have to write a more sophisticated key function that was basically the Levenshtein
+distance algorithm to handle all cases, which I might get around to but sounds hard.
+
+Type a new word or phrase and hit "Update".
+
+<div id="edit-distance" style="display:flex; flex-direction:column; justify-content:center; margin:20px;">
+  <div>
+    <input id="text-update-input" style="width:200px;"/>
+    <button id="text-update-submit" style="width:100px;">Update</button>
+  </div>
+  <svg></svg>
+</div>
+
+<script>
+{ {% include blog/d3_vizs/edit_distance.js %} }
+</script>
+
+```js
+{% include blog/d3_vizs/edit_distance.js %}
+```
+
 ### To be continued...
