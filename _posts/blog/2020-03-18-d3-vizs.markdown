@@ -9,8 +9,13 @@ I'm using some of my "shelter in place" free time to learn D3 and create some to
 
 <!--excerpt-->
 
-<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="//d3js.org/d3-scale-chromatic.v0.3.min.js"></script>
+
+<script>
+let colors = ["#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#e6550d", "#fd8d3c", "#fdae6b", "#fdd0a2", "#31a354", "#74c476", "#a1d99b", "#c7e9c0", "#756bb1", "#9e9ac8", "#bcbddc", "#dadaeb", "#636363", "#969696", "#bdbdbd", "#d9d9d9"];
+let arr_sum = (arr) => arr.reduce((a,b) => a + b, 0);
+</script>
 
 <style>
 /* scrollable code */

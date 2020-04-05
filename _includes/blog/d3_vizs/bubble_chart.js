@@ -1,7 +1,6 @@
 let center_x = 100;
 let center_y = 165;
 let circleData = [50, 25, 15, 10];
-let colors = d3["schemeCategory20c"];
 let radius = d3.scaleSqrt()
   .domain([0, d3.max(circleData)])
   .range([0, 80]);

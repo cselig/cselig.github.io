@@ -7,8 +7,6 @@ let height = 4 * cell_height; // display 4 weeks
 let calendar_top_x = 50;
 let calendar_top_y = 35;
 
-let arr_sum = (arr) => arr.reduce((a,b) => a + b, 0);
-
 let data = [
   [0, 4, 0, 5, 0, 0, 3],
   [0, 6, 7, 4, 0, 0, 2],

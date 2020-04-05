@@ -1,9 +1,6 @@
 let height = width = 300;
 let radius = 80;
 let transitionDuration = 300;
-let colors = d3["schemeCategory20c"];
-
-let arr_sum = (arr) => arr.reduce((a,b) => a + b, 0);
 
 let svg = d3.select("#sunburst-chart svg")
   .attr("width", width)
