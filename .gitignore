@@ -4,3 +4,4 @@ _drafts
 .jekyll-metadata
 Gemfile.lock
 scripts/
+.DS_Store
