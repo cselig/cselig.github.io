@@ -89,6 +89,7 @@ pre {
           position: absolute;
           top: 45vh;
           left: 20vw;
+          pointer-events: none;
 
           .greeting {
             font-size: 36px;

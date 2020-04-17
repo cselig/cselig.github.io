@@ -1,16 +1,20 @@
 // get a list of [x, y] neighbors of a cell
-const neighbors = ([x, y], cells, X, Y) => {
-  diffs = [
+const neighbors = ([x, y], cells, X, Y, eightWay=true) => {
+  let diffs = [
     [-1, 0],
-    [-1, -1],
     [0, -1],
-    [1, -1],
     [1, 0],
-    [1, 1],
     [0, 1],
-    [-1, 1],
-  ]
-  result = [];
+  ];
+  if (eightWay) {
+    diffs = diffs.concat([
+      [-1, -1],
+      [1, -1],
+      [1, 1],
+      [-1, 1],
+    ])
+  }
+  let result = [];
   for ([dx, dy] of diffs) {
     if (x + dx >= 0 && y + dy >= 0 && x + dx < X && y + dy < Y) {
       result.push(cells.get(`${x + dx}:${y + dy}`));

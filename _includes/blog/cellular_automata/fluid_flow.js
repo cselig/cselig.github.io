@@ -9,10 +9,10 @@ let frame = svg.append("g")
 const color = (t) => d3.interpolateBlues(t);
 
 // grid size
-let X = 20,
-    Y = 20;
+let X = 10,
+    Y = 10;
 // length of one side of a square cell
-let cellSize = 20
+let cellSize = 40
 let xscale = d3.scaleLinear()
   .domain([0, X])
   .range([0, X * cellSize]);
@@ -26,8 +26,10 @@ let interval = 200;
 let cells;
 
 const draw = () => {
-  data = allCells(cells);
-  squares = frame.selectAll("rect").data(data, ([x, y]) => `${x}:${y}`);
+  let data = allCells(cells);
+  let squares = frame.selectAll("rect").data(data, ([x, y]) => `${x}:${y}`);
+
+  let colorFn = ([x, y]) => color(cells.get(`${x}:${y}`));
 
   squares.enter().append("rect")
     .attr("x", ([x, y]) => xscale(x))
@@ -36,7 +38,8 @@ const draw = () => {
     .attr("width", cellSize)
     .merge(squares) // enter + update
       .transition().duration(interval)
-        .attr("fill", ([x, y]) => color(cells.get(`${x}:${y}`)));
+        .attr("fill", colorFn)
+        .attr("stroke", colorFn);
 }
 
 const tick = () => {
@@ -47,12 +50,12 @@ const tick = () => {
       let flow = 0;
       let thisPressure = cells.get(`${x}:${y}`);
 
-      for (const otherPressure of neighbors([x, y], cells, X, Y)) {
+      for (const otherPressure of neighbors([x, y], cells, X, Y, eightWay=false)) {
         flow += otherPressure - thisPressure;
       }
 
       // include fudge factor for damping
-      newCells.set(`${x}:${y}`, thisPressure + flow / 6);
+      newCells.set(`${x}:${y}`, thisPressure + flow / 4);
     }
   }
 
@@ -82,8 +85,7 @@ const startGame = () => {
     () => {
       tick();
       draw();
-      i++;
-      if (i >= 200) {
+      if (i++ >= 200) {
         console.log("stopping fluid flow");
         clearInterval(intervalId);
       }

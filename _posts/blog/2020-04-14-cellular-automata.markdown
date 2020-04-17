@@ -31,7 +31,7 @@ pre {
 }
 
 .canvas button {
-  font-size: 10px;
+  font-size: 12px;
 }
 </style>
 
@@ -77,11 +77,35 @@ to simulate pressure equalization (with darker colors corresponding to higher pr
 </div>
 
 <script>
-{ {% include blog/cellular_automata/fluid_flow.js %} }
+{
+{% include blog/cellular_automata/fluid_flow.js %}
+}
 </script>
 
 ```js
 {% include blog/cellular_automata/fluid_flow.js %}
 ```
+
+#### In 3d
+
+While this is a 2d simulation, it'd still be cool to look at in 3d. I used [this](https://github.com/Niekes/d3-3d) D3 plugin.
+
+<script src="https://unpkg.com/d3-3d/build/d3-3d.min.js"></script>
+
+<div id="pressure-3d" class="canvas">
+  <button name="start">Start/Reset</button>
+  <svg></svg>
+</div>
+
+<script>
+{
+{% include blog/cellular_automata/pressure_3d.js %}
+}
+</script>
+
+```js
+{% include blog/cellular_automata/pressure_3d.js %}
+```
+
 <br>
 ### To be continued...

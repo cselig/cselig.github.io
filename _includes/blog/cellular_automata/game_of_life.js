@@ -126,8 +126,7 @@ const startGame = () => {
     () => {
       tick();
       draw(aliveCells(cells));
-      i++;
-      if (i >= 100) {
+      if (i++ >= 100) {
         console.log("stopping game of life");
         clearInterval(intervalId);
       }
