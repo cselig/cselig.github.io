@@ -18,13 +18,13 @@ layout: default
 
   <div id="sidebar-nav" class="hidden">
     <div class="links">
-      <p class="blog-button focused">BLOG</p>
+      <p class="blog-button">BLOG</p>
       <p class="projects-button">PROJECTS</p>
       <p class="contact-button">CONTACT</p>
     </div>
   </div>
 
-  <div class="section focused" id="blog">
+  <div class="section" id="blog">
     <div class="section-header">
       <h1>Blog</h1>
     </div>
@@ -103,7 +103,6 @@ for (const section of sections) {
 // attach stateful scroll handler
 const scrollHandler = () => {
   let splashSectionInView = true;
-  let focusedSection = "blog";
 
   return () => {
     // determine whether to show sidebar
@@ -112,32 +111,6 @@ const scrollHandler = () => {
         topLinksBbox.bottom >= 0 && !splashSectionInView) {
       $("#sidebar-nav").toggleClass("hidden");
       splashSectionInView = !splashSectionInView;
-    }
-
-    oldFocusedSection = focusedSection;
-    // for each section, determine if it's focused
-    // doesn't work for really tall screens
-    windowHeight = window.innerHeight;
-    for (const section of sections) {
-      bbox = $(`#${section}`)[0].getBoundingClientRect();
-      console.log(section);
-      console.log(bbox);
-      console.log(windowHeight);
-      console.log();
-      if (section === "contact" && bbox.bottom - 20 < windowHeight - 90) {
-        // special case: intersecting the midpoint doesn't work when the last section
-        // is short, so focus this section if it's right at the bottom of the window
-        focusedSection = section;
-      } else if (bbox.top <= windowHeight / 2 && bbox.bottom > windowHeight / 2) {
-        focusedSection = section;
-      }
-    }
-    // if we have new focused section, update UI
-    if (oldFocusedSection !== focusedSection) {
-      $(`#sidebar-nav .links .${oldFocusedSection}-button`).toggleClass("focused");
-      $(`#sidebar-nav .links .${focusedSection}-button`).toggleClass("focused");
-      $(`#${focusedSection}`).toggleClass("focused");
-      $(`#${oldFocusedSection}`).toggleClass("focused");
     }
   };
 };
