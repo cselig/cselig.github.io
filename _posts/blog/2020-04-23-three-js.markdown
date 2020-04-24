@@ -1,0 +1,60 @@
+---
+layout: post
+title: Messing Around with three.js
+date: 2020-04-23 00:00:00 -0800
+categories: [blog]
+---
+
+Making some 3D stuff.
+
+<!--excerpt-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+
+<style>
+/* scrollable code */
+pre {
+  max-height: 75vh;
+}
+
+.canvas {
+  width: 400px;
+  height: 400px;
+  margin: 20px auto;
+}
+</style>
+
+### Spinning Box
+
+A classic: the spinning box.
+
+<div id="spinning-box-container" class="canvas"></div>
+
+<script>
+{
+{% include blog/three/spinning_box.js %}
+}
+</script>
+
+```js
+{% include blog/three/spinning_box.js %}
+```
+
+### Sine Wave
+
+Rectangles moving in a sine wave.
+
+<div id="sine-wave-container" class="canvas"></div>
+
+<script>
+{
+{% include blog/three/sine_wave.js %}
+}
+</script>
+
+```js
+{% include blog/three/sine_wave.js %}
+```
+
+<br>
+### To be continued...
