@@ -44,7 +44,31 @@ A classic: the spinning box.
 
 Rectangles moving in a sine wave.
 
-<div id="sine-wave-container" class="canvas"></div>
+<style>
+#sine-wave-container .selectors {
+  display: flex;
+}
+
+#sine-wave-container .selectors .selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 20px;
+}
+</style>
+
+<div id="sine-wave-container" class="canvas">
+  <div class="selectors">
+    <div class="selector">
+      <p>Frequency:</p>
+      <input name="frequency" type="range"/>
+    </div>
+    <div class="selector">
+      <p>Number of cubes:</p>
+      <input name="ncubes" type="range" min="4" max="14"/>
+    </div>
+  </div>
+</div>
 
 <script>
 {
