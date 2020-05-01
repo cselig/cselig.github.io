@@ -22,6 +22,17 @@ pre {
   height: 400px;
   margin: 20px auto;
 }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container button {
+  margin: 10px 0;
+  font-size: 12px;
+}
 </style>
 
 ### Spinning Box
@@ -78,6 +89,27 @@ Rectangles moving in a sine wave.
 
 ```js
 {% include blog/three/sine_wave.js %}
+```
+
+### Pipes Screensaver
+
+I came across a GIF of the old "pipes" screensaver from Windows '95 and thought it would be fun to make.
+It ended up being a fun challenge, and involved implementing some tricky vector math. I haven't yet gotten around
+to the hardest part though, which is making sure the pipes don't intersect themselves.
+
+<div id="pipes-container" class="container">
+  <button name="start">Start/Reset</button>
+  <div class="canvas"></div>
+</div>
+
+<script>
+{
+{% include blog/three/pipes.js %}
+}
+</script>
+
+```js
+{% include blog/three/pipes.js %}
 ```
 
 <br>
