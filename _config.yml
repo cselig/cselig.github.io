@@ -18,3 +18,5 @@ excerpt_separator: <!--excerpt-->
 # Build settings
 markdown: kramdown
 highlighter: rouge
+
+google_analytics: UA-165266147-1
