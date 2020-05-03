@@ -12,11 +12,6 @@ Making some 3D stuff.
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
 
 <style>
-/* scrollable code */
-pre {
-  max-height: 75vh;
-}
-
 .canvas {
   width: 400px;
   height: 400px;
@@ -47,9 +42,7 @@ A classic: the spinning box.
 }
 </script>
 
-```js
-{% include blog/three/spinning_box.js %}
-```
+{% include expandable_code_container.html path="blog/three/spinning_box.js" %}
 
 ### Sine Wave
 
@@ -68,7 +61,7 @@ Rectangles moving in a sine wave.
 }
 </style>
 
-<div id="sine-wave-container" class="canvas">
+<div id="sine-wave-container" class="container">
   <div class="selectors">
     <div class="selector">
       <p>Frequency:</p>
@@ -79,6 +72,7 @@ Rectangles moving in a sine wave.
       <input name="ncubes" type="range" min="4" max="14"/>
     </div>
   </div>
+  <div class="canvas"></div>
 </div>
 
 <script>
@@ -87,15 +81,62 @@ Rectangles moving in a sine wave.
 }
 </script>
 
-```js
-{% include blog/three/sine_wave.js %}
-```
+{% include expandable_code_container.html path="blog/three/sine_wave.js" %}
 
 ### Pipes Screensaver
 
 I came across a GIF of the old "pipes" screensaver from Windows '95 and thought it would be fun to make.
 It ended up being a fun challenge, and involved implementing some tricky vector math. I haven't yet gotten around
 to the hardest part though, which is making sure the pipes don't intersect themselves.
+
+When I first coded this up, I noticed that the memory usage of the browser would skyrocket. There are a few things I tried to reduce memory usage:
+
+<b>Stopping the animation:</b>
+Once we've animated all the pipes that we want, the render loop should ideally stop so we're not re-rendering a
+static scene. This can be done with <code>cancelAnimationFrame</code>.
+
+<div class="code-container">
+{% highlight js %}
+let animationRequestId;
+
+const animate = function() {
+  animationRequestId = requestAnimationFrame(animate);
+
+  // do rendering
+
+  if (stop_condition) {
+    cancelAnimationFrame(animationRequestId);
+  }
+}
+{% endhighlight %}
+</div>
+
+<b>Pooling materials:</b>
+Since every pipe segment will use the same material (only color changes between pipes), we can create a pool
+of these materials and reuse them across pipe segments, instead of instantiating a new material for every object
+in the scene.
+
+<div class="code-container">
+{% highlight js %}
+const colors = [
+  0x3182bd, // blue
+  0x229954, // green
+  0xF08080, // coral
+];
+let materials = [];
+for (const color of colors) {
+  materials.push(new THREE.MeshStandardMaterial({color: color}));
+}
+
+const createCylinder = function() {
+  let geometry = new THREE.CylinderGeometry(R, R, 0, RADIAL_SEGMENTS);
+  let material = materials[numPipes];
+  let mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+  return mesh;
+}
+{% endhighlight %}
+</div>
 
 <div id="pipes-container" class="container">
   <button name="start">Start/Reset</button>
@@ -108,9 +149,4 @@ to the hardest part though, which is making sure the pipes don't intersect thems
 }
 </script>
 
-```js
-{% include blog/three/pipes.js %}
-```
-
-<br>
-### To be continued...
+{% include expandable_code_container.html path="blog/three/pipes.js" %}

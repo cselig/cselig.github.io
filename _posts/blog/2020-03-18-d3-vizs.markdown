@@ -17,13 +17,6 @@ let colors = ["#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#e6550d", "#fd8d3c", 
 let arr_sum = (arr) => arr.reduce((a,b) => a + b, 0);
 </script>
 
-<style>
-/* scrollable code */
-pre {
-  max-height: 75vh;
-}
-</style>
-
 ### Some sort of bubble chart
 
 I'm not sure what this chart would be called, but something like this could be used for visualizing a single variable.
@@ -37,9 +30,7 @@ I'm not sure what this chart would be called, but something like this could be u
 { {% include blog/d3_vizs/bubble_chart.js %} }
 </script>
 
-```js
-{% include blog/d3_vizs/bubble_chart.js %}
-```
+{% include expandable_code_container.html path="blog/d3_vizs/bubble_chart.js" %}
 
 ### Volume Calendar
 
@@ -54,9 +45,7 @@ The original version displays the calendar day on hover, which I think could be 
 { {% include blog/d3_vizs/volume_calendar.js %} }
 </script>
 
-```js
-{% include blog/d3_vizs/volume_calendar.js %}
-```
+{% include expandable_code_container.html path="blog/d3_vizs/volume_calendar.js" %}
 
 ### Sunburst Chart
 
@@ -70,9 +59,7 @@ This chart (in conjunction with some informative text/tooltips) could be used to
 { {% include blog/d3_vizs/sunburst.js %} }
 </script>
 
-```js
-{% include blog/d3_vizs/sunburst.js %}
-```
+{% include expandable_code_container.html path="blog/d3_vizs/sunburst.js" %}
 
 ### Edit Distance
 
@@ -95,10 +82,4 @@ Type a new word or phrase and hit "Update".
 <script>
 { {% include blog/d3_vizs/edit_distance.js %} }
 </script>
-
-```js
-{% include blog/d3_vizs/edit_distance.js %}
-```
-
-<br>
-### To be continued...
+{% include expandable_code_container.html path="blog/d3_vizs/edit_distance.js" %}

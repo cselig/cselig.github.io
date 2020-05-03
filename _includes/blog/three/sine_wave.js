@@ -1,4 +1,4 @@
-let container = document.getElementById("sine-wave-container"),
+let container = $("#sine-wave-container .canvas")[0],
     bbox = container.getBoundingClientRect();
 
 let scene, camera;

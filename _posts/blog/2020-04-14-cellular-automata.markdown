@@ -18,11 +18,6 @@ let arr_sum = (arr) => arr.reduce((a,b) => a + b, 0);
 </script>
 
 <style>
-/* scrollable code */
-pre {
-  max-height: 75vh;
-}
-
 .canvas {
   display: flex;
   flex-direction: column;
@@ -35,15 +30,9 @@ pre {
 }
 </style>
 
-First some utilities and shared code (I'll be using D3).
-
 <script>
 {% include blog/cellular_automata/utils.js %}
 </script>
-
-```js
-{% include blog/cellular_automata/utils.js %}
-```
 
 ### Conway's Game of Life
 
@@ -59,9 +48,7 @@ Displayed are two classic [Game of Life](https://en.wikipedia.org/wiki/Conway%27
 { {% include blog/cellular_automata/game_of_life.js %} }
 </script>
 
-```js
-{% include blog/cellular_automata/game_of_life.js %}
-```
+{% include expandable_code_container.html path="blog/cellular_automata/game_of_life.js" %}
 
 ### Physical Simulations with CA
 
@@ -82,9 +69,8 @@ to simulate pressure equalization (with darker colors corresponding to higher pr
 }
 </script>
 
-```js
-{% include blog/cellular_automata/fluid_flow.js %}
-```
+{% include expandable_code_container.html path="blog/cellular_automata/fluid_flow.js" %}
+
 
 #### In 3d
 
@@ -103,9 +89,7 @@ While this is a 2d simulation, it'd still be cool to look at in 3d. I used [this
 }
 </script>
 
-```js
-{% include blog/cellular_automata/pressure_3d.js %}
-```
+{% include expandable_code_container.html path="blog/cellular_automata/pressure_3d.js" %}
 
 <br>
 ### To be continued...

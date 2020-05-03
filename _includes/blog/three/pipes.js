@@ -28,6 +28,10 @@ const colors = [
   0xF08080, // coral
 ];
 const MAX_PIPES = colors.length;
+let materials = [];
+for (const color of colors) {
+  materials.push(new THREE.MeshStandardMaterial({color: color}));
+}
 
 const bounds = new THREE.Box3(new THREE.Vector3(0, 0, 0), new THREE.Vector3(L, L, L));
 
@@ -52,7 +56,7 @@ const newDirection = function(old_dir, position) {
 }
 
 const willBeInBounds = function(dir, position) {
-  const end_position = vector_add(position, vector_scale(dir, MAX_LENGTH));
+  const end_position = vector_add(position, vector_scale(dir, MAX_LENGTH + 2));
   return bounds.containsPoint(new THREE.Vector3(...end_position));
 }
 
@@ -89,7 +93,7 @@ const vector_dot = function(v1, v2) {
 
 const createCylinder = function() {
   let geometry = new THREE.CylinderGeometry(R, R, 0, RADIAL_SEGMENTS);
-  let material = new THREE.MeshStandardMaterial({color: colors[numPipes]});
+  let material = materials[numPipes];
   let mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
   return mesh;
@@ -124,13 +128,10 @@ let numSegments; // number of pipe segments that have been created
 let numPipes; // number of pipes that have been created
 let c; // keeps track of the current cylinder segment
 
-let running = true;
 let animationRequestId;
 
 const animate = function() {
-  if (running) {
-    animationRequestId = requestAnimationFrame(animate);
-  }
+  animationRequestId = requestAnimationFrame(animate);
 
   if (c.length < c.max_length) {
     c.length += SPEED;
@@ -157,7 +158,7 @@ const animate = function() {
     let sphere = createSphere();
     sphere.position.set(...new_pos);
   } else if (numPipes < MAX_PIPES) {
-    // finish the old pipe with a cylinder
+    // finish the old pipe with a sphere
     const position = vector_add(pos_to_vec(c.mesh.position), vector_scale(c.direction, c.length/2));
     let sphere = createSphere();
     sphere.position.set(...position);
@@ -166,9 +167,11 @@ const animate = function() {
       numPipes++;
       numSegments = 0;
       newPipe(initialPositions[numPipes]);
+    } else {
+      // we've animated all our pipes, so stop rendering
+      console.log("stopping pipes");
+      cancelAnimationFrame(animationRequestId);
     }
-  } else {
-    running = false;
   }
   renderer.render(scene, camera);
 }
@@ -212,7 +215,6 @@ const init = function() {
 
   newPipe(initialPositions[0]);
 
-  running = true;
   cancelAnimationFrame(animationRequestId);
 
   animate();

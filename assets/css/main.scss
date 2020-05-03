@@ -11,8 +11,6 @@ $text-2-light: #97A1A7;
 $color-2: #57606f;
 $color-3: #4b6584;
 
-$footer-height: 48px;
-
 body {
   margin: 0;
   height: 100%;
@@ -290,6 +288,24 @@ pre {
       .post-content {
         padding: 90px;
         padding-top: 30px;
+
+        h3 {
+          margin-top: 40px;
+        }
+
+        .code-container {
+          padding: 0 10%;
+        }
+
+        .expandable-code-container {
+          .code-expand-button {
+            cursor: pointer;
+            font-family: Menlo;
+            font-size: 20px;
+            width: fit-content;
+            margin: 15px auto;
+          }
+        }
       }
     }
   }
