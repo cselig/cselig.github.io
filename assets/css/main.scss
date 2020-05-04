@@ -177,20 +177,35 @@ pre {
             width: fit-content;
             margin: 16px 0;
 
-            .title-link {
-              color: $color-3;
-              text-decoration: none;
+            .title-container {
+              display: flex;
+              align-items: center;
 
-              &:hover {
-                  text-decoration: underline;
+              .title-link {
+                color: $color-3;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+              }
+
+              .date {
+                color: $text-2-light;
+                margin-left: 10px;
+                margin-bottom: 0;
               }
             }
 
             .excerpt {
-              color: $text-2-light;
+              color: $color-2;
 
               * {
                 margin: 0;
+              }
+
+              a {
+                font-weight: 700;
               }
             }
           }

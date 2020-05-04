@@ -1,9 +1,12 @@
 <div class="post">
+  <div class="title-container">
     <a class="title-link"
        title="{{ post.url | prepend: site.baseurl }}"
        href="{{ post.url | prepend: site.baseurl }}"
     >
       <h2>{{ post.title }}</h2>
     </a>
-    <div class="excerpt">{{ post.excerpt }}</div>
+    <p class="date">{{ post.date | date: '%B %d, %Y' }}</p>
+  </div>
+  <div class="excerpt">{{ post.excerpt }}</div>
 </div>
