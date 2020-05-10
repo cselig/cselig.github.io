@@ -1,0 +1,57 @@
+.post {
+
+  .gatsby-resp-image-wrapper {
+    pointer-events: none;
+  }
+
+  &#chocolate-chip-cookies {
+    .gatsby-resp-image-wrapper {
+      height: 300px;
+      width: 300px;
+    }
+  }
+
+  &#wiki-link-graph {
+    .gatsby-resp-image-wrapper {
+      // height: 300px;
+    }
+  }
+
+  &#d3 {
+    .canvas {
+      display: flex;
+      justify-content: center;
+      margin: 20px;
+    }
+  }
+
+  &#three-js {
+    .canvas {
+      width: 400px;
+      height: 400px;
+      margin: 20px auto;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      button {
+        margin: 10px 0;
+        font-size: 12px;
+      }
+    }
+
+    &#sine-wave-container .selectors {
+      display: flex;
+
+      .selector {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 20px;
+      }
+    }
+  }
+}

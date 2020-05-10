@@ -1,0 +1,142 @@
+// https://flatuicolors.com/palette/cn
+// https://broccolini.net/50shadesofblk/
+$text-2-dark: #5F6E78;
+$text-1-light: #BEC4C8;
+$text-2-light: #97A1A7;
+$color-1: #747d8c;
+$color-2: #57606f;
+$color-3: #4b6584;
+
+body {
+  margin: 0;
+  height: 100%;
+  font-family: Helvetica Neue, sans-serif;
+  line-height: 1.5;
+}
+
+#page-container {
+  max-width: 800px;
+  padding: 40px;
+  margin: 0 auto; // center
+
+  a {
+    color: $color-3;
+
+    &:hover {
+      color: $color-3;
+    }
+  }
+
+  hr {
+    color: $color-1;
+    background: none;
+    border-top: 1px solid;
+    margin: 0 0 15px 0;
+  }
+
+  h1, h2, h3 {
+    margin: 0
+  }
+
+  #index {
+    .title {
+      font-size: 2.5em;
+    }
+
+    .about {
+      font-size: 1.2em;
+    }
+
+    .section {
+      width: 100%;
+      margin-bottom: 90px;
+
+      .section-header {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 20px;
+        padding-bottom: 5px;
+        font-size: 3em;
+        font-weight: 500;
+      }
+
+      .posts-container {
+        display: flex;
+        flex-direction: column;
+
+        .post {
+          width: fit-content;
+          margin: 16px 0;
+
+          .title-container {
+            display: flex;
+            align-items: baseline;
+
+            .title-link {
+              color: $color-3;
+              text-decoration: none;
+
+              &:hover {
+                  text-decoration: underline;
+              }
+
+              h3 {
+                font-size: 2em;
+              }
+            }
+
+            .date {
+              color: $text-2-light;
+              margin: 0;
+              margin-left: 10px;
+            }
+          }
+
+          .excerpt {
+            color: $color-2;
+            margin: 0;
+            margin-top: 0.5em;
+
+            a {
+              font-weight: 700;
+            }
+          }
+        }
+      }
+
+      &#projects {
+        .title-container {
+          display: flex;
+          align-items: center;
+
+          .tech-badge {
+            background-color: lightgrey;
+            border-radius: 5px;
+            padding: 3px 5px;
+            margin: 0;
+            margin-left: 10px;
+            color: grey;
+            height: fit-content;
+            font-size: 12px;
+            pointer-events: none;
+          }
+        }
+      }
+    }
+
+    .social-links {
+      font-size: 5px;
+      margin: 0 auto;
+    }
+  }
+
+  .post {
+    margin-top: 78px;
+
+    pre {
+      font-size: 14px;
+      margin: 2em;
+      background-color: #f8f8f8; // this should be applied by the highlighter but it's not...
+    }
+  }
+}

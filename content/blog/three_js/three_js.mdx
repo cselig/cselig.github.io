@@ -1,0 +1,82 @@
+---
+layout: post
+title: Messing Around with three.js
+date: 2020-04-23 00:00:00 -0800
+categories: [blog]
+excerpt: Making some 3D stuff.
+---
+
+import SpinningBox from "./spinning_box"
+import SineWave from "./sine_wave"
+import Pipes from "./pipes"
+
+Making some 3D stuff.
+
+### Spinning Box
+
+A classic: the spinning box.
+
+<SpinningBox />
+
+<ExpandableCodeBlock filePath="three_js/spinning_box.js" />
+
+### Sine Wave
+
+Rectangles moving in a sine wave.
+
+<SineWave />
+
+<ExpandableCodeBlock filePath="three_js/sine_wave.js" />
+
+### Pipes Screensaver
+
+I came across a GIF of the old "pipes" screensaver from Windows '95 and thought it would be fun to make.
+It ended up being a fun challenge, and involved implementing some tricky vector math. I haven't yet gotten around
+to the hardest part though, which is making sure the pipes don't intersect themselves.
+
+When I first coded this up, I noticed that the memory usage of the browser would skyrocket. There are a few things I tried to reduce memory usage:
+
+<b>Stopping the animation:</b> Once we've animated all the pipes that we want, the render loop should ideally stop so we're not re-rendering a
+static scene. This can be done with `cancelAnimationFrame`.
+
+```js
+let animationRequestId;
+
+const animate = function() {
+  animationRequestId = requestAnimationFrame(animate);
+
+  // do rendering
+
+  if (stop_condition) {
+    cancelAnimationFrame(animationRequestId);
+  }
+}
+```
+
+<b>Pooling materials:</b> Since every pipe segment will use the same material (only color changes between pipes), we can create a pool
+of these materials and reuse them across pipe segments, instead of instantiating a new material for every object
+in the scene.
+
+```js
+const colors = [
+  0x3182bd, // blue
+  0x229954, // green
+  0xF08080, // coral
+];
+let materials = [];
+for (const color of colors) {
+  materials.push(new THREE.MeshStandardMaterial({color: color}));
+}
+
+const createCylinder = function() {
+  let geometry = new THREE.CylinderGeometry(R, R, 0, RADIAL_SEGMENTS);
+  let material = materials[numPipes];
+  let mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+  return mesh;
+}
+```
+
+<Pipes />
+
+<ExpandableCodeBlock filePath="three_js/pipes.js" />

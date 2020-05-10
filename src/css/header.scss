@@ -1,0 +1,32 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 3px 5px 0 lightgrey;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  .back-button {
+    margin: 15px;
+    text-decoration: none;
+
+    h3 {
+      font-size: 32px;
+      color: black;
+      opacity: 0.6;
+      transition: opacity 300ms;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .social-links {
+    font-size: 3px;
+    margin: 15px;
+  }
+
+}

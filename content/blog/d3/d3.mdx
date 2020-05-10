@@ -1,0 +1,53 @@
+---
+layout: post
+title: Messing Around with D3
+date: 2020-03-18 00:00:00 -0800
+categories: [blog]
+excerpt: I'm using some of my "shelter in place" free time to learn D3 and create some toy visualizations.
+---
+
+import BubbleChart from "./bubble_chart"
+import VolumeCalendar from "./volume_calendar"
+import SunburstChart from "./sunburst_chart"
+import EditDistance from "./edit_distance"
+
+I'm using some of my "shelter in place" free time to learn D3 and create some toy visualizations.
+
+### Some sort of bubble chart
+
+I'm not sure what this chart would be called, but something like this could be used for visualizing a single variable.
+
+<BubbleChart />
+
+<ExpandableCodeBlock filePath="d3/bubble_chart.js" />
+
+### Volume Calendar
+
+My take on a nice Strava visualization that shows how much you ran/biked/swam on given days over the past month, along with a weekly aggregation.
+The original version displays the calendar day on hover, which I think could be easy to confuse with distance ran on that day.
+
+<VolumeCalendar />
+
+<ExpandableCodeBlock filePath="d3/volume_calendar.js" />
+
+### Sunburst Chart
+
+This chart (in conjunction with some informative text/tooltips) could be used to visualize data that breaks up into two sets of hierarchical categories.
+
+<SunburstChart />
+
+<ExpandableCodeBlock filePath="d3/sunburst_chart.js" />
+
+### Edit Distance
+
+I thought it would be cool to visualize the shortest edit distance between two words with the below animation.
+However, the way that D3 does updates and object constancy doesn't make this easy. The key function I'm
+providing to `.data()` is just the letter itself, which means that repeat letters
+aren't keyed properly. I'd have to write a more sophisticated key function that was basically the Levenshtein
+distance algorithm to handle all cases, which I might get around to but sounds hard.
+
+Type a new word or phrase and hit "Update".
+
+<EditDistance />
+
+<ExpandableCodeBlock filePath="d3/edit_distance.js" />
