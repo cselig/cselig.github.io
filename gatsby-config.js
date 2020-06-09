@@ -42,20 +42,6 @@ module.exports = {
         ],
       },
     },
-    // TODO(cselig) remove this plugin
-    {
-      resolve: `gatsby-transformer-remark`,
-      options: {
-        plugins: [
-          {
-            resolve: `gatsby-remark-images`,
-            options: {
-              maxWidth: 800,
-            },
-          },
-        ],
-      },
-    },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sass`,
     `gatsby-plugin-sharp`,

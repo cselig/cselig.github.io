@@ -6,7 +6,7 @@ class VolumeCalendar extends React.Component {
   render() {
     return (
       <div id="volume-calendar" className="canvas">
-        <svg width="500" height="200"></svg>
+        <svg width="450" height="200"></svg>
       </div>
     )
   }
@@ -17,8 +17,8 @@ class VolumeCalendar extends React.Component {
     let cell_height = 32;
     let width = 7 * cell_width; // 7 days a week
     let height = 4 * cell_height; // display 4 weeks
-    let calendar_top_x = 50;
-    let calendar_top_y = 35;
+    let calendar_top_x = 20;
+    let calendar_top_y = 20;
 
     let data = [
       [0, 4, 0, 5, 0, 0, 3],

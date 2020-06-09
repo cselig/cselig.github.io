@@ -40,7 +40,9 @@ const ProjectsSection = ({ data }) => {
               <a href={node.github_link} className="title-link" target="_blank" rel="noopener noreferrer">
                 <h3>{node.title}</h3>
               </a>
-              {node.technologies.map(tech => <p className="tech-badge" key={tech}>{tech}</p>)}
+              <div className="tech-badges">
+                {node.technologies.map(tech => <p className="tech-badge" key={tech}>{tech}</p>)}
+              </div>
             </div>
             <p className="excerpt">{node.description}</p>
           </div>

@@ -23,7 +23,6 @@ class SineWave extends React.Component {
   }
 
   componentDidMount() {
-    // TODO should probably move functions out
     let container = $("#sine-wave-container .canvas")[0],
     bbox = container.getBoundingClientRect();
 

@@ -16,7 +16,7 @@ body {
 
 #page-container {
   max-width: 800px;
-  padding: 40px;
+  padding: 15px;
   margin: 0 auto; // center
 
   a {
@@ -76,9 +76,14 @@ body {
             display: flex;
             align-items: baseline;
 
+            @media only screen and (max-width: 800px) {
+              flex-direction: column;
+            }
+
             .title-link {
               color: $color-3;
               text-decoration: none;
+              margin-right: 10px;
 
               &:hover {
                   text-decoration: underline;
@@ -92,7 +97,6 @@ body {
             .date {
               color: $text-2-light;
               margin: 0;
-              margin-left: 10px;
             }
           }
 
@@ -113,16 +117,25 @@ body {
           display: flex;
           align-items: center;
 
-          .tech-badge {
-            background-color: lightgrey;
-            border-radius: 5px;
-            padding: 3px 5px;
-            margin: 0;
-            margin-left: 10px;
-            color: grey;
-            height: fit-content;
-            font-size: 12px;
-            pointer-events: none;
+          @media only screen and (max-width: 800px) {
+            flex-direction: column;
+            align-items: unset;
+          }
+
+          .tech-badges {
+            display: flex;
+
+            .tech-badge {
+              background-color: lightgrey;
+              border-radius: 5px;
+              padding: 3px 5px;
+              margin: 0;
+              margin-right: 10px;
+              color: grey;
+              height: fit-content;
+              font-size: 12px;
+              pointer-events: none;
+            }
           }
         }
       }
@@ -135,12 +148,17 @@ body {
   }
 
   .post {
-    margin-top: 78px;
+    margin-top: 90px;
+
+    @media only screen and (max-width: 500px) {
+      overflow-x: hidden;
+    }
 
     pre {
       font-size: 14px;
       margin: 2em;
       background-color: #f8f8f8; // this should be applied by the highlighter but it's not...
+      overflow-x: scroll;
     }
   }
 }
