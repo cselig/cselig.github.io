@@ -28,13 +28,14 @@ const ExpandableCodeBlock = ({ filePath }) => {
     console.warn("Trouble locating file:", filePath)
   }
   const node = nodes[0]
+  const ext = filePath.split(".").pop()
 
   return (
     <div className={`expandable-code-block ${expanded ? "expanded" : ""}`}>
       <p className="button" onClick={() => setExpanded(!expanded)}>
         click for code
       </p>
-      <CodeBlock children={node.fields.contents} />
+      <CodeBlock children={node.fields.contents} className={ext} />
     </div>
   )
 }

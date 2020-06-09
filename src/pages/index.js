@@ -54,8 +54,10 @@ const IndexPage = ({ data }) => {
   return (
     <BaseLayout>
       <div id="index">
-        <h1 className="title">Christian Selig</h1>
-        <p className="about">Hi! I'm a software engineer based in the Bay Area.</p>
+        <div className="greeting">
+          <h1 className="title">Christian Selig</h1>
+          <p className="about">Hi! I'm a software engineer based in the Bay Area.</p>
+        </div>
         <BlogSection data={data.allMdx}/>
         <ProjectsSection data={data.allProjectsYaml}/>
         <SocialLinks size="64"/>

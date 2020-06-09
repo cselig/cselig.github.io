@@ -8,7 +8,7 @@
   }
 
   .prism-code {
-    overflow: hidden;
+    overflow-y: scroll;
     max-height: 0;
     padding: 0;
     transition: max-height 500ms;
