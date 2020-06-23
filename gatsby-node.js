@@ -31,7 +31,7 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 
-  const mdx_posts = await graphql(`
+  const posts = await graphql(`
     query {
       allMdx {
         edges {
@@ -42,17 +42,38 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
+      allMarkdownRemark {
+        edges {
+          node {
+            fields {
+              slug
+            }
+          }
+        }
+      }
     }
   `)
-  mdx_posts.data.allMdx.edges.forEach(({ node }) => {
-    createPage({
-      path: node.fields.slug,
-      component: path.resolve(`./src/templates/blog_post.js`),
-      context: {
-        // Data passed to context is available
-        // in page queries as GraphQL variables.
-        slug: node.fields.slug,
-      },
+
+  const post_types = [
+    {
+      posts: posts.data.allMdx.edges,
+      template: 'mdx_post.js',
+    },
+    {
+      posts: posts.data.allMarkdownRemark.edges,
+      template: 'md_post.js',
+    },
+  ]
+
+  for (const { posts, template } of post_types) {
+    posts.forEach(({ node }) => {
+      createPage({
+        path: `blog/${node.fields.slug}`,
+        component: path.resolve(`./src/templates/${template}`),
+        context: {
+          slug: node.fields.slug,
+        },
+      })
     })
-  })
+  }
 }

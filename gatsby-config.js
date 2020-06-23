@@ -27,6 +27,22 @@ module.exports = {
         path: `./src/images`,
       },
     },
+    {
+      resolve: 'gatsby-transformer-remark',
+      options: {
+        plugins: [
+          {
+            resolve: 'gatsby-remark-music',
+            options: {
+              // Add any abcjs options from https://github.com/paulrosen/abcjs here
+              // plus a custom "color" option that allows you to set the color of the music sheet.
+              // e.g. to use CSS variables:
+              // color: 'var(--text-color)',
+            },
+          },
+        ],
+      },
+    },
     `gatsby-transformer-yaml`,
     {
       resolve: `gatsby-plugin-mdx`,

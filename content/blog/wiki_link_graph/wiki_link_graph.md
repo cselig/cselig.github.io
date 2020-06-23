@@ -1,8 +1,6 @@
 ---
-layout: post
 title: Traversing the Wikipedia Link Graph
 date: 2019-10-05 00:00:00 -0800
-categories: [blog]
 excerpt: Over the course of studying for coding interviews I'd been thinking a lot about topics like
          complexity analysis and graph traversals, and eventually I got the idea to put these concepts
          into practice by implementing some searches across the Wikipedia link graph.
