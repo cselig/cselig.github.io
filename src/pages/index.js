@@ -20,7 +20,7 @@ const BlogSection = ({ posts }) => {
               </Link>
               <p className="date">{node.frontmatter.date}</p>
             </div>
-            <p className="excerpt">{node.excerpt}</p>
+            <p className="excerpt">{node.frontmatter.excerpt}</p>
           </div>
         ))}
       </div>
@@ -87,8 +87,8 @@ export const query = graphql`
           frontmatter {
             date(formatString: "DD MMMM, YYYY")
             title
+            excerpt
           }
-          excerpt
         }
       }
     }
@@ -102,8 +102,8 @@ export const query = graphql`
           frontmatter {
             date(formatString: "DD MMMM, YYYY")
             title
+            excerpt
           }
-          excerpt
         }
       }
     }
