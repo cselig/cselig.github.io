@@ -39,6 +39,9 @@ exports.createPages = async ({ graphql, actions }) => {
             fields {
               slug
             }
+            frontmatter {
+              draft
+            }
           }
         }
       }
@@ -47,6 +50,9 @@ exports.createPages = async ({ graphql, actions }) => {
           node {
             fields {
               slug
+            }
+            frontmatter {
+              draft
             }
           }
         }
@@ -68,7 +74,7 @@ exports.createPages = async ({ graphql, actions }) => {
   for (const { posts, template } of post_types) {
     posts.forEach(({ node }) => {
       createPage({
-        path: `blog/${node.fields.slug}`,
+        path: `${node.frontmatter.draft ? "draft" : "blog"}/${node.fields.slug}`,
         component: path.resolve(`./src/templates/${template}`),
         context: {
           slug: node.fields.slug,

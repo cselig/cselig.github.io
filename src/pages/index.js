@@ -7,6 +7,7 @@ import SocialLinks from "../components/social_links"
 import "../css/main.scss"
 
 const BlogSection = ({ posts }) => {
+  posts = posts.filter(({ node }) => !node.frontmatter.draft)
   return (
     <div className="section" id="blog">
       <h2 className="section-header">Blog</h2>
@@ -88,6 +89,7 @@ export const query = graphql`
             date(formatString: "DD MMMM, YYYY")
             title
             excerpt
+            draft
           }
         }
       }
@@ -103,6 +105,7 @@ export const query = graphql`
             date(formatString: "DD MMMM, YYYY")
             title
             excerpt
+            draft
           }
         }
       }
