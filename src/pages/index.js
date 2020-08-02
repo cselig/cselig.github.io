@@ -1,10 +1,19 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { Link, graphql } from "gatsby"
 
 import BaseLayout from "../components/base_layout"
 import SocialLinks from "../components/social_links"
 
 import "../css/main.scss"
+
+const firebase = require("firebase");
+// TODO there's a cleaner way to do this with react hooks
+firebase.initializeApp({
+  apiKey: "AIzaSyB-OnQLJ56YxYJcpHWS_NEHKObIJpIN1UQ",
+  authDomain: "blog-c1783.firebaseapp.com",
+  projectId: "blog-c1783",
+})
+var db = firebase.firestore();
 
 const BlogSection = ({ posts }) => {
   posts = posts.filter(({ node }) => !node.frontmatter.draft)
@@ -53,6 +62,68 @@ const ProjectsSection = ({ projects }) => {
   )
 }
 
+const ResumeSection = () => {
+  return (
+    <div id="resume">
+      <h3>My resume:</h3>
+      <div className="row">
+        <p className="emoji">🎓</p>
+        <p>I have a B.S. in <b>Chemical Engineering</b> from the <a href="https://www.cheme.washington.edu/" target="_blank">University of Washington</a></p>
+      </div>
+      <div className="row">
+        <span className="emoji">🧪</span>
+        <p>I worked as a <b>Data Scientist</b> at <a href="https://cascadedatalabs.com/" target="_blank">Cascade Data Labs</a></p>
+      </div>
+      <div className="row">
+        <span className="emoji">💻</span>
+        <p>Currently I work as a <b>Software Engineer</b> at <a href="https://www.cisco.com/c/en/us/solutions/collaboration/cognitive-collaboration-solutions.html" target="_blank">Cisco Webex Intelligence</a></p>
+      </div>
+    </div>
+  )
+}
+
+const RightNowSection = () => {
+  const [book, setBook] = useState({})
+  const [album, setAlbum] = useState({})
+  const [recipe, setRecipe] = useState({})
+
+  useEffect(() => {
+    db.collection("books").orderBy("date", "desc").limit(1).get().then((q) => {
+      q.forEach((doc) => {
+          setBook(doc.data())
+      })
+    })
+    db.collection("music").orderBy("date", "desc").limit(1).get().then((q) => {
+      q.forEach((doc) => {
+          setAlbum(doc.data())
+      })
+    })
+    db.collection("recipes").orderBy("date", "desc").limit(1).get().then((q) => {
+      q.forEach((doc) => {
+          setRecipe(doc.data())
+      })
+    })
+  }, [])
+
+  return (
+    <div id="right-now">
+      <h3>Right now I'm...</h3>
+      <div className="row">
+        <p className="emoji">📚</p>
+        <p>Reading {book.link ? <a href={book.link} target="_blank">{book.title} - {book.author}</a> : ""}</p>
+      </div>
+      <div className="row">
+        <p className="emoji">🎵</p>
+        <p>Listening to {album.link ? <a href={album.link}>{album.title} - {album.artist}</a> : ""}</p>
+      </div>
+      <div className="row">
+        <p className="emoji">🍳</p>
+        <p>{recipe.type} {recipe.link ? <a href={recipe.link} target="_blank">{recipe.title}</a> : ""}</p>
+      </div>
+    </div>
+  )
+}
+
 const IndexPage = ({ data }) => {
   let posts = [].concat(data.allMdx.edges)
                 .concat(data.allMarkdownRemark.edges)
@@ -66,6 +137,8 @@ const IndexPage = ({ data }) => {
           <h1 className="title">Christian Selig</h1>
           <p className="about">Hi! I'm a software engineer based in the Bay Area.</p>
         </div>
+        <ResumeSection />
+        <RightNowSection />
         <BlogSection posts={posts}/>
         <ProjectsSection projects={data.allProjectsYaml.nodes}/>
         <SocialLinks size="64"/>
