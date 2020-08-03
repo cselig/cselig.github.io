@@ -6,15 +6,6 @@ import SocialLinks from "../components/social_links"
 
 import "../css/main.scss"
 
-const firebase = require("firebase");
-// TODO there's a cleaner way to do this with react hooks
-firebase.initializeApp({
-  apiKey: "AIzaSyB-OnQLJ56YxYJcpHWS_NEHKObIJpIN1UQ",
-  authDomain: "blog-c1783.firebaseapp.com",
-  projectId: "blog-c1783",
-})
-var db = firebase.firestore();
-
 const BlogSection = ({ posts }) => {
   posts = posts.filter(({ node }) => !node.frontmatter.draft)
   return (
@@ -88,21 +79,25 @@ const RightNowSection = () => {
   const [recipe, setRecipe] = useState({})
 
   useEffect(() => {
-    db.collection("books").orderBy("date", "desc").limit(1).get().then((q) => {
-      q.forEach((doc) => {
-          setBook(doc.data())
+    // Lazy-load firebase because it does not play well with the gatsby build process.
+    // TODO there's a cleaner/declarative way to do this with react-firebase-hooks
+    import('firebase').then(firebase => {
+      firebase.initializeApp({
+        apiKey: "AIzaSyB-OnQLJ56YxYJcpHWS_NEHKObIJpIN1UQ",
+        authDomain: "blog-c1783.firebaseapp.com",
+        projectId: "blog-c1783",
       })
-    })
-    db.collection("music").orderBy("date", "desc").limit(1).get().then((q) => {
-      q.forEach((doc) => {
-          setAlbum(doc.data())
-      })
-    })
-    db.collection("recipes").orderBy("date", "desc").limit(1).get().then((q) => {
-      q.forEach((doc) => {
-          setRecipe(doc.data())
-      })
-    })
+      var db = firebase.firestore()
+      // gets the latest entry from a collection
+      const requestData = (collection, setter) => {
+        db.collection(collection).orderBy("date", "desc").limit(1).get().then((q) => {
+          q.forEach((doc) => setter(doc.data()))
+        })
+      }
+      requestData("books", setBook)
+      requestData("music", setAlbum)
+      requestData("recipes", setRecipe)
+    });
   }, [])
 
   return (
