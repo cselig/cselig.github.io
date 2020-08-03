@@ -32,7 +32,7 @@ const ExpandableCodeBlock = ({ filePath }) => {
 
   return (
     <div className={`expandable-code-block ${expanded ? "expanded" : ""}`}>
-      <p className="button" onClick={() => setExpanded(!expanded)}>
+      <p className="button" onClick={() => setExpanded(!expanded)} aria-hidden="true">
         click for code
       </p>
       <CodeBlock children={node.fields.contents} className={ext} />

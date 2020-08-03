@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { Link, graphql } from "gatsby"
 
 import BaseLayout from "../components/base_layout"
+import Emoji from "../components/emoji"
 import SocialLinks from "../components/social_links"
 
 import "../css/main.scss"
@@ -58,16 +59,16 @@ const ResumeSection = () => {
     <div id="resume">
       <h3>My resume:</h3>
       <div className="row">
-        <p className="emoji">🎓</p>
-        <p>I have a B.S. in <b>Chemical Engineering</b> from the <a href="https://www.cheme.washington.edu/" target="_blank">University of Washington</a></p>
+        <Emoji symbol="🎓" />
+        <p>I have a B.S. in <b>Chemical Engineering</b> from the <a href="https://www.cheme.washington.edu/" target="_blank" rel="noopener noreferrer">University of Washington</a></p>
       </div>
       <div className="row">
-        <span className="emoji">🧪</span>
-        <p>I worked as a <b>Data Scientist</b> at <a href="https://cascadedatalabs.com/" target="_blank">Cascade Data Labs</a></p>
+        <Emoji symbol="🧪" />
+        <p>I worked as a <b>Data Scientist</b> at <a href="https://cascadedatalabs.com/" target="_blank" rel="noopener noreferrer">Cascade Data Labs</a></p>
       </div>
       <div className="row">
-        <span className="emoji">💻</span>
-        <p>Currently I work as a <b>Software Engineer</b> at <a href="https://www.cisco.com/c/en/us/solutions/collaboration/cognitive-collaboration-solutions.html" target="_blank">Cisco Webex Intelligence</a></p>
+        <Emoji symbol="💻" />
+        <p>Currently I work as a <b>Software Engineer</b> at <a href="https://www.cisco.com/c/en/us/solutions/collaboration/cognitive-collaboration-solutions.html" target="_blank" rel="noopener noreferrer">Cisco Webex Intelligence</a></p>
       </div>
     </div>
   )
@@ -81,12 +82,15 @@ const RightNowSection = () => {
   useEffect(() => {
     // Lazy-load firebase because it does not play well with the gatsby build process.
     // TODO there's a cleaner/declarative way to do this with react-firebase-hooks
-    import('firebase').then(firebase => {
-      firebase.initializeApp({
-        apiKey: "AIzaSyB-OnQLJ56YxYJcpHWS_NEHKObIJpIN1UQ",
-        authDomain: "blog-c1783.firebaseapp.com",
-        projectId: "blog-c1783",
-      })
+    import('firebase/app').then(firebase => {
+      if (!firebase.apps.length) {
+        firebase.initializeApp({
+          apiKey: "AIzaSyB-OnQLJ56YxYJcpHWS_NEHKObIJpIN1UQ",
+          authDomain: "blog-c1783.firebaseapp.com",
+          projectId: "blog-c1783",
+        })
+      }
+      require('firebase/firestore')
       var db = firebase.firestore()
       // gets the latest entry from a collection
       const requestData = (collection, setter) => {
@@ -104,16 +108,16 @@ const RightNowSection = () => {
     <div id="right-now">
       <h3>Right now I'm...</h3>
       <div className="row">
-        <p className="emoji">📚</p>
-        <p>Reading {book.link ? <a href={book.link} target="_blank">{book.title} - {book.author}</a> : ""}</p>
+        <Emoji symbol="📚" />
+        <p>Reading {book.link ? <a href={book.link} target="_blank" rel="noopener noreferrer">{book.title} - {book.author}</a> : ""}</p>
       </div>
       <div className="row">
-        <p className="emoji">🎵</p>
+        <Emoji symbol="🎵" />
         <p>Listening to {album.link ? <a href={album.link}>{album.title} - {album.artist}</a> : ""}</p>
       </div>
       <div className="row">
-        <p className="emoji">🍳</p>
-        <p>{recipe.type} {recipe.link ? <a href={recipe.link} target="_blank">{recipe.title}</a> : ""}</p>
+        <Emoji symbol="🍳" />
+        <p>{recipe.type} {recipe.link ? <a href={recipe.link} target="_blank" rel="noopener noreferrer">{recipe.title}</a> : ""}</p>
       </div>
     </div>
   )
