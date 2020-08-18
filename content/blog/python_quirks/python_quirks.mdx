@@ -1,0 +1,124 @@
+---
+title: My (Least) Favorite Python Quirks
+date: 2020-08-17
+excerpt: A couple language "features" that have given me trouble in my few years of writing Python.
+---
+
+A couple language "features" that have given me trouble in my few years of writing Python.
+
+## Declarations are executed
+
+This is one that makes sense after you think about what's happening, but I think it's easy to get wrong the first time.
+
+One example is the following:
+
+```py
+class MyClass:
+  def __init__(self, data={}):
+    self._data = data
+
+  def set(self, k, v):
+    self._data[k] = v
+
+  def get(self, k):
+    return self._data.get(d)
+
+  def remove(self, k):
+    self._data.pop(k, None)
+
+  def get_count(self):
+    return len(self._data.keys())
+
+A = MyClass()
+A.get_count() # 0
+A.set('a', 1)
+A.get_count() # 1
+
+B = MyClass()
+B.get_count() # 1
+
+A.remove('a')
+A.get_count() # 0
+B.get_count() # 0
+```
+
+If you experimented further, you would see that the contents of `_data` is being somehow kept in sync between both instances of `MyClass`.
+
+But interestingly:
+
+```py
+C = MyClass({})
+C.get_count() # 0
+```
+
+What happened is that Python gets class and function definitions by executing a file line by line, which means that the default value of `data`
+in the `__init__` method is actually instantiated. All instances of the class that use the default value mutate and read from the same object,
+effectively making it a class variable.
+
+This is confirmed by:
+
+```py
+A._data is B._data # True
+```
+
+Avoiding this involves doing something obtuse like:
+
+```py
+class MyClass:
+  def __init__(self, data=None):
+    if data is None:
+      self._data = {}
+    else:
+      self._data = data
+
+...
+```
+
+### Scope of loop variables
+
+Unlike many languages, "loop variables" in Python stay in the local scope after the loop is exited. This can lead to some unexpected behavior:
+
+```py
+def fun():
+  i = 0
+  arr = [1, 2, 3]
+
+  # lots of code
+
+  for i in range(len(arr)):
+    # do some stuff
+
+  # more code
+
+  return arr[i]
+
+fun() # returns 3
+```
+
+While this example is pretty contrived, the general idea is that this behavior of loop variables can lead to weird and hard-to-track-down bugs
+(including this example of shadowing previously declared local variables).
+
+Another complication: if there's nothing to loop over, loop variables won't be assigned at all. For example the first line of `main()` below runs without error
+but the second line will cause `NameError: name 'x' is not defined` to be raised.
+
+```py
+def fun(l):
+  for x in l:
+    print(x)
+  return x
+
+def main():
+  fun([1, 2, 3])
+  fun([])
+```
+
+Even other interpreted and non-curly-brace languages avoid these troubles, e.g. Ruby:
+
+```py
+3.times do |x|
+  print x
+end
+
+x # NameError (undefined local variable or method `x' for main:Object)
+```
+
