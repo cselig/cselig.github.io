@@ -14,3 +14,6 @@ date: `date +%F`
 excerpt:
 ---
 EOM
+
+echo "created new post in ./content/blog/$1"
+exit 0
