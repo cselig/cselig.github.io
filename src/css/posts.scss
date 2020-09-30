@@ -11,6 +11,100 @@
     }
   }
 
+  &#chord-data {
+    #chord-picker {
+      $transition-time: 300ms;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 5em;
+
+      .controls {
+        .button {
+          font-size: 30px;
+          margin: 4px;
+          cursor: pointer;
+          transition: opacity $transition-time;
+
+          &.enabled {
+            opacity: 1;
+          }
+
+          &.disabled {
+            opacity: 0.3;
+          }
+        }
+      }
+
+      .first-chord-picker, .next-chord-picker {
+        .chords {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          transition: height $transition-time;
+          overflow-x: hidden;
+
+          .chord {
+            cursor: pointer;
+            margin: 0.5em;
+          }
+        }
+      }
+
+      .progression-display {
+        display: flex;
+        opacity: 1;
+
+        .progression-chord {
+          margin: 1em;
+          padding: 0.5em;
+          border: 1px solid black;
+          border-radius: 0.5em;
+          width: 3em;
+          text-align: center;
+          transition: opacity $transition-time;
+
+          &:not(.selected) {
+            opacity: 0.3;
+          }
+        }
+      }
+
+      .text {
+        font-weight: 400;
+        height: 2em;
+        margin: 0.5em;
+        transition: opacity $transition-time;
+
+        &.clickable {
+          cursor: pointer;
+        }
+
+        &.enter {
+          opacity: 0;
+        }
+
+        &.enter-active, &.enter-done {
+          opacity: 1;
+        }
+
+        &.exit-active, &.exit-done {
+          opacity: 0;
+        }
+
+        p {
+          font-size: 1.5em;
+          margin: 0;
+        }
+      }
+
+      .MIDISounds {
+        display: none;
+      }
+    }
+  }
+
   &#wiki-link-graph {
     .gatsby-resp-image-wrapper {
       // height: 300px;

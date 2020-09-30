@@ -69,7 +69,8 @@ module.exports = {
       resolve: 'gatsby-plugin-google-fonts',
       options: {
         fonts: [
-          'material icons'
+          'material icons',
+          'material icons outlined'
         ],
       },
     },
