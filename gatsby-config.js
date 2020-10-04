@@ -65,6 +65,14 @@ module.exports = {
         trackingId: "UA-165266147-1"
       },
     },
+    {
+      resolve: 'gatsby-plugin-google-fonts',
+      options: {
+        fonts: [
+          'material icons'
+        ],
+      },
+    },
     `gatsby-plugin-sass`,
     `gatsby-plugin-sharp`,
   ],
