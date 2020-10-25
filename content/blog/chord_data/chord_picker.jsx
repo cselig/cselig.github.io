@@ -1,7 +1,10 @@
 import React, { useState } from "react"
 import data from "./chord_to_successors.json"
-import MIDISounds from 'midi-sounds-react';
 import { CSSTransition } from "react-transition-group"
+import loadable from '@loadable/component'
+
+// use loadable component because this library crashes when imported server-side
+const MIDISounds = loadable(() => import('midi-sounds-react'))
 
 
 const TONIC = 60
