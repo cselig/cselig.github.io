@@ -1,9 +1,40 @@
 ---
 title: Data-driven Chord Progressions
-date: 2020-09-28
+date: 2020-10-25
 excerpt: What makes a good chord progression?
-draft: true
 ---
+
+Whenever I listen to music I like trying to identify chord progressions and find common (or uncommon) patterns and changes.
+I recently came across the [McGill Billboard dataset](https://ddmal.music.mcgill.ca/research/The_McGill_Billboard_Project_(Chord_Analysis_Dataset)/),
+which is a set of Billboard Top 40 songs from the 60s, 70s, and 80s annotated with structure and chord information. This led me to build
+a little widget for creating 4-chord progressions.
+
+## Chord Bigrams
+
+The chord picker is based on chord bigrams, which are just pairs of chords that appear one after the other in a song. For example, if I have this 4-chord
+progression:
+
+**1maj** -> **5maj** -> **6min** -> **4maj**
+
+Then I can extract the following three chord bigrams:
+- **1maj** -> **5maj**
+- **5maj** -> **6min**
+- **6min** -> **4maj**
+
+If this progression repeated there would also be the **4maj** -> **1maj** bigram.
+
+## Counting Bigrams
+
+In the widget, chords are sorted by the frequency of the chord bigram with that chord and the previous one. So if I chose **1maj** as my
+first chord, the list of possibilities for chord 2 would be sorted based on how often a chord is observed to come after **1maj** in the dataset.
+(This is true for all but the first chord, where a small set of "seed" chords are listed.)
+
+This means if you're picking chords at the top of the list, your progression will sound more normal/conventional/diatonic. If you're picking chords
+near the bottom of the list your progression could sound more distinctive, but it could also sound more disjointed or nonsensical.
+
+If you don't have a great ear for chord progressions I suggest first plugging the progression above (which appears in [quite a few songs](https://www.youtube.com/watch?v=HTYrkOZ5nCs))
+into the widget below, hearing how it sounds, and then trying to modify it.
+
 
 import ChordPicker from "./chord_picker"
 

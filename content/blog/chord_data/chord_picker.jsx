@@ -7,7 +7,7 @@ import loadable from '@loadable/component'
 const MIDISounds = loadable(() => import('midi-sounds-react'))
 
 
-const TONIC = 60
+const TONIC = 50
 const TEMPO = 120
 
 const CHORD_SHAPES = {
@@ -90,7 +90,7 @@ const NextChordPicker = ({data, onSelect, inProp}) => {
 
 const FirstChordPicker = ({onSelect, inProp}) => (
   <div className="first-chord-picker">
-    <ChordList chords={["1maj", "1min"]} onSelect={onSelect} inProp={inProp} />
+    <ChordList chords={["1maj", "1min", "2min", "4maj", "5maj"]} onSelect={onSelect} inProp={inProp} />
   </div>
 )
 
