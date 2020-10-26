@@ -137,7 +137,7 @@ const IndexPage = ({ data }) => {
           <p className="about">Hi! I'm a software engineer based in the Bay Area.</p>
         </div>
         <ResumeSection />
-        <RightNowSection />
+        {/* <RightNowSection /> */}
         <BlogSection posts={posts}/>
         <ProjectsSection projects={data.allProjectsYaml.nodes}/>
         <SocialLinks size="64"/>
