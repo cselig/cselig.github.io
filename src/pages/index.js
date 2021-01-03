@@ -74,55 +74,6 @@ const ResumeSection = () => {
   )
 }
 
-const RightNowSection = () => {
-  const [book, setBook] = useState({})
-  const [album, setAlbum] = useState({})
-  const [recipe, setRecipe] = useState({})
-
-  useEffect(() => {
-    // Lazy-load firebase because it does not play well with the gatsby build process.
-    // TODO there's a cleaner/declarative way to do this with react-firebase-hooks
-    import('firebase/app').then(firebase => {
-      if (!firebase.apps.length) {
-        firebase.initializeApp({
-          apiKey: "AIzaSyB-OnQLJ56YxYJcpHWS_NEHKObIJpIN1UQ",
-          authDomain: "blog-c1783.firebaseapp.com",
-          projectId: "blog-c1783",
-        })
-      }
-      require('firebase/firestore')
-      var db = firebase.firestore()
-      // gets the latest entry from a collection
-      const requestData = (collection, setter) => {
-        db.collection(collection).orderBy("date", "desc").limit(1).get().then((q) => {
-          q.forEach((doc) => setter(doc.data()))
-        })
-      }
-      requestData("books", setBook)
-      requestData("music", setAlbum)
-      requestData("recipes", setRecipe)
-    });
-  }, [])
-
-  return (
-    <div id="right-now">
-      <h3>Right now I'm...</h3>
-      <div className="row">
-        <Emoji symbol="📚" />
-        <p>Reading {book.link ? <a href={book.link} target="_blank" rel="noopener noreferrer">{book.title} - {book.author}</a> : ""}</p>
-      </div>
-      <div className="row">
-        <Emoji symbol="🎵" />
-        <p>Listening to {album.link ? <a href={album.link}>{album.title} - {album.artist}</a> : ""}</p>
-      </div>
-      <div className="row">
-        <Emoji symbol="🍳" />
-        <p>{recipe.type} {recipe.link ? <a href={recipe.link} target="_blank" rel="noopener noreferrer">{recipe.title}</a> : ""}</p>
-      </div>
-    </div>
-  )
-}
-
 const IndexPage = ({ data }) => {
   let posts = [].concat(data.allMdx.edges)
                 .concat(data.allMarkdownRemark.edges)
@@ -137,7 +88,6 @@ const IndexPage = ({ data }) => {
           <p className="about">Hi! I'm a software engineer based in the Bay Area.</p>
         </div>
         <ResumeSection />
-        {/* <RightNowSection /> */}
         <BlogSection posts={posts}/>
         <ProjectsSection projects={data.allProjectsYaml.nodes}/>
         <SocialLinks size="64"/>
