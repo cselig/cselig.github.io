@@ -51,8 +51,8 @@ body {
       }
     }
 
-    #resume, #right-now {
-      margin-top: 1em;
+    #resume {
+      margin: 2em 0;
 
       .row {
         display: flex;
@@ -66,10 +66,6 @@ body {
       }
     }
 
-    #right-now {
-      margin-bottom: 3em;
-    }
-
     .section {
       width: 100%;
       margin-bottom: 90px;
@@ -79,6 +75,51 @@ body {
         padding-bottom: 5px;
         font-size: 3em;
         font-weight: 500;
+      }
+
+      .topic {
+        color: grey;
+        margin: 0;
+
+        &.programming {
+          font-family: monospace;
+        }
+
+        &.music {
+          font-family: Luminari, cursive;
+        }
+
+        &.misc {
+          font-family: "Comic Sans MS", "Comic Sans";
+        }
+      }
+
+      .topic-selector {
+        padding-top: 10px;
+
+        .topics {
+          display: flex;
+          align-items: baseline;
+
+          .topic {
+            margin: 0 10px;
+            cursor: pointer;
+            font-size: 18px;
+
+            &:hover {
+              text-decoration: underline;
+            }
+
+            &.selected {
+              font-weight: 700;
+              color: black;
+            }
+
+            &:first-child {
+              margin-left: 0;
+            }
+          }
+        }
       }
 
       .posts-container {
@@ -109,6 +150,11 @@ body {
               h3 {
                 font-size: 2em;
               }
+            }
+
+            .topic {
+              margin-right: 10px;
+              font-size: 16px;
             }
 
             .date {

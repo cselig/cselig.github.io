@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Link, graphql } from "gatsby"
 
 import BaseLayout from "../components/base_layout"
@@ -9,10 +9,31 @@ import "../css/main.scss"
 
 const BlogSection = ({ posts }) => {
   posts = posts.filter(({ node }) => !node.frontmatter.draft)
+
+  let [currTopic, setCurrTopic] = useState("all");
+  const topics = ['all', 'programming', 'music', 'misc']; // hardcode for order
+  posts = posts.filter(({node}) => currTopic === "all" || node.frontmatter.topic === currTopic)
+
+  const onTopicClick = (e) => {
+    setCurrTopic(e.target.textContent);
+  }
+
   return (
     <div className="section" id="blog">
       <h2 className="section-header">Blog</h2>
       <hr/>
+      <div className="topic-selector">
+        <div className="topics">
+          {topics.map((topic) => {
+            const selected = currTopic === topic
+            return <p
+                     className={"topic " + topic + (selected ? " selected" : "")}
+                     onClick={onTopicClick}
+                     key={topic}>{topic}
+                    </p>
+          })}
+        </div>
+      </div>
       <div className="posts-container">
         {posts.map(({ node }) => (
           <div className="post" key={node.id}>
@@ -20,6 +41,7 @@ const BlogSection = ({ posts }) => {
               <Link to={`/blog/${node.fields.slug}`} className="title-link">
                 <h3>{node.frontmatter.title}</h3>
               </Link>
+              <p className={"topic " + node.frontmatter.topic}>{node.frontmatter.topic}</p>
               <p className="date">{node.frontmatter.date}</p>
             </div>
             <p className="excerpt">{node.frontmatter.excerpt}</p>
@@ -111,6 +133,7 @@ export const query = graphql`
             date(formatString: "DD MMMM, YYYY")
             title
             excerpt
+            topic
             draft
           }
         }
@@ -127,6 +150,7 @@ export const query = graphql`
             date(formatString: "DD MMMM, YYYY")
             title
             excerpt
+            topic
             draft
           }
         }

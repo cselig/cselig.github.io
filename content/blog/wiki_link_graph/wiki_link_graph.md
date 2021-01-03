@@ -2,6 +2,7 @@
 title: Traversing the Wikipedia Link Graph
 date: 2019-10-05
 excerpt: Finding the shortest path between Jeff Bezos and the Illuminati 👀
+topic: programming
 draft: false
 ---
 

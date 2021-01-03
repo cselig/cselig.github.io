@@ -2,6 +2,7 @@
 title: Social Media Bad >:(
 date: 2020-07-21
 excerpt: The thought process behind why I recently gave up on social media apps.
+topic: misc
 ---
 
 A few Sundays ago I was sitting at my desk and thinking about all the things I wanted to do in the coming week.
