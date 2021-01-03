@@ -149,4 +149,26 @@
       }
     }
   }
+
+  &#ciphers {
+    .cryptogram, .solution {
+      display: flex;
+      justify-content: center;
+
+      p {
+        font-family: Courier, monospace;
+        margin: 0;
+      }
+    }
+
+    .solution {
+      p {
+        background-color: black;
+
+        &:hover {
+          background-color: white;
+        }
+      }
+    }
+  }
 }
