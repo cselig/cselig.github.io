@@ -130,15 +130,44 @@ class SkiGraph extends React.Component {
 
   render() {
     const highlightPath = (path) => {
+      const nodeInPath = (i) => path.includes(i)
+      const edgeInPath = ({start, end}) => {
+        for (let i = 0; i < path.length - 1; i++) {
+          if (path[i] === start && path[i + 1] === end) return true
+        }
+        return false
+      }
+
+      d3.selectAll("g.node, g.edge").transition().duration(300).style("opacity", 0.3)
+
+      const transitionLength = 500
+      const delayUnit = 100
+
       d3.selectAll("g.node")
-        .classed("dull", (_, i) => !path.includes(i))
-      d3.selectAll("g.edge")
-        .classed("dull", (d) => {
-          const {start, end} = d
-          for (let i = 0; i < path.length - 1; i++) {
-            if (path[i] === start && path[i + 1] === end) return false
+        .each((_, i, nodes) => {
+          if (path.includes(i)) {
+            d3.select(nodes[i])
+              .transition()
+              .duration(transitionLength)
+              .delay(path.indexOf(i) * 2 * delayUnit + delayUnit)
+                .style("opacity", 1)
           }
-          return true
+        })
+
+      d3.selectAll("g.edge")
+        .each((d, i, nodes) => {
+          console.log(d, i, nodes, path)
+          d3.select(nodes[i])
+            .transition()
+            .duration(transitionLength)
+            .delay((d) => {
+              for (let j = 0; j < path.length - 1; j++) {
+                if (path[j] === d.start && path[j + 1] === d.end) {
+                  return (j * 2 + 1)* delayUnit + delayUnit
+                }
+              }
+            })
+              .style("opacity", 1)
         })
     }
 
@@ -160,8 +189,8 @@ class SkiGraph extends React.Component {
     const reset = () => {
       this.setState({start: null, end: null})
       d3.selectAll("g.node circle").classed("selected", false)
-      d3.selectAll("g.node").classed("dull", false)
-      d3.selectAll("g.edge").classed("dull", false)
+      d3.selectAll("g.node").style("opacity", 1)
+      d3.selectAll("g.edge").style("opacity", 1)
     }
 
     return (
