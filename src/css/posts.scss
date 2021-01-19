@@ -171,4 +171,34 @@
       }
     }
   }
+
+  &#ski-graphs {
+    #ski-graph {
+      svg {
+        g.node {
+          transition: opacity 300ms;
+
+          &.dull {
+            opacity: 0.3;
+          }
+
+          circle {
+            cursor: pointer;
+
+            &.selected {
+              fill: red;
+            }
+          }
+        }
+
+        g.edge {
+          transition: opacity 300ms;
+
+          &.dull {
+            opacity: 0.3;
+          }
+        }
+      }
+    }
+  }
 }

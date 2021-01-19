@@ -44,9 +44,9 @@ const bfs = (start, end) => {
       }
     }
     q = q.slice(q_length)
-    if (n > 1000) {
+    if (n > 10000) {
       console.warn("Probable infinite loop in BFS code")
-      return ["error", []]
+      return [false, []]
     }
   }
   return [false, []]
@@ -69,6 +69,10 @@ const nodes_data = [
   {
     x: 150,
     y: 125,
+  },
+  {
+    x: 175,
+    y: 50,
   }
 ]
 
@@ -94,6 +98,11 @@ const edges_data = [
     type: "lift",
     start: 1,
     end: 3
+  },
+  {
+    type: "lift",
+    start: 3,
+    end: 4
   }
 ]
 
@@ -111,9 +120,54 @@ for (let i = 0; i < nodes_data.length; i++) {
 }
 
 class SkiGraph extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      start: null,
+      end: null
+    }
+  }
+
   render() {
+    const highlightPath = (path) => {
+      d3.selectAll("g.node")
+        .classed("dull", (_, i) => !path.includes(i))
+      d3.selectAll("g.edge")
+        .classed("dull", (d) => {
+          const {start, end} = d
+          for (let i = 0; i < path.length - 1; i++) {
+            if (path[i] === start && path[i + 1] === end) return false
+          }
+          return true
+        })
+    }
+
+    let instruction_text = ""
+    if (this.state.start === null) {
+      instruction_text = "Pick start"
+    } else if (this.state.end === null) {
+      instruction_text = "Pick end"
+    } else {
+      const [is_path, path] = bfs(this.state.start, this.state.end)
+      if (is_path) {
+        instruction_text = "Path: " + path.join('->')
+        highlightPath(path)
+      } else {
+        instruction_text = "No path found"
+      }
+    }
+
+    const reset = () => {
+      this.setState({start: null, end: null})
+      d3.selectAll("g.node circle").classed("selected", false)
+      d3.selectAll("g.node").classed("dull", false)
+      d3.selectAll("g.edge").classed("dull", false)
+    }
+
     return (
       <div id="ski-graph">
+        <p>{instruction_text}</p>
+        <button onClick={reset}>Reset</button>
         <svg width="200" height="200"></svg>
       </div>
     )
@@ -121,12 +175,6 @@ class SkiGraph extends React.Component {
 
   componentDidMount() {
     let svg = d3.select("#ski-graph svg")
-
-    console.log(1, 2, bfs(1, 2))
-    console.log(0, 2, bfs(0, 2))
-    console.log(3, 0, bfs(3, 0))
-    console.log(0, 3, bfs(0, 3))
-    console.log(0, 4, bfs(0, 4))
 
     svg.append("defs").append("marker")
       .attr("id", "triangle")
@@ -150,8 +198,19 @@ class SkiGraph extends React.Component {
       .enter().append("g")
         .attr("class", "edge")
 
+    const onNodeClick = (_, i, nodes) => {
+      if (this.state.start != null && this.state.end != null) return
+      if (this.state.start == null) {
+        this.setState({start: i})
+      } else if (this.state.end == null) {
+        this.setState({end: i})
+      }
+      d3.select(nodes[i]).classed("selected", true)
+    }
+
     nodes.append("circle")
       .attr("r", 10)
+      .on("click", onNodeClick) // TODO: bind to something that doesn't get overlapped
 
     nodes.append("text")
       .text((_, i) => i)
