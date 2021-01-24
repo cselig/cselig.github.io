@@ -187,4 +187,29 @@
       }
     }
   }
+
+  &#graph-builder {
+    #graph-builder-ui-container {
+      .add-modes {
+        display: flex;
+
+        p {
+          margin: 5px;
+          cursor: pointer;
+
+          &.selected {
+            font-weight: 700;
+          }
+        }
+      }
+
+      svg {
+        g.node {
+          circle {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
 }
