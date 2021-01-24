@@ -190,19 +190,34 @@
 
   &#graph-builder {
     #graph-builder-ui-container {
-      .add-modes {
-        display: flex;
-        align-items: center;
+      .controls {
+        .add-modes {
+          display: flex;
+          align-items: center;
+          transition: opacity 0.5s;
 
-        p {
-          margin: 5px;
+          &.inactive {
+            opacity: 0.3;
+            pointer-events: none;
+          }
+
+          p {
+            margin: 5px;
+          }
+
+          .add-mode {
+            cursor: pointer;
+
+            &.selected {
+              font-weight: 700;
+            }
+          }
         }
 
-        .add-mode {
-          cursor: pointer;
-
-          &.selected {
-            font-weight: 700;
+        .buttons {
+          button {
+            margin: 5px;
+            min-width: 48px;
           }
         }
       }
