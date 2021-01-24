@@ -192,9 +192,13 @@
     #graph-builder-ui-container {
       .add-modes {
         display: flex;
+        align-items: center;
 
         p {
           margin: 5px;
+        }
+
+        .add-mode {
           cursor: pointer;
 
           &.selected {

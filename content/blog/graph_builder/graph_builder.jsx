@@ -1,6 +1,8 @@
 import React from "react"
 import * as d3 from "d3"
 
+import * as graphUtils from "../../../src/js/graphs.js"
+
 const SVG_WIDTH  = 500,
       SVG_HEIGHT = 500
 
@@ -13,6 +15,7 @@ class GraphBuilder extends React.Component {
       addMode: "nodes",  // "nodes" || "edges"
       edgeStart: null,   // index of `nodes`
       mouseCoords: null, // [x, y], used when edgeStart has been selected
+      finished: false,   // if the graph is finished being built
     }
   }
 
@@ -24,7 +27,7 @@ class GraphBuilder extends React.Component {
       .style("border", "3px solid grey")
 
     const handleSvgClick = (_, i, elems) => {
-      if (this.state.addMode === "edges") return
+      if (this.state.addMode === "edges" || this.state.finished) return
 
       const [x, y] = d3.mouse(elems[i])
       this.setState((oldState) => ({nodes: oldState.nodes.concat({x: x, y: y})}))
@@ -37,32 +40,18 @@ class GraphBuilder extends React.Component {
     }
     svg.on("mousemove", handleSvgMouseMove)
 
-    // direction marker
-    svg.append("defs").append("marker")
-      .attr("id", "triangle")
-      .attr("refY", 2) // fudge factor to make svg scaling work
-      .attr("markerWidth", 15)
-      .attr("markerHeight", 15)
-      .attr("orient", "auto")
-      .append("path")
-        .attr("d", "M 0 0 12 6 0 12 3 6")
-        .style("fill", "black")
-        .style("transform", "scale(0.3)")
+    graphUtils.appendSvgDefsD3(svg)
   }
 
   render() {
     let svg = d3.select("#graph-builder-ui-container svg")
 
-    let nodes = svg.selectAll("g.node")
-      .data(this.state.nodes)
-
-    const handleNodeClick = (_, i, elems) => {
-      if (this.state.addMode === "nodes") return
+    const handleNodeClick = (_, i) => {
+      if (this.state.addMode === "nodes" || this.state.finished) return
 
       if (this.state.edgeStart == null) {
         this.setState({edgeStart: i})
-      } else {
-        svg.selectAll("g.tmp-edge").remove()
+      } else if (this.state.edgeStart !== i) {
         this.setState((oldState) => {
           return {edges: oldState.edges.concat({start: this.state.edgeStart, end: i}),
                   edgeStart: null}
@@ -70,95 +59,81 @@ class GraphBuilder extends React.Component {
       }
     }
 
-    nodes.enter().append("g")
-        .attr("class", "node")
-        .style("transform", (d) => `translate(${d.x}px,${d.y}px)`)
-        .append("circle")
-          .attr("r", 5)
-          .on("mouseover", (_, i, elems) => d3.select(elems[i]).attr("fill", "green").attr("r", 7))
-          .on("mouseout",  (_, i, elems) => d3.select(elems[i]).attr("fill", "black").attr("r", 5))
-          .on("click", handleNodeClick)
+    let nodes = graphUtils.renderNodesD3(svg, this.state.nodes, {onClick: handleNodeClick})
+    graphUtils.renderEdgesD3(svg, this.state.edges, this.state.nodes)
 
-    nodes.exit().remove()
-
-    let edges = svg.selectAll("g.edge")
-      .data(this.state.edges)
-
-    // generate an svg path from d.start to d.end, adding a point
-    // in the middle so we can put a marker there.
-    const generatePath = (x1, y1, x2, y2) => {
-      return d3.line()(
-        [
-          [x1, y1],
-          [(x1 + x2) / 2, (y1 + y2) / 2],
-          [x2, y2],
-        ]
-      )
-    }
-
-    const generatePathFromEdge = (edge) => {
-      const x1 = this.state.nodes[edge.start].x,
-            y1 = this.state.nodes[edge.start].y,
-            x2 = this.state.nodes[edge.end].x,
-            y2 = this.state.nodes[edge.end].y
-      return generatePath(x1, y1, x2, y2)
-    }
-
-    edges.enter().append("g")
-      .attr("class", "edge")
-      .append("path")
-        .attr("d", generatePathFromEdge)
-        .attr("stroke", "grey")
-        .attr("stroke-width", 3)
-        .attr("marker-mid", "url(#triangle)")
-
+    svg.select("g.tmp-edge").remove()
     // draw temp edge
     if (this.state.mouseCoords != null && this.state.edgeStart != null) {
-      // for some reason putting the remove here instead of outside this if
-      // statement results in smoother rendering, although it means the temp
-      // edge has to be cleaned up in more places
-      svg.selectAll("g.tmp-edge").remove()
-
-      let tmpEdge = svg.selectAll("g.tmp-edge")
-        .data([[this.state.edgeStart, ""]])
-
       const x1 = this.state.nodes[this.state.edgeStart].x,
             y1 = this.state.nodes[this.state.edgeStart].y
       const [x2, y2] = this.state.mouseCoords
 
-      const path = generatePath(x1, y1, x2, y2)
+      const path = graphUtils.generatePath(x1, y1, x2, y2)
 
-      tmpEdge.enter().append("g")
+      svg.append("g")
         .attr("class", "tmp-edge")
         .append("path")
           .attr("d", path)
           .attr("stroke", "grey")
           .attr("stroke-width", 3)
-          .style("opacity", 0.5)
+          .style("opacity", 0.3)
           .attr("marker-mid", "url(#triangle)")
     }
-
-    edges.exit().remove()
 
     nodes.raise() // don't want edges to overlap nodes
 
     const reset = () => {
-      svg.selectAll("g.tmp-edge").remove()
-      this.setState({nodes: [], edges: [], edgeStart: null})
+      this.setState({
+        nodes: [],
+        edges: [],
+        edgeStart: null,
+        addMode: "nodes",
+        finished: false,
+      })
+    }
+
+    const finish = () => {
+      this.setState({
+        finished: true,
+        edgeStart: null,
+      })
+    }
+
+    const edit = () => {
+      this.setState({finished: false})
     }
 
     const setAddMode = (e) => this.setState({addMode: e.target.textContent.toLowerCase()})
 
-    const { addMode } = this.state
+    const { addMode, finished } = this.state
 
     return (
       <div id="graph-builder-ui-container">
         <div id="controls">
-          <div className="add-modes">
-            <p onClick={setAddMode} className={addMode === "nodes" ? "selected" : ""}>Nodes</p>
-            <p onClick={setAddMode} className={addMode === "edges" ? "selected" : ""}>Edges</p>
-          </div>
+          {!finished &&
+            <div className="add-modes">
+              <p>Add:</p>
+              <p
+                onClick={setAddMode}
+                className={"add-mode " + (addMode === "nodes" ? "selected" : "")}
+              >Nodes</p>
+              <p
+                onClick={setAddMode}
+                className={"add-mode " + (addMode === "edges" ? "selected" : "")}
+              >Edges</p>
+            </div>
+          }
+          {!finished && <button onClick={finish}>Done</button>}
+          {finished  && <button onClick={edit}>Edit</button>}
           <button onClick={reset}>Reset</button>
+          {/* only need this for dev */}
+          {/* {finished &&
+            <div className="results">
+              <pre>{JSON.stringify(this.state.nodes)}</pre>
+              <pre>{JSON.stringify(this.state.edges)}</pre>
+            </div>
+          } */}
         </div>
       </div>
     )
