@@ -1,0 +1,29 @@
+[
+  {
+    "type": "lift",
+    "name": "Powderbowl Express",
+    "start": 0,
+    "end": 1
+  },
+  {
+    "type": "run",
+    "name": "Maggie's Upper",
+    "level": "green",
+    "start": 1,
+    "end": 2
+  },
+  {
+    "type": "run",
+    "name": "Maggie's Lower",
+    "level": "green",
+    "start": 2,
+    "end": 0
+  },
+  {
+    "type": "run",
+    "name": "Ridge Run Lower",
+    "level": "blue",
+    "start": 2,
+    "end": 3
+  }
+]

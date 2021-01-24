@@ -1,0 +1,26 @@
+[
+  {
+    "id": 0,
+    "x": 95,
+    "y": 60,
+    "note": "powderbowl bottom / steins"
+  },
+  {
+    "id": 1,
+    "x": 93,
+    "y": 40,
+    "note": "powderbowl top"
+  },
+  {
+    "id": 2,
+    "x": 85,
+    "y": 50,
+    "note": "ridge run / maggie's intersection"
+  },
+  {
+    "id": 3,
+    "x": 75,
+    "y": 58,
+    "note": "canyon express bottom"
+  }
+]

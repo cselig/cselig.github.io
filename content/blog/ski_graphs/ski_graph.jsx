@@ -1,15 +1,24 @@
 import React from "react"
 import * as d3 from "d3"
+import nodes_data from "./data/heavenly/nodes.json"
+import edges_data from "./data/heavenly/edges.json"
+
+const SVG_WIDTH = 500,
+      SVG_HEIGHT = 500
+
+// convert coordinates from percentage to pixel space
+const scaleX = (x) => x / 100 * SVG_WIDTH
+const scaleY = (y) => y / 100 * SVG_HEIGHT
 
 const translate = (x, y) => `translate(${x}px,${y}px)`
 
 // generate an svg path from d.start to d.end, adding a point
 // in the middle so we can put a marker there.
 const generatePath = (d) => {
-  const x1 = nodes_data[d.start].x,
-        y1 = nodes_data[d.start].y,
-        x2 = nodes_data[d.end].x,
-        y2 = nodes_data[d.end].y
+  const x1 = scaleX(nodes_data[d.start].x),
+        y1 = scaleY(nodes_data[d.start].y),
+        x2 = scaleX(nodes_data[d.end].x),
+        y2 = scaleY(nodes_data[d.end].y)
   return d3.line()(
     [
       [x1, y1],
@@ -51,60 +60,6 @@ const bfs = (start, end) => {
   }
   return [false, []]
 }
-
-// nodes are identified by their index
-const nodes_data = [
-  {
-    x: 100,
-    y: 50
-  },
-  {
-    x: 50,
-    y: 150
-  },
-  {
-    x: 25,
-    y: 100
-  },
-  {
-    x: 150,
-    y: 125,
-  },
-  {
-    x: 175,
-    y: 50,
-  }
-]
-
-const edges_data = [
-  {
-    type: "lift",
-    start: 1,
-    end: 0
-  },
-  {
-    type: "run",
-    level: "blue",
-    start: 2,
-    end: 1,
-  },
-  {
-    type: "run",
-    level: "green",
-    start: 0,
-    end: 2
-  },
-  {
-    type: "lift",
-    start: 1,
-    end: 3
-  },
-  {
-    type: "lift",
-    start: 3,
-    end: 4
-  }
-]
 
 // maps node -> list of reachable nodes
 let graph_edges = new Map()
@@ -149,7 +104,7 @@ class SkiGraph extends React.Component {
             d3.select(nodes[i])
               .transition()
               .duration(transitionLength)
-              .delay(path.indexOf(i) * 2 * delayUnit + delayUnit)
+              .delay(path.indexOf(i) * 2 * delayUnit + 3 * delayUnit)
                 .style("opacity", 1)
           }
         })
@@ -163,7 +118,7 @@ class SkiGraph extends React.Component {
             .delay((d) => {
               for (let j = 0; j < path.length - 1; j++) {
                 if (path[j] === d.start && path[j + 1] === d.end) {
-                  return (j * 2 + 1)* delayUnit + delayUnit
+                  return (j * 2 + 1)* delayUnit + 3 * delayUnit
                 }
               }
             })
@@ -197,7 +152,7 @@ class SkiGraph extends React.Component {
       <div id="ski-graph">
         <p>{instruction_text}</p>
         <button onClick={reset}>Reset</button>
-        <svg width="200" height="200"></svg>
+        <svg width={SVG_WIDTH} height={SVG_HEIGHT} style={{"border": "1px solid"}}></svg>
       </div>
     )
   }
@@ -207,20 +162,20 @@ class SkiGraph extends React.Component {
 
     svg.append("defs").append("marker")
       .attr("id", "triangle")
-      .attr("refY", 3) // fudge factor to make svg scaling work
+      .attr("refY", 2) // fudge factor to make svg scaling work
       .attr("markerWidth", 15)
       .attr("markerHeight", 15)
       .attr("orient", "auto")
       .append("path")
         .attr("d", "M 0 0 12 6 0 12 3 6")
         .style("fill", "black")
-        .style("transform", "scale(0.5)")
+        .style("transform", "scale(0.3)")
 
     let nodes = svg.selectAll("g.node")
       .data(nodes_data)
       .enter().append("g")
         .attr("class", "node")
-        .style("transform", (d) => translate(d.x, d.y))
+        .style("transform", (d) => translate(scaleX(d.x), scaleY(d.y)))
 
     let edges = svg.selectAll("g.edge")
       .data(edges_data)
@@ -238,7 +193,7 @@ class SkiGraph extends React.Component {
     }
 
     nodes.append("circle")
-      .attr("r", 10)
+      .attr("r", 4)
       .on("click", onNodeClick) // TODO: bind to something that doesn't get overlapped
 
     nodes.append("text")
