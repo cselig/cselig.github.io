@@ -4,6 +4,8 @@ import * as graphUtils from "../../../src/js/graphs.js"
 
 import defaultNodes from "./default_nodes.json"
 import defaultEdges from "./default_edges.json"
+// import defaultNodes from "./heavenly_nodes.json"
+// import defaultEdges from "./heavenly_edges.json"
 
 // deep copies an array of objects
 function arrayDeepCopy(arr) {

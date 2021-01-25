@@ -2,8 +2,10 @@ import React from "react"
 import * as d3 from "d3"
 import * as graphUtils from "../../../src/js/graphs.js"
 
-import nodesData from "./data/test/nodes.json"
-import edgesData from "./data/test/edges.json"
+// import nodesData from "./data/test/nodes.json"
+// import edgesData from "./data/test/edges.json"
+import nodesData from "./data/heavenly/nodes.json"
+import edgesData from "./data/heavenly/edges.json"
 
 const SVG_WIDTH = 500,
       SVG_HEIGHT = 500
@@ -53,10 +55,10 @@ class SkiGraph extends React.Component {
 
   componentDidMount() {
     // coordinates are serialized as percentages
-    for (let node of nodesData) {
-      node.x *= 0.01 * SVG_WIDTH
-      node.y *= 0.01 * SVG_HEIGHT
-    }
+    // for (let node of nodesData) {
+    //   node.x *= 0.01 * SVG_WIDTH
+    //   node.y *= 0.01 * SVG_HEIGHT
+    // }
 
     let svg = d3.select("#ski-graph svg")
     graphUtils.appendSvgDefsD3(svg)
@@ -76,7 +78,8 @@ class SkiGraph extends React.Component {
     }
 
     const edgeOpts = {
-      strokeFn: (d) => d.type === "lift" ? "grey" : d.level,
+      // strokeFn: (d) => d.type === "lift" ? "grey" : d.level,
+      strokeFn: (d) => d.level || "grey"
     }
 
     graphUtils.renderNodesD3(svg, nodesData, nodeOpts)
