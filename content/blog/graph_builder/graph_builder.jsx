@@ -17,12 +17,15 @@ class GraphBuilder extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      nodes: [], // [{x, y}]
-      edges: [], // [{start, end}]
+      nodes: [],         // [{x, y}]
+      edges: [],         // [{start, end}]
       addMode: "nodes",  // "nodes" || "edges"
       edgeStart: null,   // index of `nodes`
       mouseCoords: null, // [x, y], used when edgeStart has been selected
       editing: false,    // if the graph is being edited
+      searchStart: null, // node to search from
+      searchEnd: null,   // node to search to
+      path: null,        // path between searchStart and searchEnd
     }
   }
 
@@ -50,6 +53,8 @@ class GraphBuilder extends React.Component {
     svg.on("click", handleSvgClick)
 
     const handleSvgMouseMove = (_, i, elems) => {
+      if (!this.state.editing) return
+
       const mouseCoords = d3.mouse(elems[i])
       this.setState({mouseCoords: mouseCoords})
     }
@@ -65,10 +70,19 @@ class GraphBuilder extends React.Component {
     this.imperativelyRender()
   }
 
+  // FIXME: very bad hack that I think shouldn't be necessary. For some reason
+  // when applying a click handler to both enter and update node groups, it appears
+  // to be called twice on every click. For this reason, only ever have enter groups
+  // and use this function to clear the SVG imperatively between state changes.
+  // I think probably a refactor of all this code would fix the issue.
+  clearCanvas() {
+    d3.selectAll("g.node, g.edge").remove()
+  }
+
   render() {
     let svg = d3.select("#graph-builder-ui-container svg")
 
-    const handleNodeClick = (_, i) => {
+    const handleNodeClickEditing = (_, i) => {
       if (this.state.addMode === "nodes" || !this.state.editing) return
 
       if (this.state.edgeStart == null) {
@@ -81,12 +95,24 @@ class GraphBuilder extends React.Component {
       }
     }
 
-    let nodes = graphUtils.renderNodesD3(svg, this.state.nodes, {onClick: handleNodeClick})
+    const handleNodeClickSearching = (_, i) => {
+      if (this.state.editing) return
+
+      if (this.state.searchStart == null) {
+        this.setState({searchStart: i})
+      } else if (this.state.searchEnd == null) {
+        this.setState({searchEnd: i})
+      }
+    }
+
+    let nodes = graphUtils.renderNodesD3(
+      svg, this.state.nodes, {onClick: this.state.editing? handleNodeClickEditing : handleNodeClickSearching}
+    )
     graphUtils.renderEdgesD3(svg, this.state.edges, this.state.nodes)
 
+    // draw ghost edge
     svg.select("g.tmp-edge").remove()
-    // draw temp edge
-    if (this.state.mouseCoords != null && this.state.edgeStart != null) {
+    if (this.state.addMode === "edges" && this.state.edgeStart != null) {
       const x1 = this.state.nodes[this.state.edgeStart].x,
             y1 = this.state.nodes[this.state.edgeStart].y
       const [x2, y2] = this.state.mouseCoords
@@ -103,7 +129,31 @@ class GraphBuilder extends React.Component {
           .attr("marker-mid", "url(#triangle)")
     }
 
+    // draw ghost node
+    svg.select("g.tmp-node").remove()
+    if (this.state.editing && this.state.addMode === "nodes" && this.state.mouseCoords) {
+      const [x, y] = this.state.mouseCoords
+
+      svg.append("g")
+        .attr("class", "tmp-node")
+        .style("transform", `translate(${x}px,${y}px)`)
+        .append("circle")
+          .attr("r", 5)
+          .attr("fill", "green")
+          .style("opacity", 0.3)
+    }
+
     nodes.raise() // don't want edges to overlap nodes
+
+    const resetSearchState = () => {
+      this.setState({
+        searchStart: null,
+        searchEnd: null,
+        path: null,
+      })
+      d3.selectAll("g.node").transition().duration(500).style("opacity", 1)
+      d3.selectAll("g.edge").transition().duration(500).style("opacity", 1)
+    }
 
     const clear = () => {
       this.setState({
@@ -112,43 +162,71 @@ class GraphBuilder extends React.Component {
         edgeStart: null,
         addMode: "nodes",
         editing: true,
+        searchStart: null,
+        searchEnd: null,
+        path: null,
       })
     }
 
     const reset = () => {
-      // TODO: figure out way to get rid of these removes
-      d3.selectAll("g.node").remove()
-      d3.selectAll("g.edge").remove()
+      this.clearCanvas()
       this.setState({
         nodes: arrayDeepCopy(defaultNodes),
         edges: arrayDeepCopy(defaultEdges),
         edgeStart: null,
         addMode: "nodes",
         editing: false,
+        mouseCoors: null,
       })
       this.imperativelyRender()
     }
 
     const finish = () => {
+      this.clearCanvas()
       this.setState({
         editing: false,
         edgeStart: null,
+        mouseCoords: null,
       })
+      this.imperativelyRender()
     }
 
     const edit = () => {
+      this.clearCanvas()
       this.setState({editing: true})
+      this.imperativelyRender()
+      resetSearchState()
     }
 
-    const setAddMode = (e) => this.setState({addMode: e.target.textContent.toLowerCase()})
+    const setAddMode = (e) => {
+      this.clearCanvas()
+      this.setState({addMode: e.target.textContent.toLowerCase()})
+      this.imperativelyRender()
+    }
 
-    const { addMode, editing } = this.state
+    // FIXME: bad code
+    let pathText = ""
+    if (this.state.searchStart && this.state.searchEnd && !this.state.path) {
+      const [is_path, path] = graphUtils.bfs(
+        this.state.searchStart, this.state.searchEnd, this.state.edges, this.state.nodes
+      )
+      if (is_path) {
+        pathText = path.join("->")
+        const animationLength = graphUtils.highlightPath(path)
+        setTimeout(resetSearchState, animationLength + 1500)
+      } else {
+        pathText = "No path found"
+        setTimeout(resetSearchState, 1500)
+      }
+    }
+
+    const { addMode, editing, searchStart, searchEnd } = this.state
 
     return (
       <div id="graph-builder-ui-container">
         <div className="controls">
           <div className="buttons">
-            {editing  && <button onClick={finish}>Done</button>}
+            {editing  && <button onClick={finish}>Search</button>}
             {!editing && <button onClick={edit}>Edit</button>}
             <button onClick={reset}>Reset to default</button>
             <button onClick={clear}>Clear</button>
@@ -164,6 +242,13 @@ class GraphBuilder extends React.Component {
               onClick={setAddMode}
               className={"add-mode " + (addMode === "edges" ? "selected" : "")}
             >Edges</p>
+          </div>
+
+          {/* this gets messy fast, should probably separate graph/editor/search into components */}
+          <div className={"search-text " + (editing ? "inactive" : "")}>
+            <p>{"Start node: " + searchStart}</p>
+            <p>{"End node: " + searchEnd}</p>
+            <p>{"Path: " + pathText}</p>
           </div>
 
           <div id="svg-placeholder"></div>

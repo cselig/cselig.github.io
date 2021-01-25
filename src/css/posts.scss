@@ -191,6 +191,13 @@
   &#graph-builder {
     #graph-builder-ui-container {
       .controls {
+        .buttons {
+          button {
+            margin: 5px;
+            min-width: 58px;
+          }
+        }
+
         .add-modes {
           display: flex;
           align-items: center;
@@ -214,10 +221,12 @@
           }
         }
 
-        .buttons {
-          button {
-            margin: 5px;
-            min-width: 48px;
+        .search-text {
+          transition: opacity 0.5s;
+          margin: 5px;
+
+          &.inactive {
+            opacity: 0.3;
           }
         }
       }

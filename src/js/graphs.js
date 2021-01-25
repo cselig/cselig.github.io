@@ -140,14 +140,6 @@ export function bfs(start, end, edges, nodes) {
 }
 
 export function highlightPath(path, transitionLength = 500, delayUnit = 100) {
-  const nodeInPath = (i) => path.includes(i)
-  const edgeInPath = ({start, end}) => {
-    for (let i = 0; i < path.length - 1; i++) {
-      if (path[i] === start && path[i + 1] === end) return true
-    }
-    return false
-  }
-
   d3.selectAll("g.node, g.edge").transition().duration(300).style("opacity", 0.3)
 
   d3.selectAll("g.node")
@@ -175,4 +167,7 @@ export function highlightPath(path, transitionLength = 500, delayUnit = 100) {
         })
           .style("opacity", 1)
     })
+
+  // return the total length of the animation
+  return (path.length * 2 + 3) * delayUnit
 }
