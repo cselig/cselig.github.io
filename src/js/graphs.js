@@ -63,9 +63,9 @@ export function renderNodesD3(svg, node_data, opts={}) {
     .on("mouseout",  (_, i, elems) => d3.select(elems[i]).attr("fill", "black").attr("r", 7))
     .on("click", opts.onClick)
 
-  nodesEnter.append("text")
-    .text((_, i) => i)
-    .attr("x", 10)
+  // nodesEnter.append("text")
+  //   .text((_, i) => i)
+  //   .attr("x", 10)
 
   nodes.exit().remove()
 
