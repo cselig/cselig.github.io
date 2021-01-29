@@ -2,6 +2,8 @@ import React from "react"
 import * as d3 from "d3"
 import * as graphUtils from "../../../src/js/graphs.js"
 
+import Graph from "./graph.jsx"
+
 import defaultNodes from "./default_nodes.json"
 import defaultEdges from "./default_edges.json"
 // import defaultNodes from "./heavenly_nodes.json"
@@ -18,6 +20,7 @@ const SVG_WIDTH  = 500,
 class GraphBuilder extends React.Component {
   constructor(props) {
     super(props)
+    this.svgRef = React.createRef()
     this.state = {
       nodes: [],         // [{x, y}]
       edges: [],         // [{start, end}]
@@ -40,11 +43,13 @@ class GraphBuilder extends React.Component {
   }
 
   componentDidMount() {
-    let svg = d3.select("#svg-placeholder")
-      .insert("svg")
-      .attr("width", SVG_WIDTH)
-      .attr("height", SVG_HEIGHT)
-      .style("border", "3px solid grey")
+    // let svg = d3.select("#svg-placeholder")
+    //   .insert("svg")
+    //   .attr("width", SVG_WIDTH)
+    //   .attr("height", SVG_HEIGHT)
+    //   .style("border", "3px solid grey")
+
+    let svg = d3.select(this.svgRef.current)
 
     const handleSvgClick = (_, i, elems) => {
       if (this.state.addMode === "edges" || !this.state.editing) return
@@ -60,16 +65,16 @@ class GraphBuilder extends React.Component {
       const mouseCoords = d3.mouse(elems[i])
       this.setState({mouseCoords: mouseCoords})
     }
-    svg.on("mousemove", handleSvgMouseMove)
+    // svg.on("mousemove", handleSvgMouseMove)
 
-    graphUtils.appendSvgDefsD3(svg)
+    // graphUtils.appendSvgDefsD3(svg)
 
     this.setState({
       nodes: arrayDeepCopy(defaultNodes),
       edges: arrayDeepCopy(defaultEdges),
     })
 
-    this.imperativelyRender()
+    // this.imperativelyRender()
   }
 
   // FIXME: very bad hack that I think shouldn't be necessary. For some reason
@@ -82,7 +87,7 @@ class GraphBuilder extends React.Component {
   }
 
   render() {
-    let svg = d3.select("#graph-builder-ui-container svg")
+    let svg = d3.select(this.svgRef.current) // d3.select("#graph-builder-ui-container #svg-placeholder svg")
 
     const handleNodeClickEditing = (_, i) => {
       if (this.state.addMode === "nodes" || !this.state.editing) return
@@ -107,45 +112,45 @@ class GraphBuilder extends React.Component {
       }
     }
 
-    let nodes = graphUtils.renderNodesD3(
-      svg, this.state.nodes, {onClick: this.state.editing? handleNodeClickEditing : handleNodeClickSearching}
-    )
-    graphUtils.renderEdgesD3(svg, this.state.edges, this.state.nodes)
+    // let nodes = graphUtils.renderNodesD3(
+    //   svg, this.state.nodes, {onClick: this.state.editing? handleNodeClickEditing : handleNodeClickSearching}
+    // )
+    // graphUtils.renderEdgesD3(svg, this.state.edges, this.state.nodes)
 
     // draw ghost edge
-    svg.select("g.tmp-edge").remove()
-    if (this.state.addMode === "edges" && this.state.edgeStart != null) {
-      const x1 = this.state.nodes[this.state.edgeStart].x,
-            y1 = this.state.nodes[this.state.edgeStart].y
-      const [x2, y2] = this.state.mouseCoords
+    // svg.select("g.tmp-edge").remove()
+    // if (this.state.addMode === "edges" && this.state.edgeStart != null) {
+    //   const x1 = this.state.nodes[this.state.edgeStart].x,
+    //         y1 = this.state.nodes[this.state.edgeStart].y
+    //   const [x2, y2] = this.state.mouseCoords
 
-      const path = graphUtils.generatePath(x1, y1, x2, y2)
+    //   const path = graphUtils.generatePath(x1, y1, x2, y2)
 
-      svg.append("g")
-        .attr("class", "tmp-edge")
-        .append("path")
-          .attr("d", path)
-          .attr("stroke", "grey")
-          .attr("stroke-width", 3)
-          .style("opacity", 0.3)
-          .attr("marker-mid", "url(#triangle)")
-    }
+    //   svg.append("g")
+    //     .attr("class", "tmp-edge")
+    //     .append("path")
+    //       .attr("d", path)
+    //       .attr("stroke", "grey")
+    //       .attr("stroke-width", 3)
+    //       .style("opacity", 0.3)
+    //       .attr("marker-mid", "url(#triangle)")
+    // }
 
     // draw ghost node
-    svg.select("g.tmp-node").remove()
-    if (this.state.editing && this.state.addMode === "nodes" && this.state.mouseCoords) {
-      const [x, y] = this.state.mouseCoords
+    // svg.select("g.tmp-node").remove()
+    // if (this.state.editing && this.state.addMode === "nodes" && this.state.mouseCoords) {
+    //   const [x, y] = this.state.mouseCoords
 
-      svg.append("g")
-        .attr("class", "tmp-node")
-        .style("transform", `translate(${x}px,${y}px)`)
-        .append("circle")
-          .attr("r", 5)
-          .attr("fill", "green")
-          .style("opacity", 0.3)
-    }
+    //   svg.append("g")
+    //     .attr("class", "tmp-node")
+    //     .style("transform", `translate(${x}px,${y}px)`)
+    //     .append("circle")
+    //       .attr("r", 5)
+    //       .attr("fill", "green")
+    //       .style("opacity", 0.3)
+    // }
 
-    nodes.raise() // don't want edges to overlap nodes
+    // nodes.raise() // don't want edges to overlap nodes
 
     const resetSearchState = () => {
       this.setState({
@@ -253,7 +258,6 @@ class GraphBuilder extends React.Component {
             <p>{"Path: " + pathText}</p>
           </div>
 
-          <div id="svg-placeholder"></div>
           {/* only need this for dev */}
           {/* {!editing &&
             <div className="results">
@@ -262,6 +266,7 @@ class GraphBuilder extends React.Component {
             </div>
           } */}
         </div>
+        <Graph nodes={this.state.nodes} edges={this.state.edges} svgRef={this.svgRef} />
       </div>
     )
   }

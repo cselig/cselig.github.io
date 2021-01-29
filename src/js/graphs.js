@@ -6,6 +6,8 @@ import * as d3 from "d3"
 //     edges: [{start, end}]
 //  - g.node and g.edge groups are used to contain elements
 
+// TODO: these functions should probably all take objects as params
+
 ///// RENDERING /////
 
 // generate an svg path from d.start to d.end, adding a point
@@ -32,7 +34,7 @@ export function appendSvgDefsD3(svg) {
   // direction marker
   svg.append("defs").append("marker")
     .attr("id", "triangle")
-    .attr("refY", 2) // fudge factor to make svg scaling work
+    .attr("refY", 1.75) // fudge factor to make svg scaling work
     .attr("markerWidth", 15)
     .attr("markerHeight", 15)
     .attr("orient", "auto")
@@ -56,9 +58,9 @@ export function renderNodesD3(svg, node_data, opts={}) {
     .style("transform", (d) => `translate(${d.x}px,${d.y}px)`)
 
   nodesEnter.append("circle")
-    .attr("r", 5)
-    .on("mouseover", (_, i, elems) => d3.select(elems[i]).attr("fill", "green").attr("r", 7))
-    .on("mouseout",  (_, i, elems) => d3.select(elems[i]).attr("fill", "black").attr("r", 5))
+    .attr("r", 7)
+    .on("mouseover", (_, i, elems) => d3.select(elems[i]).attr("fill", "green").attr("r", 9))
+    .on("mouseout",  (_, i, elems) => d3.select(elems[i]).attr("fill", "black").attr("r", 7))
     .on("click", opts.onClick)
 
   nodesEnter.append("text")
@@ -85,7 +87,7 @@ export function renderEdgesD3(svg, edge_data, node_data, opts={}) {
     .append("path")
       .attr("d", (d) => generatePathFromEdge(d, node_data))
       .attr("stroke", opts.strokeFn)
-      .attr("stroke-width", 3)
+      .attr("stroke-width", 5)
       .attr("marker-mid", "url(#triangle)")
 
   edges.exit().remove()
@@ -139,7 +141,8 @@ export function bfs(start, end, edges, nodes) {
   return [false, []]
 }
 
-export function highlightPath(path, transitionLength = 500, delayUnit = 100) {
+export function highlightPath(path, onAnimationFinish = () => {}, transitionLength = 500, delayUnit = 100) {
+  // TODO: it might look better if animation duration depended on edge length
   d3.selectAll("g.node, g.edge").transition().duration(300).style("opacity", 0.3)
 
   d3.selectAll("g.node")
@@ -168,6 +171,6 @@ export function highlightPath(path, transitionLength = 500, delayUnit = 100) {
           .style("opacity", 1)
     })
 
-  // return the total length of the animation
-  return (path.length * 2 + 3) * delayUnit
+  const animationLength = (path.length * 2 + 3) * delayUnit
+  setTimeout(onAnimationFinish, animationLength)
 }

@@ -174,7 +174,22 @@
 
   &#ski-graphs {
     #ski-graph {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .text {
+        font-size: 20px;
+
+        &.reset-button {
+          font-weight: 700;
+          cursor: pointer;
+        }
+      }
+
       svg {
+        border: solid 3px lightgrey;
+
         g.node {
           circle {
             cursor: pointer;
@@ -189,6 +204,25 @@
   }
 
   &#graph-builder {
+    .graph-editor {
+      .add-modes {
+        display: flex;
+        align-items: center;
+
+        p {
+          margin: 5px;
+        }
+
+        .add-mode {
+          cursor: pointer;
+
+          &.selected {
+            font-weight: 700;
+          }
+        }
+      }
+    }
+
     #graph-builder-ui-container {
       .controls {
         .buttons {
