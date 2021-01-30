@@ -33,28 +33,11 @@ I came across a GIF of the old "pipes" screensaver from Windows '95 and thought 
 It ended up being a fun challenge, and involved implementing some tricky vector math. I haven't yet gotten around
 to the hardest part though, which is making sure the pipes don't intersect themselves.
 
-When I first coded this up, I noticed that the memory usage of the browser would skyrocket. There are a few things I tried to reduce memory usage:
+<Pipes />
 
-<b>Stopping the animation:</b> Once we've animated all the pipes that we want, the render loop should ideally stop so we're not re-rendering a
-static scene. This can be done with `cancelAnimationFrame`.
-
-```js
-let animationRequestId;
-
-const animate = function() {
-  animationRequestId = requestAnimationFrame(animate);
-
-  // do rendering
-
-  if (stop_condition) {
-    cancelAnimationFrame(animationRequestId);
-  }
-}
-```
-
-<b>Pooling materials:</b> Since every pipe segment will use the same material (only color changes between pipes), we can create a pool
-of these materials and reuse them across pipe segments, instead of instantiating a new material for every object
-in the scene.
+One thing that I tried doing to reduce memory usage was pooling materials. Since every pipe segment will use the same material
+(only color changes between pipes), we can create a pool of these materials and reuse them across pipe segments, instead of
+instantiating a new material for every object in the scene.
 
 ```js
 const colors = [
@@ -75,7 +58,5 @@ const createCylinder = function() {
   return mesh;
 }
 ```
-
-<Pipes />
 
 <ExpandableCodeBlock filePath="three_js/pipes.jsx" />

@@ -8,6 +8,10 @@ class Pipes extends React.Component {
     return (
       <div id="pipes-container" className="container">
         <button name="start">Start/Reset</button>
+        <div style={{display: "flex", alignItems: "center"}}>
+          <p>Rotate Camera:</p>
+          <input type="checkbox" name="toggle-rotate"/>
+        </div>
         <div className="canvas"></div>
       </div>
     )
@@ -31,7 +35,8 @@ class Pipes extends React.Component {
           RADIAL_SEGMENTS = 32,
           MAX_SEGMENTS = 70, // max segments per pipe
           MIN_LENGTH = 5, // min length of a pipe segment
-          MAX_LENGTH = 20;
+          MAX_LENGTH = 20,
+          CUBE_CENTER = [L/2, L/2, L/2];
 
     const initialPositions = [
       [L/2, 0, L/2],
@@ -131,6 +136,17 @@ class Pipes extends React.Component {
       }
     }
 
+    const computeCameraPos = function() {
+      const x = L * 1.5 * Math.sin(theta);
+      const y = L * 1.5 * (Math.cos(theta) + 1);
+      return [x, L/2, y];
+    }
+
+    const updateCamera = function() {
+      camera.position.set(...computeCameraPos())
+      camera.lookAt(...CUBE_CENTER)
+    }
+
     const directions = [
       [1, 0, 0],
       [0, 1, 0],
@@ -143,6 +159,9 @@ class Pipes extends React.Component {
     let numSegments; // number of pipe segments that have been created
     let numPipes; // number of pipes that have been created
     let c; // keeps track of the current cylinder segment
+    let theta = 8; // current camera rotation
+    let omega = 0.01; // rotational speed
+    let rotateCamera = false;
 
     let animationRequestId;
 
@@ -184,11 +203,15 @@ class Pipes extends React.Component {
           numSegments = 0;
           newPipe(initialPositions[numPipes]);
         } else {
-          // we've animated all our pipes, so stop rendering
-          console.log("stopping pipes");
-          cancelAnimationFrame(animationRequestId);
+          init();
         }
       }
+
+      if (rotateCamera) {
+        theta += omega;
+        updateCamera();
+      }
+
       renderer.render(scene, camera);
     }
 
@@ -210,8 +233,7 @@ class Pipes extends React.Component {
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(75, bbox.width/bbox.height, 0.1, 1000);
 
-      camera.position.set(L*1.5, L/2, L/2);
-      camera.lookAt(L/2, L/2, L/2);
+      updateCamera();
 
       let light = new THREE.AmbientLight(0x404040, 3);
       scene.add(light);
@@ -239,6 +261,7 @@ class Pipes extends React.Component {
     setScene();
 
     $("#pipes-container button[name=start]").click(init);
+    $("#pipes-container input[name=toggle-rotate").change(() => rotateCamera = !rotateCamera)
   }
 }
 
