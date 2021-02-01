@@ -1,12 +1,11 @@
-import React from 'react'
-import Highlight, {defaultProps} from 'prism-react-renderer'
+import React from "react"
+import Highlight, {defaultProps} from "prism-react-renderer"
 import theme from "prism-react-renderer/themes/github"
 
-const CodeBlock = ({children, className}) => {
-  const language = className ? className.replace(/language-/, '') : "javascript"
+const CodeBlock = ({ language, code }) => {
   defaultProps.theme = theme
   return (
-    <Highlight {...defaultProps} code={children} language={language}>
+    <Highlight {...defaultProps} code={code} language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
         <pre className={className}>
           {/* don't render blank last lines (which are always present in markdown code blocks) */}

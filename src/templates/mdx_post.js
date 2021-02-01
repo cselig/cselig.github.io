@@ -3,13 +3,13 @@ import { graphql } from "gatsby"
 import { MDXProvider } from "@mdx-js/react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 
-import CodeBlock from "../components/code_block"
+import MarkdownCodeBlock from "../components/markdown_code_block"
 import ExpandableCodeBlock from "../components/expandable_code_block"
 import PostBase from "./post_base"
 
 const components = {
   pre: props => <div {...props} />,
-  code: CodeBlock,
+  code: MarkdownCodeBlock,
   ExpandableCodeBlock,
 }
 
