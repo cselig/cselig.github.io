@@ -97,8 +97,7 @@ const ResumeSection = () => {
 }
 
 const IndexPage = ({ data }) => {
-  let posts = [].concat(data.allMdx.edges)
-                .concat(data.allMarkdownRemark.edges)
+  let posts = data.allMdx.edges
   posts.sort((p1, p2) => (
     Date.parse(p2.node.frontmatter.date) - Date.parse(p1.node.frontmatter.date)
   ))
@@ -123,23 +122,6 @@ export default IndexPage
 export const query = graphql`
   query {
     allMdx {
-      edges {
-        node {
-          fields {
-            slug
-          }
-          id
-          frontmatter {
-            date(formatString: "DD MMMM, YYYY")
-            title
-            excerpt
-            topic
-            draft
-          }
-        }
-      }
-    }
-    allMarkdownRemark {
       edges {
         node {
           fields {

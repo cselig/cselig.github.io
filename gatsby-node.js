@@ -5,15 +5,7 @@ const fs = require("fs")
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions
 
-  if (node.internal.type === `MarkdownRemark`) {
-    const fileNode = getNode(node.parent)
-    const slug = fileNode.dir.split("/").pop().replace(/_/g, "-")
-    createNodeField({
-      node,
-      name: `slug`,
-      value: slug,
-    })
-  } else if (node.internal.type === `Mdx`) {
+  if (node.internal.type === `Mdx`) {
     const fileNode = getNode(node.parent)
     const slug = fileNode.dir.split("/").pop().replace(/_/g, "-")
     createNodeField({
@@ -45,41 +37,16 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
-      allMarkdownRemark {
-        edges {
-          node {
-            fields {
-              slug
-            }
-            frontmatter {
-              draft
-            }
-          }
-        }
-      }
     }
   `)
 
-  const post_types = [
-    {
-      posts: posts.data.allMdx.edges,
-      template: 'mdx_post.js',
-    },
-    {
-      posts: posts.data.allMarkdownRemark.edges,
-      template: 'md_post.js',
-    },
-  ]
-
-  for (const { posts, template } of post_types) {
-    posts.forEach(({ node }) => {
-      createPage({
-        path: `${node.frontmatter.draft ? "draft" : "blog"}/${node.fields.slug}`,
-        component: path.resolve(`./src/templates/${template}`),
-        context: {
-          slug: node.fields.slug,
-        },
-      })
+  posts.data.allMdx.edges.forEach(({ node }) => {
+    createPage({
+      path: `${node.frontmatter.draft ? "draft" : "blog"}/${node.fields.slug}`,
+      component: path.resolve(`./src/templates/mdx_post.js`),
+      context: {
+        slug: node.fields.slug,
+      },
     })
-  }
+  })
 }

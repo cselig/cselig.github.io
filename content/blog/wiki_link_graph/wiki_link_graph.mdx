@@ -44,7 +44,7 @@ an offset in bytes where it is located in the file, and links are also offsets. 
 link by going to that offset in the file. We can load this file into memory as an int array using
 the following Python code:
 
-```python
+```py
 # py
 import struct
 
@@ -186,7 +186,7 @@ This shortest path was of length 7, and took quite a bit longer to find.
 
 I was curious what kind of performance boost I could get by rewriting this code in C++.
 
-```c++
+```cpp
 // cpp
 int bfs(int src, int dst, int arr[], int graph_len)
 {
