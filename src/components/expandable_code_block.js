@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useStaticQuery, graphql } from "gatsby"
 
-import CodeBlock from "./code_block"
+import FileNameCodeBlock from "./file_name_code_block.js"
 
 import "../css/expandable_code_block.scss"
 
@@ -28,14 +28,14 @@ const ExpandableCodeBlock = ({ filePath }) => {
     console.warn("Trouble locating file:", filePath)
   }
   const node = nodes[0]
-  const ext = filePath.split(".").pop()
+  const fileName = filePath.split("/").pop()
 
   return (
     <div className={`expandable-code-block ${expanded ? "expanded" : ""}`}>
       <p className="button" onClick={() => setExpanded(!expanded)} aria-hidden="true">
         click for code
       </p>
-      <CodeBlock code={node.fields.contents} language={ext} />
+      <FileNameCodeBlock code={node.fields.contents} fileName={fileName} />
     </div>
   )
 }
