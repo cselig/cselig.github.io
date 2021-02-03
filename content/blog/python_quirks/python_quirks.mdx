@@ -75,7 +75,7 @@ class MyClass:
 ...
 ```
 
-### Scope of loop variables
+## Scope of loop variables
 
 Unlike many languages, "loop variables" in Python stay in the local scope after the loop is exited. This can lead to some unexpected behavior:
 
@@ -115,7 +115,7 @@ def main():
 
 Even other interpreted and non-curly-brace languages avoid these troubles, e.g. Ruby:
 
-```py
+```ruby
 3.times do |x|
   print x
 end
@@ -123,3 +123,50 @@ end
 x # NameError (undefined local variable or method `x' for main:Object)
 ```
 
+## Function chaining is hard
+
+When it comes to working with data structures, Python's provided functions and methods aren't very consistent. Take lists for example:
+the `List` class has methods that change it in-place, but for many operations you'll need to use list comprehensions which return new lists and have a unique syntax.
+For other operations you might want to use `filter` and `map`, which are functions (not methods of the list class). And there are other scattered
+inconsistencies, for example the fact that `join`, a function for working with lists, is a string method instead of a list method.
+
+As an example:
+```py
+def slugify(string, bad_words):
+  words = string.split()
+  words = [w.lower() for w in words if w.isalpha() and w not in bad_words]
+  return "-".join(words)
+
+slugify("My test 1 string", set(["dang", "heck"])) # "my-test-string"
+```
+
+For people familiar with Python this probably looks natural, but even still the code requires
+careful reading to understand each transformation the function is doing (and this is for a simple example).
+
+In other languages this kind of code is more natural. Ruby for example has more consistent methods that allow for chaining:
+
+```ruby
+def slugify(string, bad_words)
+  string.split()
+    .map(&:downcase)
+    .select { |w| w.match(/^[[:alpha:]]+$/) }
+    .select { |w| !bad_words.include? w }
+    .join("-")
+end
+
+slugify("My dang test 1 string", Set["dang", "heck"]) # "my-test-string"
+```
+
+As an example from the functional world, Clojure strongly supports function chaining with consistent APIs and the threading macros `->` and `->>`.
+```clojure
+(defn slugify [string bad-words]
+  (->> (str/split string #" ")
+    (filter #(re-matches #"^[a-zA-Z]*$" %))
+    (remove bad-words)
+    (map str/lower-case)
+    (str/join "-")
+  )
+)
+
+(slugify "My dang test 1 string" (set '("dang" "heck"))) ; "my-test-string"
+```
