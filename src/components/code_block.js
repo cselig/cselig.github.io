@@ -2,6 +2,11 @@ import React from "react"
 import Highlight, {defaultProps} from "prism-react-renderer"
 import theme from "prism-react-renderer/themes/github"
 
+// prism-react-renderer supports a small subset of languages that Prism does
+import Prism from "prism-react-renderer/prism"
+(typeof global !== 'undefined' ? global : window).Prism = Prism;
+["ruby", "clojure"].forEach((lang) => require(`../../node_modules/prismjs/components/prism-${lang}`))
+
 const CodeBlock = ({ language, code }) => {
   defaultProps.theme = theme
   return (
