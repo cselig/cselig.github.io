@@ -19,7 +19,6 @@ class Graph extends React.Component {
     let svg = d3.select(this.props.svgRef.current)
       .attr("width", SVG_WIDTH)
       .attr("height", SVG_HEIGHT)
-      .style("border", "3px solid lightcoral")
 
     graphUtils.appendSvgDefsD3(svg)
 
@@ -28,6 +27,7 @@ class Graph extends React.Component {
 
   render() {
     this.drawD3()
+    d3.selectAll("g.node").raise()
 
     return (
       <div className="graph-container">

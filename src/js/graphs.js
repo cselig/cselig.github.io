@@ -22,6 +22,10 @@ export function generatePath(x1, y1, x2, y2) {
   )
 }
 
+export function generatePartialPath(x1, y1, x2, y2, fraction) {
+  return generatePath(x1, y1, x1 + (x2 - x1) * fraction, y1 + (y2 - y1) * fraction)
+}
+
 export function generatePathFromEdge(edge, nodes) {
   const x1 = nodes[edge.start].x,
         y1 = nodes[edge.start].y,
