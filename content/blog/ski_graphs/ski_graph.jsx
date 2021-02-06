@@ -65,7 +65,7 @@ class SkiGraph extends React.Component {
 
   componentDidMount() {
     let svg = d3.select("#ski-graph svg")
-    graphUtils.appendSvgDefsD3(svg)
+    graphUtils.setUpSvg(svg)
 
     const onNodeClick = (_, i, nodes) => {
       if (this.state.start != null && this.state.end != null) return

@@ -11,33 +11,27 @@ class GraphEditor extends React.Component {
   constructor(props) {
     super(props)
 
-    this.svgRef = React.createRef()
-
     this.state = {
-      nodes: defaultNodes,
-      edges: defaultEdges,
       addMode: "nodes", // nodes || edges
       edgeStart: null,
     }
   }
 
   componentDidMount() {
-    let svg = d3.select(this.svgRef.current)
-
     const handleSvgClick = (_, i, elems) => {
       if (this.state.addMode !== "nodes") return
 
       const [x, y] = d3.mouse(elems[i])
-      this.setState((oldState) => ({nodes: oldState.nodes.concat({x: x, y: y})}))
+      this.props.addNode({x: x, y: y})
     }
-    svg.on("click", handleSvgClick)
 
-    const handleSvgMouseMove = (_, i, elems) => {
+    const handleSvgMouseMove = (i, elems, nodes) => {
+      let svg = d3.select(this.props.svg)
       svg.select("g.tmp-edge").remove()
       if (!(this.state.addMode === "edges" && this.state.edgeStart != null)) return
 
-      const x1 = this.state.nodes[this.state.edgeStart].x,
-            y1 = this.state.nodes[this.state.edgeStart].y
+      const x1 = nodes[this.state.edgeStart].x,
+            y1 = nodes[this.state.edgeStart].y
       const [x2, y2] = d3.mouse(elems[i])
       // only drawing a partial path helps with weird mouseover conflicts I think
       const path = graphUtils.generatePartialPath(x1, y1, x2, y2, 0.99)
@@ -51,28 +45,33 @@ class GraphEditor extends React.Component {
           .style("opacity", 0.3)
           .attr("marker-mid", "url(#triangle)")
     }
-    svg.on("mousemove", handleSvgMouseMove)
-  }
-
-  render() {
-    console.log(this.state)
 
     const handleNodeClick = (_, i) => {
+      console.log("editor node click")
       if (this.state.addMode !== "edges") return
 
       if (this.state.edgeStart == null) {
         this.setState({edgeStart: i})
       } else if (this.state.edgeStart !== i) {
-        this.setState((oldState) => {
-          return {edges: oldState.edges.concat({start: this.state.edgeStart, end: i}),
-                  edgeStart: null}
-        })
+        this.props.addEdge({start: this.state.edgeStart, end: i})
+        this.setState({edgeStart: null})
+        d3.select(this.props.svg).select("g.tmp-edge").remove()
       }
     }
-    const nodeOpts = {
-      onClick: handleNodeClick,
-    }
 
+    this.props.setSvgClickHandler(handleSvgClick)
+    this.props.setSvgMouseMoveHandler(handleSvgMouseMove)
+    this.props.setNodeClickHandler(handleNodeClick)
+  }
+
+  componentWillUnmount() {
+    // might be better to explicitly unbind these functions from the svg events
+    this.props.setSvgClickHandler(() => null)
+    this.props.setSvgMouseMoveHandler(() => null)
+    this.props.setNodeClickHandler(() => null)
+  }
+
+  render() {
     return (
       <div className="graph-editor">
           <div className={"add-modes"}>
@@ -86,11 +85,6 @@ class GraphEditor extends React.Component {
               className={"add-mode " + (this.state.addMode === "edges" ? "selected" : "")}
             >Edges</p>
           </div>
-        <Graph
-          nodes={this.state.nodes}
-          edges={this.state.edges}
-          nodeOpts={nodeOpts}
-          svgRef={this.svgRef} />
       </div>
     )
   }

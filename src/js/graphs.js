@@ -48,13 +48,20 @@ export function appendSvgDefsD3(svg) {
       .style("transform", "scale(0.3)")
 }
 
+// call this first
+export function setUpSvg(svg) {
+  appendSvgDefsD3(svg)
+  svg.append("g").attr("class", "edges")
+  svg.append("g").attr("class", "nodes")
+}
+
 export function renderNodesD3(svg, node_data, opts={}) {
   const defaultOpts = {
     onClick: () => {},
   }
   opts = {...defaultOpts, ...opts}
 
-  let nodes = svg.selectAll("g.node")
+  let nodes = svg.select("g.nodes").selectAll("g.node")
     .data(node_data)
 
   let nodesEnter = nodes.enter().append("g")
@@ -83,7 +90,7 @@ export function renderEdgesD3(svg, edge_data, node_data, opts={}) {
   }
   opts = {...defaultOpts, ...opts}
 
-  let edges = svg.selectAll("g.edge")
+  let edges = svg.select("g.edges").selectAll("g.edge")
     .data(edge_data)
 
   edges.enter().append("g")
