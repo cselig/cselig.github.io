@@ -40,10 +40,12 @@ export function appendSvgDefsD3(svg) {
 
 // TODO:
 //  - need to apply same things to update and enter groups
-//  - should pass in more attributes
 export function renderNodesD3({ svg, nodeData, opts }) {
   const defaultOpts = {
     onClick: () => {},
+    radius: 7,
+    mouseoverRadius: 9,
+    textFn: (_, i) => i,
   }
   opts = {...defaultOpts, ...opts}
 
@@ -55,13 +57,13 @@ export function renderNodesD3({ svg, nodeData, opts }) {
     .style("transform", (d) => `translate(${d.x}px,${d.y}px)`)
 
   nodesEnter.append("circle")
-    .attr("r", 7)
-    .on("mouseover", (_, i, elems) => d3.select(elems[i]).attr("fill", "green").attr("r", 9))
-    .on("mouseout",  (_, i, elems) => d3.select(elems[i]).attr("fill", "black").attr("r", 7))
+    .attr("r", opts.radius)
+    .on("mouseover", (_, i, elems) => d3.select(elems[i]).attr("fill", "green").attr("r", opts.mouseoverRadius))
+    .on("mouseout",  (_, i, elems) => d3.select(elems[i]).attr("fill", "black").attr("r", opts.radius))
     .on("click", opts.onClick)
 
   // nodesEnter.append("text")
-  //   .text((_, i) => i)
+  //   .text(opts.textFn)
   //   .attr("x", 10)
 
   nodes.exit().remove()
@@ -73,6 +75,7 @@ export function renderNodesD3({ svg, nodeData, opts }) {
 export function renderEdgesD3({ svg, edgeData, nodeData, directed, opts }) {
   const defaultOpts = {
     strokeFn: () => "grey",
+    strokeWidth: 5,
   }
   opts = {...defaultOpts, ...opts}
 
@@ -84,7 +87,7 @@ export function renderEdgesD3({ svg, edgeData, nodeData, directed, opts }) {
     .append("path")
       .attr("d", (d) => generatePathFromEdge(d, nodeData))
       .attr("stroke", opts.strokeFn)
-      .attr("stroke-width", 5)
+      .attr("stroke-width", opts.strokeWidth)
 
   if (directed) enter.attr("marker-mid", "url(#triangle)")
 

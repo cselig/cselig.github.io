@@ -13,6 +13,13 @@ import defaultEdges from "./data/default_edges.json"
 const SVG_WIDTH  = 500,
       SVG_HEIGHT = 500
 
+const defaultNodeOpts = {
+  radius: 8,
+  mouseoverRadius: 10,
+}
+
+const defaultEdgeOpts = {}
+
 const AlgorithmCard = ({ name, setMode, value }) => (
   <div className="algorithm-card" onClick={() => setMode(value)}>
     <p>{name}</p>
@@ -125,7 +132,8 @@ class GraphUIContainer extends React.Component {
           <Graph
             nodes={this.state.nodes}
             edges={this.state.edges}
-            nodeOpts={this.state.nodeOpts}
+            nodeOpts={{...defaultNodeOpts, ...this.state.nodeOpts}}
+            edgeOpts={defaultEdgeOpts}
             directed={false}
             // https://reactjs.org/docs/refs-and-the-dom.html#callback-refs
             svgRef={(el) => {
