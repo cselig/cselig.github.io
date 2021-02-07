@@ -7,8 +7,8 @@ class Graph extends React.Component {
     if (this.props.svg) {
       const svg = d3.select(this.props.svg)
       const { edges, nodes, nodeOpts } = this.props
-      graphUtils.renderEdgesD3(svg, edges, nodes)
-      graphUtils.renderNodesD3(svg, nodes, nodeOpts)
+      graphUtils.renderEdgesD3({svg: svg, edgeData: edges, nodeData: nodes, directed: this.props.directed})
+      graphUtils.renderNodesD3({svg: svg, nodeData: nodes, opts: nodeOpts})
     }
   }
 

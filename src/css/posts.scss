@@ -204,29 +204,58 @@
   }
 
   &#graph-builder {
-    .graph-editor {
-      .add-modes {
+    .graph-ui-container {
+      .editor-panel {
         display: flex;
-        align-items: center;
 
-        p {
-          margin: 5px;
-        }
+        .graph-editor {
+          .add-modes {
+            display: flex;
+            align-items: center;
 
-        .add-mode {
-          cursor: pointer;
+            p {
+              margin: 5px;
+            }
 
-          &.selected {
-            font-weight: 700;
+            .add-mode {
+              cursor: pointer;
+
+              &.selected {
+                font-weight: 700;
+              }
+            }
           }
         }
       }
 
-      svg {
-        border: 3px solid lightcoral;
+      .container {
+        display: flex;
+
+        .graph-container {
+          border: 3px solid grey;
+          margin: 5px;
+        }
+
+        .algorithm-container {
+          padding: 10px;
+          border: 3px dashed gold;
+
+          .algorithm-card {
+            border: 3px dashed blue;
+            margin: 5px;
+            padding: 5px;
+            cursor: pointer;
+          }
+
+          .algorithm-ui {
+            border: 3px dashed green;
+            padding: 5px;
+          }
+        }
       }
     }
 
+    // TODO: remove this and related code
     #graph-builder-ui-container {
       .controls {
         .buttons {
