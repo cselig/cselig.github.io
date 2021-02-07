@@ -1,6 +1,10 @@
 import React from "react"
 import * as d3 from "d3"
 
+const delay = 500
+const fadeInText  = () => d3.select("#connected-components .text").transition().duration(delay).style("opacity", 1)
+const fadeOutText = () => d3.select("#connected-components .text").transition().duration(delay).style("opacity", 0)
+
 // TODO: share these
 function reciprocateEdges(edges) {
   let result = []
@@ -81,25 +85,25 @@ const highlightComponents = (components) => {
 
   d3.selectAll("g.node > circle")
     .transition()
-    .duration(500)
-    .delay((_, i) => nodeToComponent.get(i) * 500 + 500)
+    .duration(delay)
+    .delay((_, i) => nodeToComponent.get(i) * delay + delay)
       .style("opacity", 1)
       .style("fill", (_, i) => colors[nodeToComponent.get(i)])
 
   d3.selectAll("g.edge > path")
     .transition()
-    .duration(500)
-    .delay((d) => nodeToComponent.get(d.start) * 500 + 500)
+    .duration(delay)
+    .delay((d) => nodeToComponent.get(d.start) * delay + delay)
       .style("opacity", 1)
 }
 
 const resetHighlighting = () => {
   d3.selectAll("g.node > circle")
-    .transition().duration(500)
+    .transition().duration(delay)
       .style("opacity", 1)
       .style("fill", "black")
   d3.selectAll("g.edge > path")
-    .transition().duration(500)
+    .transition().duration(delay)
       .style("opacity", 1)
 }
 
@@ -116,7 +120,15 @@ class ConnectedComponentsUI extends React.Component {
       const components = findComponents(this.props.nodes, this.props.edges)
       console.log("components", components)
       highlightComponents(components)
-      this.setState({highlighted: true})
+      fadeOutText()
+      setTimeout(
+        () => this.setState({highlighted: true}),
+        delay
+      )
+      setTimeout(
+        fadeInText,
+        delay * components.length + delay
+      )
     }
 
     const reset = () => {
@@ -128,9 +140,9 @@ class ConnectedComponentsUI extends React.Component {
       <div id="connected-components" className="algorithm-ui">
         <h2>Connected Components</h2>
         {this.state.highlighted ?
-          <p onClick={reset}>Reset</p>
+          <p className="text" onClick={reset}>Reset</p>
           :
-          <p onClick={doHighlight}>Highlight connected components</p>
+          <p className="text" onClick={doHighlight}>Highlight connected components</p>
         }
       </div>
     )
