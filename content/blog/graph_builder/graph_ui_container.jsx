@@ -5,11 +5,11 @@ import Graph from "./graph.jsx"
 import GraphEditor from "./graph_editor.jsx"
 import BfsUI from "./algorithm_uis/bfs_ui.jsx"
 import ConnectedComponentsUI from "./algorithm_uis/connected_components_ui.jsx"
+import GraphColoringUI from "./algorithm_uis/graph_coloring_ui.jsx"
 import * as graphUtils from "../../../src/js/graphs.js"
 
 import defaultNodes from "./data/default_nodes.json"
 import defaultEdges from "./data/default_edges.json"
-import GraphColoringUI from "./algorithm_uis/graph_coloring_ui.jsx"
 
 const SVG_WIDTH  = 500,
       SVG_HEIGHT = 500
@@ -70,7 +70,6 @@ class GraphUIContainer extends React.Component {
       svg: null, // DOM node
       svgClickHandler: null,
       svgMouseMoveHandler: null,
-      nodeOpts: null,
       nodeClickHandler: null,
     }
 
@@ -106,17 +105,16 @@ class GraphUIContainer extends React.Component {
   }
 
   render() {
-    console.log(this.state)
-
     if (this.state.svg ) {
-      // FIXME: for some reason node click handler doesn't get added immediately (although currently this
-      // might not be an issue).
-      console.log("adding listeners")
+      // Might be cleanest to pass these functions into an `updateSVG` function in graphUtils
       const svgD3 = d3.select(this.state.svg)
       svgD3.on("click", this.state.svgClickHandler)
       // TODO: bad code
       svgD3.on("mousemove", (_, i, elems) => this.state.svgMouseMoveHandler ? this.state.svgMouseMoveHandler(i, elems, this.state.nodes) : null)
-      svgD3.selectAll("g.node").on("click", this.state.nodeClickHandler)
+    }
+
+    const nodeOpts = {
+      onClick: this.state.nodeClickHandler,
     }
 
     return (
@@ -142,7 +140,7 @@ class GraphUIContainer extends React.Component {
           <Graph
             nodes={this.state.nodes}
             edges={this.state.edges}
-            nodeOpts={{...defaultNodeOpts, ...this.state.nodeOpts}}
+            nodeOpts={{...defaultNodeOpts, ...nodeOpts}}
             edgeOpts={defaultEdgeOpts}
             directed={false}
             // https://reactjs.org/docs/refs-and-the-dom.html#callback-refs

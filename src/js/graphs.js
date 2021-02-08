@@ -58,6 +58,8 @@ export function renderNodesD3({ svg, nodeData, opts }) {
 
   nodesEnter.append("circle")
     .attr("r", opts.radius)
+
+  nodes.merge(nodesEnter).select("circle")
     .on("mouseover", (_, i, elems) => d3.select(elems[i]).attr("fill", "green").attr("r", opts.mouseoverRadius))
     .on("mouseout",  (_, i, elems) => d3.select(elems[i]).attr("fill", "black").attr("r", opts.radius))
     .on("click", opts.onClick)
