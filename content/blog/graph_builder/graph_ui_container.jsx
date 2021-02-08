@@ -9,6 +9,7 @@ import * as graphUtils from "../../../src/js/graphs.js"
 
 import defaultNodes from "./data/default_nodes.json"
 import defaultEdges from "./data/default_edges.json"
+import GraphColoringUI from "./algorithm_uis/graph_coloring_ui.jsx"
 
 const SVG_WIDTH  = 500,
       SVG_HEIGHT = 500
@@ -45,6 +46,14 @@ function AlgorithmContainer({ mode, setMode, algorithmInputs }) {
         />
         :
         <AlgorithmCard name="Connected Components" setMode={setMode} value="connected-components" />
+      }
+      {mode === "graph-coloring" ?
+        <GraphColoringUI
+          nodes={algorithmInputs.nodes}
+          edges={algorithmInputs.edges}
+        />
+        :
+        <AlgorithmCard name="Graph Coloring" setMode={setMode} value="graph-coloring" />
       }
     </div>
   )
@@ -100,7 +109,8 @@ class GraphUIContainer extends React.Component {
     console.log(this.state)
 
     if (this.state.svg ) {
-      // FIXME: for some reason node click handler doesn't get added immediately
+      // FIXME: for some reason node click handler doesn't get added immediately (although currently this
+      // might not be an issue).
       console.log("adding listeners")
       const svgD3 = d3.select(this.state.svg)
       svgD3.on("click", this.state.svgClickHandler)
