@@ -250,58 +250,10 @@
           .algorithm-ui {
             border: 3px dashed green;
             padding: 5px;
-          }
-        }
-      }
-    }
 
-    // TODO: remove this and related code
-    #graph-builder-ui-container {
-      .controls {
-        .buttons {
-          button {
-            margin: 5px;
-            min-width: 58px;
-          }
-        }
-
-        .add-modes {
-          display: flex;
-          align-items: center;
-          transition: opacity 0.5s;
-
-          &.inactive {
-            opacity: 0.3;
-            pointer-events: none;
-          }
-
-          p {
-            margin: 5px;
-          }
-
-          .add-mode {
-            cursor: pointer;
-
-            &.selected {
-              font-weight: 700;
+            .text {
+              cursor: pointer;
             }
-          }
-        }
-
-        .search-text {
-          transition: opacity 0.5s;
-          margin: 5px;
-
-          &.inactive {
-            opacity: 0.3;
-          }
-        }
-      }
-
-      svg {
-        g.node {
-          circle {
-            cursor: pointer;
           }
         }
       }
