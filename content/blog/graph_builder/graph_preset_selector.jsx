@@ -1,14 +1,20 @@
 import React from "react"
 import * as graphUtils from "../../../src/js/graphs.js"
 
-import defaultNodes from "./data/default_nodes.json"
-import defaultEdges from "./data/default_edges.json"
+import defaultNodes from "./data/default/nodes.json"
+import defaultEdges from "./data/default/edges.json"
 import heavenlyNodes from "../ski_graphs/data/heavenly/nodes.json"
 import heavenlyEdges from "../ski_graphs/data/heavenly/edges.json"
+import gridNodes from "./data/grid/nodes.json"
+import gridEdges from "./data/grid/edges.json"
+import islandsNodes from "./data/islands/nodes.json"
+import islandsEdges from "./data/islands/edges.json"
 
 const presetsMap = {
   "default": {"nodes": defaultNodes, "edges": defaultEdges},
   "heavenly": {"nodes": heavenlyNodes, "edges": heavenlyEdges},
+  "grid": {"nodes": gridNodes, "edges": gridEdges},
+  "islands": {"nodes": islandsNodes, "edges": islandsEdges},
 }
 
 class GraphPresetSelector extends React.Component {
@@ -29,7 +35,9 @@ class GraphPresetSelector extends React.Component {
     return (
       <div className="preset-selector">
         <p onClick={() => selectPreset("default")}>Default</p>
-        <p onClick={() => selectPreset("heavenly")}>Heavenly</p>
+        <p onClick={() => selectPreset("heavenly")}>Heavenly Ski Resort</p>
+        <p onClick={() => selectPreset("grid")}>Grid</p>
+        <p onClick={() => selectPreset("islands")}>Islands</p>
       </div>
     )
   }
