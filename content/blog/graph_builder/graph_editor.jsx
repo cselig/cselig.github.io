@@ -83,6 +83,7 @@ class GraphEditor extends React.Component {
 
     this.props.setSvgClickHandler(handleSvgClick)
     this.props.setSvgMouseMoveHandler(handleSvgMouseMove)
+    this.props.setSvgMouseLeaveHandler(this.clearGhosts)
     this.props.setNodeClickHandler(handleNodeClick)
   }
 

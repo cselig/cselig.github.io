@@ -88,6 +88,7 @@ class GraphUIContainer extends React.Component {
       svg: null, // DOM node
       svgClickHandler: null,
       svgMouseMoveHandler: null,
+      svgMouseLeaveHandler: null,
       nodeClickHandler: null,
     }
 
@@ -97,6 +98,7 @@ class GraphUIContainer extends React.Component {
     this.addEdge = this.addEdge.bind(this)
     this.setSvgClickHandler = this.setSvgClickHandler.bind(this)
     this.setSvgMouseMoveHandler = this.setSvgMouseMoveHandler.bind(this)
+    this.setSvgMouseLeaveHandler = this.setSvgMouseLeaveHandler.bind(this)
     this.setNodeClickHandler = this.setNodeClickHandler.bind(this)
     this.setNodes = this.setNodes.bind(this)
     this.setEdges = this.setEdges.bind(this)
@@ -113,10 +115,12 @@ class GraphUIContainer extends React.Component {
   }
 
   setNodes(nodes) {
+    this.resetHighlighting()
     this.setState({nodes: nodes})
   }
 
   setEdges(edges) {
+    this.resetHighlighting()
     this.setState({edges: edges})
   }
 
@@ -126,6 +130,10 @@ class GraphUIContainer extends React.Component {
 
   setSvgMouseMoveHandler(handler) {
     this.setState({svgMouseMoveHandler: handler})
+  }
+
+  setSvgMouseLeaveHandler(handler) {
+    this.setState({svgMouseLeaveHandler: handler})
   }
 
   setNodeClickHandler(handler) {
@@ -144,12 +152,13 @@ class GraphUIContainer extends React.Component {
   }
 
   render() {
-    if (this.state.svg ) {
+    if (this.state.svg) {
       // Might be cleanest to pass these functions into an `updateSVG` function in graphUtils
       const svgD3 = d3.select(this.state.svg)
       svgD3.on("click", this.state.svgClickHandler)
       // TODO: bad code
       svgD3.on("mousemove", (_, i, elems) => this.state.svgMouseMoveHandler ? this.state.svgMouseMoveHandler(i, elems, this.state.nodes) : null)
+      svgD3.on("mouseleave", this.state.svgMouseLeaveHandler)
     }
 
     const nodeOpts = {
@@ -177,6 +186,7 @@ class GraphUIContainer extends React.Component {
               svg={this.state.svg}
               setSvgClickHandler={this.setSvgClickHandler}
               setSvgMouseMoveHandler={this.setSvgMouseMoveHandler}
+              setSvgMouseLeaveHandler={this.setSvgMouseLeaveHandler}
               setNodeClickHandler={this.setNodeClickHandler}
               setNodes={this.setNodes}
               setEdges={this.setEdges}

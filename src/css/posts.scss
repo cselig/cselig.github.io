@@ -238,19 +238,18 @@
 
         .algorithm-container {
           padding: 10px;
-          border: 3px dashed gold;
+
+          .algorithm-card, .algorithm-ui {
+            border: 3px solid grey;
+            margin-bottom: 5px;
+            padding: 5px;
+          }
 
           .algorithm-card {
-            border: 3px dashed blue;
-            margin: 5px;
-            padding: 5px;
             cursor: pointer;
           }
 
           .algorithm-ui {
-            border: 3px dashed green;
-            padding: 5px;
-
             .text {
               cursor: pointer;
             }
