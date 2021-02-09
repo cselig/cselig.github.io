@@ -3,6 +3,7 @@ import * as d3 from "d3"
 import * as graphUtils from "../../../src/js/graphs.js"
 
 class Graph extends React.Component {
+  // TODO: maybe cleaner to have React handle the SVG objects
   drawD3() {
     if (this.props.svg) {
       const svg = d3.select(this.props.svg)

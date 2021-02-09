@@ -178,8 +178,9 @@ class SkiGraph extends React.Component {
       strokeFn: (d) => d.level ? colorMap[d.level] : "grey"
     }
 
-    graphUtils.renderEdgesD3({svg: svg, edgeData: edgesData, nodeData: nodesData, directed: true, opts: edgeOpts})
-    graphUtils.renderNodesD3({svg: svg, nodeData: nodesData, opts: nodeOpts})
+    const scaledNodes = graphUtils.scaleNodeData(nodesData, SVG_WIDTH, SVG_HEIGHT)
+    graphUtils.renderEdgesD3({svg: svg, edgeData: edgesData, nodeData: scaledNodes, directed: true, opts: edgeOpts})
+    graphUtils.renderNodesD3({svg: svg, nodeData: scaledNodes, opts: nodeOpts})
   }
 }
 

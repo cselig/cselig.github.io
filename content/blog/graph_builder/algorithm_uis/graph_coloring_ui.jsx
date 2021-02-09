@@ -109,9 +109,7 @@ class GraphColoringUI extends React.Component {
   }
 
   resetHighlighting() {
-    d3.selectAll("g.node > circle")
-      .transition().duration(500)
-        .style("fill", "black")
+    this.props.resetHighlighting()
     this.setState({highlighted: false})
   }
 

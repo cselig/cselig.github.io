@@ -99,19 +99,25 @@ class GraphEditor extends React.Component {
       this.clearGhosts()
     }
 
+    const clearGraph = () => {
+      this.props.setNodes([])
+      this.props.setEdges([])
+    }
+
     return (
       <div className="graph-editor">
-          <div className={"add-modes"}>
-            <p>Add:</p>
-            <p
-              onClick={() => toggleAddMode("nodes")}
-              className={"add-mode " + (this.state.addMode === "nodes" ? "selected" : "")}
-            >Nodes</p>
-            <p
-              onClick={() => toggleAddMode("edges")}
-              className={"add-mode " + (this.state.addMode === "edges" ? "selected" : "")}
-            >Edges</p>
-          </div>
+        <button onClick={clearGraph}>Clear Graph</button>
+        <div className={"add-modes"}>
+          <p>Add:</p>
+          <p
+            onClick={() => toggleAddMode("nodes")}
+            className={"add-mode " + (this.state.addMode === "nodes" ? "selected" : "")}
+          >Nodes</p>
+          <p
+            onClick={() => toggleAddMode("edges")}
+            className={"add-mode " + (this.state.addMode === "edges" ? "selected" : "")}
+          >Edges</p>
+        </div>
       </div>
     )
   }

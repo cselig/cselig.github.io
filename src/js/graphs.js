@@ -54,15 +54,16 @@ export function renderNodesD3({ svg, nodeData, opts }) {
 
   let nodesEnter = nodes.enter().append("g")
     .attr("class", "node")
-    .style("transform", (d) => `translate(${d.x}px,${d.y}px)`)
 
   nodesEnter.append("circle")
     .attr("r", opts.radius)
 
-  nodes.merge(nodesEnter).select("circle")
-    .on("mouseover", (_, i, elems) => d3.select(elems[i]).attr("fill", "green").attr("r", opts.mouseoverRadius))
-    .on("mouseout",  (_, i, elems) => d3.select(elems[i]).attr("fill", "black").attr("r", opts.radius))
-    .on("click", opts.onClick)
+  nodes.merge(nodesEnter)
+    .style("transform", (d) => `translate(${d.x}px,${d.y}px)`)
+    .select("circle")
+      .on("mouseover", (_, i, elems) => d3.select(elems[i]).attr("fill", "green").attr("r", opts.mouseoverRadius))
+      .on("mouseout",  (_, i, elems) => d3.select(elems[i]).attr("fill", "black").attr("r", opts.radius))
+      .on("click", opts.onClick)
 
   // nodesEnter.append("text")
   //   .text(opts.textFn)
@@ -86,10 +87,13 @@ export function renderEdgesD3({ svg, edgeData, nodeData, directed, opts }) {
 
   let enter = edges.enter().append("g")
     .attr("class", "edge")
-    .append("path")
-      .attr("d", (d) => generatePathFromEdge(d, nodeData))
-      .attr("stroke", opts.strokeFn)
-      .attr("stroke-width", opts.strokeWidth)
+
+  enter.append("path")
+
+  edges.merge(enter).select("path")
+    .attr("d", (d) => generatePathFromEdge(d, nodeData))
+    .attr("stroke", opts.strokeFn)
+    .attr("stroke-width", opts.strokeWidth)
 
   if (directed) enter.attr("marker-mid", "url(#triangle)")
 
@@ -100,6 +104,10 @@ export function renderEdgesD3({ svg, edgeData, nodeData, directed, opts }) {
 
 
 ///// HELPERS /////
+
+export function scaleNodeData(nodes, svgWidth, svgHeight) {
+  return nodes.map(({ x, y }) => ({ x: x*svgWidth, y: y*svgHeight }))
+}
 
 // generate an svg path from d.start to d.end, adding a point
 // in the middle so we can put a marker there.

@@ -3,13 +3,13 @@ import * as d3 from "d3"
 
 import Graph from "./graph.jsx"
 import GraphEditor from "./graph_editor.jsx"
+import GraphPresetSelector from "./graph_preset_selector.jsx"
+
 import BfsUI from "./algorithm_uis/bfs_ui.jsx"
 import ConnectedComponentsUI from "./algorithm_uis/connected_components_ui.jsx"
 import GraphColoringUI from "./algorithm_uis/graph_coloring_ui.jsx"
-import * as graphUtils from "../../../src/js/graphs.js"
 
-import defaultNodes from "./data/default_nodes.json"
-import defaultEdges from "./data/default_edges.json"
+import * as graphUtils from "../../../src/js/graphs.js"
 
 const SVG_WIDTH  = 500,
       SVG_HEIGHT = 500
@@ -35,6 +35,7 @@ function AlgorithmContainer({ mode, setMode, algorithmInputs }) {
           nodes={algorithmInputs.nodes}
           edges={algorithmInputs.edges}
           setNodeClickHandler={algorithmInputs.setNodeClickHandler}
+          resetHighlighting={algorithmInputs.resetHighlighting}
         />
         :
         <AlgorithmCard name="Breadth First Search" setMode={setMode} value="bfs" />
@@ -43,6 +44,7 @@ function AlgorithmContainer({ mode, setMode, algorithmInputs }) {
         <ConnectedComponentsUI
           nodes={algorithmInputs.nodes}
           edges={algorithmInputs.edges}
+          resetHighlighting={algorithmInputs.resetHighlighting}
         />
         :
         <AlgorithmCard name="Connected Components" setMode={setMode} value="connected-components" />
@@ -51,10 +53,26 @@ function AlgorithmContainer({ mode, setMode, algorithmInputs }) {
         <GraphColoringUI
           nodes={algorithmInputs.nodes}
           edges={algorithmInputs.edges}
+          resetHighlighting={algorithmInputs.resetHighlighting}
         />
         :
         <AlgorithmCard name="Graph Coloring" setMode={setMode} value="graph-coloring" />
       }
+    </div>
+  )
+}
+
+// used to create presets
+const Debug = ({ nodes, edges }) => {
+  // serialize node position data as percent of width/height
+  const scaledNodes = nodes.map(({ x, y }) => ({ x: x/SVG_WIDTH, y: y/SVG_HEIGHT }))
+  return (
+    <div className="debug">
+      <p>Nodes:</p>
+      <pre>{JSON.stringify(scaledNodes, null, 2)}</pre>
+      <hr></hr>
+      <p>Edges:</p>
+      <pre>{JSON.stringify(edges, null, 2)}</pre>
     </div>
   )
 }
@@ -64,8 +82,8 @@ class GraphUIContainer extends React.Component {
     super(props)
 
     this.state = {
-      nodes: defaultNodes,
-      edges: defaultEdges,
+      nodes: [],
+      edges: [],
       mode: null, // null || "edit" || "bfs"
       svg: null, // DOM node
       svgClickHandler: null,
@@ -80,6 +98,8 @@ class GraphUIContainer extends React.Component {
     this.setSvgClickHandler = this.setSvgClickHandler.bind(this)
     this.setSvgMouseMoveHandler = this.setSvgMouseMoveHandler.bind(this)
     this.setNodeClickHandler = this.setNodeClickHandler.bind(this)
+    this.setNodes = this.setNodes.bind(this)
+    this.setEdges = this.setEdges.bind(this)
   }
 
   // node is { x, y }
@@ -92,6 +112,14 @@ class GraphUIContainer extends React.Component {
     this.setState((oldState) => ({edges: oldState.edges.concat(edge)}))
   }
 
+  setNodes(nodes) {
+    this.setState({nodes: nodes})
+  }
+
+  setEdges(edges) {
+    this.setState({edges: edges})
+  }
+
   setSvgClickHandler(handler) {
     this.setState({svgClickHandler: handler})
   }
@@ -102,6 +130,17 @@ class GraphUIContainer extends React.Component {
 
   setNodeClickHandler(handler) {
     this.setState({nodeClickHandler: handler})
+  }
+
+  resetHighlighting() {
+    // anything that an algorithm UI does should be undone here
+    const t = d3.transition().duration(500)
+    d3.selectAll("g.node").transition(t)
+      .style("opacity", 1)
+      .select("circle")
+        .style("fill", "black")
+    d3.selectAll("g.edge").transition(t)
+      .style("opacity", 1)
   }
 
   render() {
@@ -120,6 +159,12 @@ class GraphUIContainer extends React.Component {
     return (
       <div className="graph-ui-container">
         <div className="editor-panel">
+          <GraphPresetSelector
+            setNodes={this.setNodes}
+            setEdges={this.setEdges}
+            svgWidth={SVG_WIDTH}
+            svgHeight={SVG_HEIGHT}
+          />
           <button
             onClick={() => this.setState({mode: this.state.mode === "edit" ? null : "edit"})}
           >
@@ -133,6 +178,8 @@ class GraphUIContainer extends React.Component {
               setSvgClickHandler={this.setSvgClickHandler}
               setSvgMouseMoveHandler={this.setSvgMouseMoveHandler}
               setNodeClickHandler={this.setNodeClickHandler}
+              setNodes={this.setNodes}
+              setEdges={this.setEdges}
             />
           }
         </div>
@@ -158,9 +205,11 @@ class GraphUIContainer extends React.Component {
             setMode={(mode) => this.setState({mode: mode})}
             algorithmInputs={{nodes: this.state.nodes,
                               edges: this.state.edges,
-                              setNodeClickHandler: this.setNodeClickHandler}}
+                              setNodeClickHandler: this.setNodeClickHandler,
+                              resetHighlighting: this.resetHighlighting}}
           />
         </div>
+        <Debug nodes={this.state.nodes} edges={this.state.edges} />
       </div>
     )
   }

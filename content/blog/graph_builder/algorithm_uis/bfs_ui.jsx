@@ -105,6 +105,7 @@ function highlightPath(opts) {
     })
 
   const animationLength = (path.length * 2 + 3) * delayUnit
+  // TODO: this should get cancelled on unmount
   setTimeout(onAnimationFinish, animationLength)
 }
 
@@ -148,20 +149,14 @@ class BfsUI extends React.Component {
     this.props.setNodeClickHandler(handleNodeClick)
   }
 
-  resetHighlighting() {
-    d3.selectAll("g.node circle").style("fill", "black")
-    d3.selectAll("g.node").transition().duration(500).style("opacity", 1)
-    d3.selectAll("g.edge").transition().duration(500).style("opacity", 1)
-  }
-
   componentWillUnmount() {
-    this.resetHighlighting()
+    this.props.resetHighlighting()
   }
 
   render() {
     const reset = () => {
       this.setState({searchStart: null, searchEnd: null})
-      this.resetHighlighting()
+      this.props.resetHighlighting()
     }
 
     let displayText

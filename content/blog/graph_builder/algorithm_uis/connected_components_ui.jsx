@@ -81,29 +81,20 @@ const highlightComponents = (components) => {
 
   const colors = d3["schemeCategory10"]
 
-  d3.selectAll("g.node > circle, g.edge > path").transition().duration(300).style("opacity", 0.3)
+  d3.selectAll("g.node, g.edge").transition().duration(300).style("opacity", 0.3)
 
-  d3.selectAll("g.node > circle")
+  d3.selectAll("g.node")
     .transition()
     .duration(delay)
     .delay((_, i) => nodeToComponent.get(i) * delay + delay)
       .style("opacity", 1)
-      .style("fill", (_, i) => colors[nodeToComponent.get(i)])
+      .select("circle")
+        .style("fill", (_, i) => colors[nodeToComponent.get(i)])
 
-  d3.selectAll("g.edge > path")
+  d3.selectAll("g.edge")
     .transition()
     .duration(delay)
     .delay((d) => nodeToComponent.get(d.start) * delay + delay)
-      .style("opacity", 1)
-}
-
-const resetHighlighting = () => {
-  d3.selectAll("g.node > circle")
-    .transition().duration(delay)
-      .style("opacity", 1)
-      .style("fill", "black")
-  d3.selectAll("g.edge > path")
-    .transition().duration(delay)
       .style("opacity", 1)
 }
 
@@ -132,7 +123,7 @@ class ConnectedComponentsUI extends React.Component {
     }
 
     const reset = () => {
-      resetHighlighting()
+      this.props.resetHighlighting()
       this.setState({highlighted: false})
     }
 
@@ -149,7 +140,7 @@ class ConnectedComponentsUI extends React.Component {
   }
 
   componentWillUnmount() {
-    resetHighlighting()
+    this.props.resetHighlighting()
   }
 }
 
