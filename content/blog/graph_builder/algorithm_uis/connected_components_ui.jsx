@@ -2,8 +2,7 @@ import React from "react"
 import * as d3 from "d3"
 
 const delay = 500
-const fadeInText  = () => d3.select("#connected-components .text").transition().duration(delay).style("opacity", 1)
-const fadeOutText = () => d3.select("#connected-components .text").transition().duration(delay).style("opacity", 0)
+const t = d3.transition().delay(delay)
 
 // TODO: share these
 function reciprocateEdges(edges) {
@@ -32,109 +31,156 @@ function makeAdjacencyList(edges, nodes) {
   return adjacencyList
 }
 
-const explore = (start, adjacencyList, seen) => {
-  let result = new Set([start])
-  seen.add(start)
-  let q = [start]
-
-  while(!(q.length === 0)) {
-    const q_length = q.length
-    for (let i = 0; i < q_length; i++) {
-      const curr = q[i]
-      for (const neighbor of adjacencyList.get(curr)) {
-        if (!seen.has(neighbor)) {
-          seen.add(neighbor)
-          result.add(neighbor)
-          q.push(neighbor)
-        }
-      }
-    }
-    q = q.slice(q_length)
-  }
-
-  return result
-}
-
-const findComponents = (nodes, edges) => {
-  const adjacencyList = makeAdjacencyList(edges, nodes)
-  let result = []
-  let seen = new Set()
-
-  for (let node = 0; node < nodes.length; node++) {
-    if (!seen.has(node)) {
-      const componentNodes = explore(node, adjacencyList, seen)
-      result.push(componentNodes)
-    }
-  }
-
-  return result
-}
-
-const highlightComponents = (components) => {
-  let nodeToComponent = new Map()
-  for (let i = 0; i < components.length; i++) {
-    for (const node of components[i]) {
-      nodeToComponent.set(node, i)
-    }
-  }
-  console.log(components, nodeToComponent)
-
-  const colors = d3["schemeCategory10"]
-
-  d3.selectAll("g.node, g.edge").transition().duration(300).style("opacity", 0.3)
-
-  d3.selectAll("g.node")
-    .transition()
-    .duration(delay)
-    .delay((_, i) => nodeToComponent.get(i) * delay + delay)
-      .style("opacity", 1)
-      .select("circle")
-        .style("fill", (_, i) => colors[nodeToComponent.get(i)])
-
-  d3.selectAll("g.edge")
-    .transition()
-    .duration(delay)
-    .delay((d) => nodeToComponent.get(d.start) * delay + delay)
-      .style("opacity", 1)
-}
-
 class ConnectedComponentsUI extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      highlighted: false
+      currStep: 1,
+      vars: { // a namespace for variables used in the algorithm itself
+        currNode: 0,
+        seen: new Set(),
+        components: [], // List[Set]
+      },
+    }
+
+    // this.setUpVars = this.setUpVars.bind(this)
+    this.setVars = this.setVars.bind(this)
+    this.addConnectedComponent = this.addConnectedComponent.bind(this)
+    this.stepOne = this.stepOne.bind(this)
+    this.stepTwo = this.stepTwo.bind(this)
+    this.stepThree = this.stepThree.bind(this)
+  }
+
+  // need this function because setState doesn't do a deep merge...
+  setVars(vars, callback=null) {
+    this.setState(oldState => ({vars: {...oldState.vars, ...vars}}), callback)
+  }
+
+  // ...but use this for adding a new connected component
+  addConnectedComponent(component) {
+    this.setVars({components: this.state.vars.components.concat(component)})
+  }
+
+  resetVars() {
+    this.setVars({
+      currNode: 0,
+      seen: new Set(),
+      components: [],
+    })
+  }
+
+  stepOne() {
+    // TODO: calling advanceStep too fast triggers a D3 concurrent animation bug. Could either
+    // figure out how to fix this or debounce advanceStep.
+    let nextNode
+    if (this.state.vars.currNode == null) {
+      nextNode = 0
+    } else {
+      nextNode = this.state.vars.currNode + 1
+      d3.selectAll("g.node > circle")
+        .each((_, i, nodes) => {
+          if (i === this.state.vars.currNode) {
+            d3.select(nodes[i]).transition(t).attr("r", this.props.nodeOpts.radius)
+          }
+        })
+    }
+
+    this.setState({currStep: 2})
+    this.setVars(
+      {currNode: nextNode},
+      () => d3.selectAll("g.node > circle")
+              .each((_, i, nodes) => {
+                if (i === this.state.vars.currNode) {
+                  d3.select(nodes[i]).transition(t).attr("r", this.props.nodeOpts.radius + 4)
+                }
+              })
+    )
+  }
+
+  stepTwo() {
+    if (this.state.vars.seen.has(this.state.vars.currNode)) {
+      this.setState({currStep: 1})
+    } else {
+      this.setState({currStep: 3})
     }
   }
 
-  render() {
-    const doHighlight = () => {
-      const components = findComponents(this.props.nodes, this.props.edges)
-      console.log("components", components)
-      highlightComponents(components)
-      fadeOutText()
-      setTimeout(
-        () => this.setState({highlighted: true}),
-        delay
-      )
-      setTimeout(
-        fadeInText,
-        delay * components.length + delay
-      )
+  stepThree() {
+    const start = this.state.vars.currNode
+    let group = new Set([start])
+    let seen = new Set(this.state.vars.seen)
+    seen.add(start)
+    let q = [start]
+
+    while(!(q.length === 0)) {
+      const q_length = q.length
+      for (let i = 0; i < q_length; i++) {
+        const curr = q[i]
+        for (const neighbor of this.state.vars.adjacencyList.get(curr)) {
+          if (!seen.has(neighbor)) {
+            seen.add(neighbor)
+            group.add(neighbor)
+            q.push(neighbor)
+          }
+        }
+      }
+      q = q.slice(q_length)
     }
 
+    const colors = d3["schemeCategory10"]
+    d3.selectAll("g.node > circle")
+      .each((_, i, nodes) => {
+        if (group.has(i)) {
+          d3.select(nodes[i])
+            .transition(t)
+            .style("fill", colors[this.state.vars.components.length])
+        }
+      })
+    this.setState({currStep: 1})
+
+    this.setVars({seen: seen})
+    // currently don't need to keep track of this
+    this.addConnectedComponent(group)
+  }
+
+
+  componentDidMount() {
+    // this is safe to do if we assume this component will always unmount when editing the graph
+    this.setVars({adjacencyList: makeAdjacencyList(this.props.edges, this.props.nodes)})
+  }
+
+  render() {
     const reset = () => {
       this.props.resetHighlighting()
-      this.setState({highlighted: false})
+      this.setState({currStep: 0})
+      this.resetVars()
+    }
+
+    let stepsText = [
+      "for each node:",
+      "  if not visited:",
+      "    explore from node",
+    ]
+    const stepsFunctions = [this.stepOne, this.stepTwo, this.stepThree]
+
+    const nSteps = stepsText.length
+    if (this.state.currStep != null) {
+      stepsText[this.state.currStep - 1] += ' <'
+    }
+
+    const advanceStep = () => {
+      // TODO: need to end when we run out of nodes
+      stepsFunctions[this.state.currStep - 1].call()
     }
 
     return (
       <div id="connected-components" className="algorithm-ui">
         <h2>Connected Components</h2>
-        {this.state.highlighted ?
-          <p className="text" onClick={reset}>Reset</p>
-          :
-          <p className="text" onClick={doHighlight}>Highlight connected components</p>
-        }
+        <button onClick={advanceStep}>Inc Step</button>
+        <p className="text" onClick={reset}>Reset</p>
+        <pre className="steps">
+          {stepsText.join("\n")}
+        </pre>
       </div>
     )
   }

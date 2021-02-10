@@ -19,8 +19,10 @@ const presetsMap = {
 
 class GraphPresetSelector extends React.Component {
   componentDidMount() {
-    this.props.setNodes(graphUtils.scaleNodeData(defaultNodes, this.props.svgWidth, this.props.svgHeight))
-    this.props.setEdges(defaultEdges)
+    this.props.setPreset(
+      graphUtils.scaleNodeData(defaultNodes, this.props.svgWidth, this.props.svgHeight),
+      defaultEdges,
+    )
   }
 
   render() {
@@ -28,8 +30,10 @@ class GraphPresetSelector extends React.Component {
       const { nodes, edges } = presetsMap[preset]
       // TODO: there should be some sort of interface for getting this data
       // so we don't have to care about scaling it up or where it is.
-      this.props.setNodes(graphUtils.scaleNodeData(nodes, this.props.svgWidth, this.props.svgHeight))
-      this.props.setEdges(edges)
+      this.props.setPreset(
+        graphUtils.scaleNodeData(nodes, this.props.svgWidth, this.props.svgHeight),
+        edges,
+      )
     }
 
     return (

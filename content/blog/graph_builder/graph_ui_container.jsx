@@ -17,6 +17,7 @@ const SVG_WIDTH  = 500,
 const defaultNodeOpts = {
   radius: 8,
   mouseoverRadius: 10,
+  fill: "black",
 }
 
 const defaultEdgeOpts = {}
@@ -44,6 +45,7 @@ function AlgorithmContainer({ mode, setMode, algorithmInputs }) {
         <ConnectedComponentsUI
           nodes={algorithmInputs.nodes}
           edges={algorithmInputs.edges}
+          nodeOpts={algorithmInputs.nodeOpts}
           resetHighlighting={algorithmInputs.resetHighlighting}
         />
         :
@@ -102,6 +104,7 @@ class GraphUIContainer extends React.Component {
     this.setNodeClickHandler = this.setNodeClickHandler.bind(this)
     this.setNodes = this.setNodes.bind(this)
     this.setEdges = this.setEdges.bind(this)
+    this.setPreset = this.setPreset.bind(this)
   }
 
   // node is { x, y }
@@ -122,6 +125,10 @@ class GraphUIContainer extends React.Component {
   setEdges(edges) {
     this.resetHighlighting()
     this.setState({edges: edges})
+  }
+
+  setPreset(nodes, edges) {
+    this.setState({nodes: nodes, edges: edges, mode: null})
   }
 
   setSvgClickHandler(handler) {
@@ -146,7 +153,8 @@ class GraphUIContainer extends React.Component {
     d3.selectAll("g.node").transition(t)
       .style("opacity", 1)
       .select("circle")
-        .style("fill", "black")
+        .style("fill", defaultNodeOpts.fill)
+        .attr("r", defaultNodeOpts.radius)
     d3.selectAll("g.edge").transition(t)
       .style("opacity", 1)
   }
@@ -169,8 +177,7 @@ class GraphUIContainer extends React.Component {
       <div className="graph-ui-container">
         <div className="editor-panel">
           <GraphPresetSelector
-            setNodes={this.setNodes}
-            setEdges={this.setEdges}
+            setPreset={this.setPreset}
             svgWidth={SVG_WIDTH}
             svgHeight={SVG_HEIGHT}
           />
@@ -215,11 +222,12 @@ class GraphUIContainer extends React.Component {
             setMode={(mode) => this.setState({mode: mode})}
             algorithmInputs={{nodes: this.state.nodes,
                               edges: this.state.edges,
+                              nodeOpts: {...defaultNodeOpts, ...nodeOpts},
                               setNodeClickHandler: this.setNodeClickHandler,
                               resetHighlighting: this.resetHighlighting}}
           />
         </div>
-        <Debug nodes={this.state.nodes} edges={this.state.edges} />
+        {/* <Debug nodes={this.state.nodes} edges={this.state.edges} /> */}
       </div>
     )
   }

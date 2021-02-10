@@ -46,6 +46,7 @@ export function renderNodesD3({ svg, nodeData, opts }) {
     radius: 7,
     mouseoverRadius: 9,
     textFn: (_, i) => i,
+    fill: "black",
   }
   opts = {...defaultOpts, ...opts}
 
@@ -61,6 +62,7 @@ export function renderNodesD3({ svg, nodeData, opts }) {
   nodes.merge(nodesEnter)
     .style("transform", (d) => `translate(${d.x}px,${d.y}px)`)
     .select("circle")
+      .style("fill", opts.fill)
       .on("mouseover", (_, i, elems) => d3.select(elems[i]).attr("fill", "green").attr("r", opts.mouseoverRadius))
       .on("mouseout",  (_, i, elems) => d3.select(elems[i]).attr("fill", "black").attr("r", opts.radius))
       .on("click", opts.onClick)
