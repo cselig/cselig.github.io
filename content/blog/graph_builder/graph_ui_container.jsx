@@ -4,10 +4,7 @@ import * as d3 from "d3"
 import Graph from "./graph.jsx"
 import GraphEditor from "./graph_editor.jsx"
 import GraphPresetSelector from "./graph_preset_selector.jsx"
-
-import BfsUI from "./algorithm_uis/bfs_ui.jsx"
 import ConnectedComponentsUI from "./algorithm_uis/connected_components_ui.jsx"
-import GraphColoringUI from "./algorithm_uis/graph_coloring_ui.jsx"
 
 import * as graphUtils from "../../../src/js/graphs.js"
 
@@ -31,16 +28,6 @@ const AlgorithmCard = ({ name, setMode, value }) => (
 function AlgorithmContainer({ mode, setMode, algorithmInputs }) {
   return (
     <div className="algorithm-container">
-      {mode === "bfs" ?
-        <BfsUI
-          nodes={algorithmInputs.nodes}
-          edges={algorithmInputs.edges}
-          setNodeClickHandler={algorithmInputs.setNodeClickHandler}
-          resetHighlighting={algorithmInputs.resetHighlighting}
-        />
-        :
-        <AlgorithmCard name="Breadth First Search" setMode={setMode} value="bfs" />
-      }
       {mode === "connected-components" ?
         <ConnectedComponentsUI
           nodes={algorithmInputs.nodes}
@@ -50,15 +37,6 @@ function AlgorithmContainer({ mode, setMode, algorithmInputs }) {
         />
         :
         <AlgorithmCard name="Connected Components" setMode={setMode} value="connected-components" />
-      }
-      {mode === "graph-coloring" ?
-        <GraphColoringUI
-          nodes={algorithmInputs.nodes}
-          edges={algorithmInputs.edges}
-          resetHighlighting={algorithmInputs.resetHighlighting}
-        />
-        :
-        <AlgorithmCard name="Graph Coloring" setMode={setMode} value="graph-coloring" />
       }
     </div>
   )
@@ -86,7 +64,7 @@ class GraphUIContainer extends React.Component {
     this.state = {
       nodes: [],
       edges: [],
-      mode: null, // null || "edit" || "bfs"
+      mode: null, // null || "add-nodes" || "add-edges" || "algorithm"
       svg: null, // DOM node
       svgClickHandler: null,
       svgMouseMoveHandler: null,
@@ -104,6 +82,7 @@ class GraphUIContainer extends React.Component {
     this.setNodeClickHandler = this.setNodeClickHandler.bind(this)
     this.setNodes = this.setNodes.bind(this)
     this.setEdges = this.setEdges.bind(this)
+    this.setMode = this.setMode.bind(this)
     this.setPreset = this.setPreset.bind(this)
   }
 
@@ -125,6 +104,10 @@ class GraphUIContainer extends React.Component {
   setEdges(edges) {
     this.resetHighlighting()
     this.setState({edges: edges})
+  }
+
+  setMode(mode) {
+    this.setState({mode: mode})
   }
 
   setPreset(nodes, edges) {
@@ -181,24 +164,25 @@ class GraphUIContainer extends React.Component {
             svgWidth={SVG_WIDTH}
             svgHeight={SVG_HEIGHT}
           />
-          <button
+          {/* <button
+            name="toggle-edit"
             onClick={() => this.setState({mode: this.state.mode === "edit" ? null : "edit"})}
           >
             {this.state.mode === "edit" ? "Done" : "Edit"}
-          </button>
-          {this.state.mode === "edit" &&
-            <GraphEditor
-              addNode={this.addNode}
-              addEdge={this.addEdge}
-              svg={this.state.svg}
-              setSvgClickHandler={this.setSvgClickHandler}
-              setSvgMouseMoveHandler={this.setSvgMouseMoveHandler}
-              setSvgMouseLeaveHandler={this.setSvgMouseLeaveHandler}
-              setNodeClickHandler={this.setNodeClickHandler}
-              setNodes={this.setNodes}
-              setEdges={this.setEdges}
-            />
-          }
+          </button> */}
+          <GraphEditor
+            addNode={this.addNode}
+            addEdge={this.addEdge}
+            svg={this.state.svg}
+            setSvgClickHandler={this.setSvgClickHandler}
+            setSvgMouseMoveHandler={this.setSvgMouseMoveHandler}
+            setSvgMouseLeaveHandler={this.setSvgMouseLeaveHandler}
+            setNodeClickHandler={this.setNodeClickHandler}
+            setNodes={this.setNodes}
+            setEdges={this.setEdges}
+            mode={this.state.mode}
+            setMode={this.setMode}
+          />
         </div>
         <div className="container">
           <Graph
@@ -217,7 +201,7 @@ class GraphUIContainer extends React.Component {
             }}
             svg={this.state.svg}
           />
-          <AlgorithmContainer
+          {/* <AlgorithmContainer
             mode={this.state.mode}
             setMode={(mode) => this.setState({mode: mode})}
             algorithmInputs={{nodes: this.state.nodes,
@@ -225,7 +209,20 @@ class GraphUIContainer extends React.Component {
                               nodeOpts: {...defaultNodeOpts, ...nodeOpts},
                               setNodeClickHandler: this.setNodeClickHandler,
                               resetHighlighting: this.resetHighlighting}}
-          />
+          /> */}
+          {this.state.mode === "algorithm" ?
+            <ConnectedComponentsUI
+              nodes={this.state.nodes}
+              edges={this.state.edges}
+              nodeOpts={{...defaultNodeOpts, ...nodeOpts}}
+              resetHighlighting={this.resetHighlighting}
+            /> :
+            <p
+              className="start-button"
+              onClick={() => this.setState({mode: "algorithm"})}>
+              Start
+            </p>
+          }
         </div>
         {/* <Debug nodes={this.state.nodes} edges={this.state.edges} /> */}
       </div>

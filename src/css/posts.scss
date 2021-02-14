@@ -207,8 +207,16 @@
     .graph-ui-container {
       .editor-panel {
         display: flex;
+        height: 60px;
+
+        button[name=toggle-edit] {
+          height: 21px;
+        }
 
         .graph-editor {
+          display: flex;
+          align-items: center;
+
           .add-modes {
             display: flex;
             align-items: center;
@@ -225,15 +233,22 @@
               }
             }
           }
+
+          button {
+            margin-left: 5px;
+            height: fit-content;
+          }
         }
       }
 
       .container {
-        display: flex;
+        // display: flex;
 
         .graph-container {
-          border: 3px solid grey;
-          margin: 5px;
+          svg {
+            border: 3px solid grey;
+            margin: 5px;
+          }
         }
 
         .algorithm-container {
@@ -254,6 +269,12 @@
               cursor: pointer;
             }
           }
+        }
+
+        .start-button {
+          font-size: 1.5em;
+          font-weight: 500;
+          cursor: pointer;
         }
       }
     }

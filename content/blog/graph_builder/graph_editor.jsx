@@ -8,7 +8,6 @@ class GraphEditor extends React.Component {
     super(props)
 
     this.state = {
-      addMode: "nodes", // nodes || edges
       edgeStart: null,
     }
 
@@ -23,7 +22,7 @@ class GraphEditor extends React.Component {
 
   componentDidMount() {
     const handleSvgClick = (_, i, elems) => {
-      if (this.state.addMode !== "nodes") return
+      if (this.props.mode !== "add-nodes") return
 
       const [x, y] = d3.mouse(elems[i])
       this.props.addNode({x: x, y: y})
@@ -61,16 +60,16 @@ class GraphEditor extends React.Component {
     const handleSvgMouseMove = (i, elems, nodes) => {
       this.clearGhosts()
 
-      if (this.state.addMode === "nodes") {
+      if (this.props.mode === "add-nodes") {
         drawGhostNode(elems[i])
-      } else if (this.state.addMode === "edges" && this.state.edgeStart != null) {
+      } else if (this.props.mode === "add-edges" && this.state.edgeStart != null) {
         drawGhostEdge(elems[i], nodes)
       }
     }
 
     const handleNodeClick = (_, i) => {
       console.log("editor node click")
-      if (this.state.addMode !== "edges") return
+      if (this.props.mode !== "add-edges") return
 
       if (this.state.edgeStart == null) {
         this.setState({edgeStart: i})
@@ -96,7 +95,8 @@ class GraphEditor extends React.Component {
 
   render() {
     const toggleAddMode = (addMode) => {
-      this.setState({addMode: addMode, edgeStart: null})
+      this.props.setMode(addMode)
+      this.setState({edgeStart: null})
       this.clearGhosts()
     }
 
@@ -107,18 +107,18 @@ class GraphEditor extends React.Component {
 
     return (
       <div className="graph-editor">
-        <button onClick={clearGraph}>Clear Graph</button>
         <div className={"add-modes"}>
           <p>Add:</p>
           <p
-            onClick={() => toggleAddMode("nodes")}
-            className={"add-mode " + (this.state.addMode === "nodes" ? "selected" : "")}
+            onClick={() => toggleAddMode("add-nodes")}
+            className={"add-mode " + (this.props.mode === "add-nodes" ? "selected" : "")}
           >Nodes</p>
           <p
-            onClick={() => toggleAddMode("edges")}
-            className={"add-mode " + (this.state.addMode === "edges" ? "selected" : "")}
+            onClick={() => toggleAddMode("add-edges")}
+            className={"add-mode " + (this.props.mode === "add-edges" ? "selected" : "")}
           >Edges</p>
         </div>
+        <button onClick={clearGraph}>Clear Graph</button>
       </div>
     )
   }

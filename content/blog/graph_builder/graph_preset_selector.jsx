@@ -20,12 +20,13 @@ const presetsMap = {
 class GraphPresetSelector extends React.Component {
   componentDidMount() {
     this.props.setPreset(
-      graphUtils.scaleNodeData(defaultNodes, this.props.svgWidth, this.props.svgHeight),
-      defaultEdges,
+      graphUtils.scaleNodeData(islandsNodes, this.props.svgWidth, this.props.svgHeight),
+      islandsEdges,
     )
   }
 
   render() {
+    return null;
     const selectPreset = (preset) => {
       const { nodes, edges } = presetsMap[preset]
       // TODO: there should be some sort of interface for getting this data
@@ -38,8 +39,9 @@ class GraphPresetSelector extends React.Component {
 
     return (
       <div className="preset-selector">
-        <p onClick={() => selectPreset("default")}>Default</p>
-        <p onClick={() => selectPreset("heavenly")}>Heavenly Ski Resort</p>
+        <p>Select </p>
+        {/* <p onClick={() => selectPreset("default")}>Default</p> */}
+        {/* <p onClick={() => selectPreset("heavenly")}>Heavenly Ski Resort</p> */}
         <p onClick={() => selectPreset("grid")}>Grid</p>
         <p onClick={() => selectPreset("islands")}>Islands</p>
       </div>
