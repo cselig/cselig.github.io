@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react'
 import { getAllSketchIds, getSketchData } from '../../lib/sketches'
 import sketchStyles from '../../styles/sketch.module.scss'
 
+import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { xonokai } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+
 export default function Post({ sketchData }) {
   const {
     title, code, codeFilename, contentHtml, hasReactComponent,
@@ -26,6 +29,16 @@ export default function Post({ sketchData }) {
     )
   }
 
+  const languages = {
+    'js': 'javascript',
+    'jsx': 'javascript',
+    'py': 'python',
+  }
+  const codeFilenameParts = codeFilename.split('.')
+  const ext = codeFilenameParts[codeFilenameParts.length - 1]
+  const language = languages[ext]
+  console.log(language)
+
   return (
     <div>
       <h1>{title}</h1>
@@ -37,7 +50,11 @@ export default function Post({ sketchData }) {
           {component}
         </div>}
       <h2>Code:</h2>
-      <pre className={sketchStyles.code}>{code}</pre>
+      <div className={sketchStyles.code}>
+        <SyntaxHighlighter language={language} style={xonokai}>
+          {code}
+        </SyntaxHighlighter>
+      </div>
     </div>
   )
 }
