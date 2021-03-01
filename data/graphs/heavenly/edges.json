@@ -1,0 +1,184 @@
+[
+  {
+      "start": 5,
+      "end": 6
+  },
+  {
+      "start": 3,
+      "end": 4
+  },
+  {
+      "start": 0,
+      "end": 1
+  },
+  {
+      "start": 10,
+      "end": 11
+  },
+  {
+      "start": 9,
+      "end": 12
+  },
+  {
+      "start": 7,
+      "end": 8
+  },
+  {
+      "start": 13,
+      "end": 16
+  },
+  {
+      "start": 14,
+      "end": 15
+  },
+  {
+      "start": 7,
+      "end": 17,
+      "level": "blue"
+  },
+  {
+      "start": 6,
+      "end": 4,
+      "level": "blue"
+  },
+  {
+      "start": 4,
+      "end": 2,
+      "level": "blue"
+  },
+  {
+      "start": 1,
+      "end": 2,
+      "level": "green"
+  },
+  {
+      "start": 2,
+      "end": 3,
+      "level": "green"
+  },
+  {
+      "start": 3,
+      "end": 5,
+      "level": "green"
+  },
+  {
+      "start": 5,
+      "end": 3,
+      "level": "green"
+  },
+  {
+      "start": 2,
+      "end": 0,
+      "level": "green"
+  },
+  {
+      "start": 6,
+      "end": 11,
+      "level": "blue"
+  },
+  {
+      "start": 11,
+      "end": 18,
+      "level": "blue"
+  },
+  {
+      "start": 18,
+      "end": 12,
+      "level": "blue"
+  },
+  {
+      "start": 18,
+      "end": 8,
+      "level": "blue"
+  },
+  {
+      "start": 8,
+      "end": 19,
+      "level": "blue"
+  },
+  {
+      "start": 19,
+      "end": 5,
+      "level": "blue"
+  },
+  {
+      "start": 7,
+      "end": 19,
+      "level": "blue"
+  },
+  {
+      "start": 10,
+      "end": 9,
+      "level": "blue"
+  },
+  {
+      "start": 9,
+      "end": 10,
+      "level": "blue"
+  },
+  {
+      "start": 16,
+      "end": 15,
+      "level": "blue"
+  },
+  {
+      "start": 15,
+      "end": 9,
+      "level": "blue"
+  },
+  {
+      "start": 12,
+      "end": 15,
+      "level": "blue"
+  },
+  {
+      "start": 4,
+      "end": 5,
+      "level": "blue"
+  },
+  {
+      "start": 17,
+      "end": 14,
+      "level": "blue"
+  },
+  {
+      "start": 17,
+      "end": 13,
+      "level": "blue"
+  },
+  {
+      "start": 16,
+      "end": 20,
+      "level": "blue"
+  },
+  {
+      "start": 20,
+      "end": 14,
+      "level": "blue"
+  },
+  {
+      "start": 8,
+      "end": 21,
+      "level": "blue"
+  },
+  {
+      "start": 21,
+      "end": 7,
+      "level": "blue"
+  },
+  {
+      "start": 15,
+      "end": 20,
+      "level": "blue"
+  },
+  {
+      "start": 20,
+      "end": 13,
+      "level": "blue"
+  },
+  {
+    "start": 12,
+    "end": 7,
+    "level": "blue"
+  }
+]

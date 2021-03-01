@@ -267,6 +267,4 @@ class Pipes extends React.Component {
 }
 
 // Downstream code is set up to display only functional components.
-export default function PipesFn() {
-  return <Pipes />
-}
+export default function PipesFn() { return <Pipes /> }
