@@ -1,10 +1,12 @@
 import React from 'react'
 import * as d3 from 'd3'
 
-import * as graphUtils from '../../lib/graph_utils.js' // "../../../src/js/graphs.js"
+import * as graphUtils from '../../lib/graph_utils.js'
 
 import nodesData from '../../data/graphs/heavenly/nodes.json'
 import edgesData from '../../data/graphs/heavenly/edges.json'
+
+import styles from '../../styles/sketches/ski_graph.module.scss'
 
 const SVG_WIDTH = 500,
       SVG_HEIGHT = 500
@@ -64,9 +66,9 @@ function bfs(start, end, edges, nodes) {
 }
 
 function highlightPath(path, onAnimationFinish = () => {}, transitionLength = 500, delayUnit = 100) {
-  d3.selectAll("g.node, g.edge").transition().duration(300).style("opacity", 0.3)
+  d3.selectAll(`g.${styles.node}, g.edge`).transition().duration(300).style("opacity", 0.3)
 
-  d3.selectAll("g.node")
+  d3.selectAll(`g.${styles.node}`)
     .each((_, i, nodes) => {
       if (path.includes(i)) {
         d3.select(nodes[i])
@@ -108,14 +110,14 @@ class SkiGraph extends React.Component {
   render() {
     const reset = () => {
       this.setState({start: null, end: null})
-      d3.selectAll("g.node circle").classed("selected", false)
-      d3.selectAll("g.node").transition().duration(500).style("opacity", 1)
+      d3.selectAll(`g.${styles.node} circle`).classed(styles.selected, false)
+      d3.selectAll(`g.${styles.node}`).transition().duration(500).style("opacity", 1)
       d3.selectAll("g.edge").transition().duration(500).style("opacity", 1)
     }
 
     let displayText
     let onTextClick
-    let textClass = "text"
+    let textClass = styles.text
     if (this.state.start === null) {
       displayText = "Pick start"
     } else if (this.state.end === null) {
@@ -126,11 +128,11 @@ class SkiGraph extends React.Component {
       highlightPath(path, () => setTimeout(fadeInText, 500))
       displayText = "Reset"
       onTextClick = reset
-      textClass += " reset-button"
+      textClass += " " + styles.reset_button
     }
 
     return (
-      <div id="ski-graph">
+      <div id="ski-graph" className={styles.ski_graph}>
         <p
           onClick={onTextClick}
           className={textClass}
@@ -170,11 +172,12 @@ class SkiGraph extends React.Component {
           delay
         )
       }
-      d3.select(e.target).classed("selected", true)
+      d3.select(e.target).classed(styles.selected, true)
     }
 
     const nodeOpts = {
       onClick: onNodeClick,
+      className: styles.node,
     }
 
     const edgeOpts = {
