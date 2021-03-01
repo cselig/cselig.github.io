@@ -1,0 +1,184 @@
+---
+title: 'Solving Cryptograms'
+date: '2021-01-02'
+languages: ['python']
+---
+
+<style>
+.cryptogram, .solution {
+  display: flex;
+  justify-content: center;
+}
+
+.cryptogram > p, .solution > p {
+    font-family: Courier, monospace;
+    margin: 0;
+}
+
+.solution > p, .solution > ul {
+  background-color: black;
+}
+
+.solution > p:hover, .solution > ul:hover {
+  background-color: inherit;
+}
+</style>
+
+For Christmas my dad gave me a book of cryptograms. While I thought it would be fun to do these by hand,
+I thought it would also be fun to write a program to solve them.
+
+## Cryptograms
+
+Every puzzle in the book uses a substitution cipher where every letter in the decoded space is represented
+by another letter in the encoded space. An example puzzle would be:
+
+<div class="cryptogram"><p>APPF VIBQ KMF EKLC DIM!</p></div>
+
+You can try solving it for yourself, or you can hover over the solution below.
+
+<div class="solution"><p>GOOD LUCK AND HAVE FUN!</p></div>
+
+The cipher (the map from encoded to decoded characters) is what the program solves for. The cipher
+for the above puzzle is:
+```
+a => g, p => o, f => d, v => l, i => u, b => c, q => k, k => a, e => h, l => v, c => e, d => f, m => n
+```
+
+## The Algorithm
+
+The main part of the program is a brute force search that recurses through all possible word combinations and looks for
+reasonable solutions. However just a naive brute force search would be very slow; it would have nothing to narrow down
+the possibilities with.
+
+There needs to be another part of the program that makes some educated guesses. For this
+I used some simple intuitions about the English language that humans would use when solving a cryptogram (and that would
+be easy to code). Examples of these intuitions include:
+- A single letter word is almost always "I" or "a".
+- Words containing apostrophes are probably contractions, which there are a relatively small number of.
+- The solution will probably follow an expected distribution of letters, starting letters, double letters, etc.
+
+The program uses a list of English words to solve the cipher. It works by guessing a word and doing a recursive
+search with the new cipher that comes from that word. For example, consider the earlier cryptogram and a partially
+completed solution:
+
+<div class="cryptogram"><p>APPF VIBQ KMF EKLC DIM!</p></div>
+<div class="cryptogram"><p>-OOD ---- --D ---- ---!</p></div>
+
+We know all but the first letter of the first word, so we can "guess and check" by plugging in all words in the dictionary that match
+the pattern "-OOD" (good, hood, wood, etc.). After plugging in a word we have a new cipher that includes the letter that
+was previously encoded. We can recurse with this new cipher and try to guess other words until we find a solution (or not).
+
+## Indexing
+
+To do the pattern matching described above, I needed a quick way to look up words that match a certain pattern. I did
+this by preprocessing the dictionary and keeping an index of character ngrams (I used 1, 2, and 3-grams).
+
+```py
+# Ngrams is a dictionary of the triple (ngram, len, i) mapped to a set of
+# words of length `len` where the character ngram `ngram` appears at index `i`.
+# By including the word length and index in the key we can narrow down word matches.
+ngrams: 'Dict[Tuple[str, int, int], Set[str]]' = defaultdict(set)
+
+# words_by_length is a dictionary of length to set of words with that length.
+words_by_length: 'Dict[int, Set[str]]' = defaultdict(set)
+
+for word in dictionary:
+    words_by_length[len(word)].add(word)
+    for i in range(0, len(word)):
+        ngrams[(word[i], len(word), i)].add(word)
+        if i < len(word) - 1:
+            ngrams[(word[i:i+2], len(word), i)].add(word)
+        if i < len(word) - 2:
+            ngrams[(word[i:i+3], len(word), i)].add(word)
+```
+
+The code to do the pattern matching looks at each decoded ngram in the word, gets the set of words associated with that
+ngram, and returns the intersection of the sets. For example, to pattern match the word "ap-le", we would would find the set of
+words that have length 5 with "ap" appearing at index 0 and intersect it with the set of words of length 5 that have "le" appearing
+at index 3. If the word is completely encoded, the best we can do is return the set of words with the same length.
+Caching the results of this function is useful since it gets called with the same arguments many times.
+
+```py
+@lru_cache(maxsize=None)
+def find_words_matching_pattern(template: str) -> 'Set[str]':
+    # Given a pattern, return words from dictionary that match. "-" is a wildcard.
+    # E.g. "-ood" -> {"good", "hood", ...}
+    if template.isalpha():
+        return set([template])
+
+    ngram_word_matches: 'List[set]' = []
+    # look for decoded ngrams
+    for i in range(0, len(template)):
+        if template[i].isalpha():
+            ngram_word_matches.append(ngrams[(template[i], len(template), i)])
+        if i < len(template) - 1 and template[i:i+2].isalpha():
+            ngram_word_matches.append(ngrams[(template[i:i+2], len(template), i)])
+        if i < len(template) - 2 and template[i:i+3].isalpha():
+            ngram_word_matches.append(ngrams[(template[i:i+3], len(template), i)])
+
+    ngram_word_matches = [s for s in ngram_word_matches if len(s) > 0]
+    if ngram_word_matches:
+        return reduce(lambda a, b: a & b, ngram_word_matches)
+    else:
+        return words_by_length[len(template)]
+```
+
+## Cipher Evaluation
+
+For many cryptograms there are a number of possible solutions. I ran into this when I first coded up the search and got
+some gibberish results that clearly weren't right but technically were solutions because they were valid ciphers and the
+decoded message was composed of dictionary words.
+
+When I first ran the algorithm on the puzzle `PPF VIBQ KMF EKLC DIM!`, I got solutions like:
+- "wood luck ind aims fun"
+- "wood luck ind hist fun"
+- "wood luck ind tier fun"
+- and so on...
+
+I could probably have guessed the actual solution from this, but I wanted the program to be able to rank the solutions
+by how English-like they were.
+
+My first approach used word frequency (which was included in the [dictionary](https://github.com/first20hours/google-10000-english)
+I was using). I thought scoring the solution by how common its words were would penalize solutions with the weird words I was seeing.
+This didn't work great; the top results were:
+- "good luck ind five run"
+- "good luck ind fits run"
+- "good luck ind five jun"
+- and so on...
+
+My next idea was score the solutions by the frequency of their word bigrams. This was done pretty easily using a corpus from
+the Python `nltk` package, and put the correct solution much closer to the top:
+- "good luck and have run"
+- "good luck and have sun"
+- "good luck and have fun"
+
+## More Puzzles
+
+A quote from Sonia Sotomayor:
+
+<div class="cryptogram"><p>X WK DBKZ KBF NRXBM HYKTN CF: X WKB'N CFHVTQF CJVFPA YJ KNRFQV' FEUFONHNXKBV KQ PFN KNRFQV WFAXBF CJ ZKQNR.</p></div>
+
+<div class="solution"><p>I do know one thing about me: I don't measure myself by others' expectations or let others define my worth.</p></div>
+
+It turns out that the only guess the program needs to solve this one in a reasonable amount of time is what the single letter word is.
+After that guess is provided it runs in around 10 seconds.
+
+<!-- blank lines in markdown remains a mystery... -->
+<div style="margin-top: 3em;"></div>
+
+A quote from Gerald Ford:
+
+<div class="cryptogram"><p>G NQPBSDKBDX TUN BDQLNR XQ NUPB VQL BPBSVXRUDN VQL FGDX UJ G NQPBSDKBDX TUN BDQLNR XQ XGHB YSQK VQL BPBSVXRUDN VQL RGPB</p></div>
+<div class="solution"><p>A government big enough to give you everything you want is a government big enough to take from you everything you have.</p></div>
+
+This one has a number of solutions, the first four of which are:
+<div class="solution">
+  <ul>
+    <li>A government big enough to give you everything you want is a government big enough to take from you everything you have.</li>
+    <li>A government pig enough to give you everything you want is a government pig enough to take from you everything you have.</li>
+    <li>A government dig enough to give you everything you want is a government dig enough to take from you everything you have.</li>
+    <li>A government big enough to give you everything you cant is a government big enough to take from you everything you have.</li>
+  </ul>
+</div>
+
+This shows quite nicely how the bigram ranking of the solutions put them in a logical order.
