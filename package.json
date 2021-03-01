@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "d3": "^5.16.0",
     "fast-glob": "^3.2.5",
