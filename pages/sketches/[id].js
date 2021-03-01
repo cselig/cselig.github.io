@@ -14,7 +14,8 @@ export default function Post({ sketchData }) {
       import(`../../sketches/code/${codeFilename}`)
         .then(c => setComponent(c.default))
         .catch(error => {
-          console.error(`"${codeFilename}" not found`);
+          console.error(`Error importing "${codeFilename}"`);
+          console.error(error)
         });
     },
     []
@@ -26,10 +27,10 @@ export default function Post({ sketchData }) {
       <div
         className={sketchStyles.description}
         dangerouslySetInnerHTML={{ __html: contentHtml }} />
-      <pre className={sketchStyles.code}>{code}</pre>
       <div className={sketchStyles.component}>
         {component}
       </div>
+      <pre className={sketchStyles.code}>{code}</pre>
     </div>
   )
 }
