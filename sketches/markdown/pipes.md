@@ -1,5 +1,5 @@
 ---
-title: 'The Windows "Pipes" Screensaver"'
+title: 'The Windows "Pipes" Screensaver'
 date: '2020-04-23'
 languages: ['js', 'three.js']
 hasReactComponent: true

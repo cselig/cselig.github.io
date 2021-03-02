@@ -1,7 +1,7 @@
-import { hasUncaughtExceptionCaptureCallback } from 'process'
 import { useEffect, useState } from 'react'
 import { getAllSketchIds, getSketchData } from '../../lib/sketches'
-import sketchStyles from '../../styles/sketch.module.scss'
+import styles from '../../styles/sketch.module.scss'
+import Layout from '../../components/layout'
 
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { xonokai } from 'react-syntax-highlighter/dist/cjs/styles/prism';
@@ -37,25 +37,23 @@ export default function Post({ sketchData }) {
   const codeFilenameParts = codeFilename.split('.')
   const ext = codeFilenameParts[codeFilenameParts.length - 1]
   const language = languages[ext]
-  console.log(language)
 
   return (
-    <div>
-      <h1>{title}</h1>
+    <Layout>
+      <h1 className={styles.title}>{title}</h1>
       <div
-        className={sketchStyles.description}
         dangerouslySetInnerHTML={{ __html: contentHtml }} />
       {hasReactComponent &&
-        <div className={sketchStyles.component}>
+        <div>
           {component}
         </div>}
       <h2>Code:</h2>
-      <div className={sketchStyles.code}>
+      <div>
         <SyntaxHighlighter language={language} style={xonokai}>
           {code}
         </SyntaxHighlighter>
       </div>
-    </div>
+    </Layout>
   )
 }
 
