@@ -1,6 +1,9 @@
 .title {
+  height: 120px;
+}
+
+.title_container {
   text-align: center;
-  font-size: 48px;
 }
 
 .description {
@@ -9,7 +12,6 @@
 }
 
 .sketches {
-
   .sketch {
     display: flex;
     align-items: baseline;

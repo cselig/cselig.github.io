@@ -8,9 +8,9 @@ export default function Home({ allSketchData }) {
   return (
     <Layout home>
       <main>
-        <h1 className={styles.title}>
-          Code Sketches
-        </h1>
+        <div className={styles.title_container}>
+          <img className={styles.title} src="/code_sketches.svg" />
+        </div>
 
         <div className={styles.description}>
           <p>

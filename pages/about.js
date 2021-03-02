@@ -5,7 +5,9 @@ import styles from '../styles/about.module.scss'
 export default function About() {
   return (
     <Layout>
-      <h1 className={styles.title}>About</h1>
+      <div className={styles.title_container}>
+          <img className={styles.title} src="/about.svg" />
+        </div>
       <p>
         My name is Christian Selig and I'm a software engineer based in the Bay Area.
       </p>
