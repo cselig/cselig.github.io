@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { getAllSketchIds, getSketchData } from '../../lib/sketches'
 import styles from '../../styles/sketch.module.scss'
 import Layout from '../../components/layout'
@@ -6,28 +5,24 @@ import Layout from '../../components/layout'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { xonokai } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
+import ChordData from '../../sketches/code/chord_data'
+import Pipes from '../../sketches/code/pipes'
+import SkiGraph from '../../sketches/code/ski_graph'
+
+// Doing this so components will be included in the server side render and won't
+// pop in after the page loads.
+const COMPONENTS = {
+  'chord_data.jsx': <ChordData/>,
+  'pipes.jsx': <Pipes/>,
+  'ski_graph.jsx': <SkiGraph/>,
+}
+
 export default function Post({ sketchData }) {
   const {
     title, code, codeFilename, contentHtml, hasReactComponent,
   } = sketchData
 
-  // Dynamically import the component on mount. Including the component
-  // in server-side generation would be ideal but I can't think of a clean
-  // way to do that now.
-  const [component, setComponent] = useState()
-  if (hasReactComponent) {
-    useEffect(
-      () => {
-        import(`../../sketches/code/${codeFilename}`)
-          .then(c => setComponent(c.default))
-          .catch(error => {
-            console.error(`Error importing "${codeFilename}"`);
-            console.error(error)
-          });
-      },
-      []
-    )
-  }
+  const component = COMPONENTS[codeFilename]
 
   const languages = {
     'js': 'javascript',

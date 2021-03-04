@@ -1,7 +1,10 @@
-import MIDISounds from 'midi-sounds-react';
 import React, { useState } from 'react'
 import { CSSTransition } from "react-transition-group"
 import { Clear, PlayArrow, Stop } from '@material-ui/icons';
+
+// MIDISounds uses the window object, which is not present server-side.
+import dynamic from 'next/dynamic'
+const MIDISounds = dynamic(() => import('midi-sounds-react'), { ssr: false })
 
 import data from '../../data/chords/chord_to_successors.json'
 
