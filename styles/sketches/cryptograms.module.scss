@@ -1,0 +1,17 @@
+.cryptogram, .solution {
+  display: flex;
+  justify-content: center;
+}
+
+.cryptogram > p, .solution > p {
+    font-family: Courier, monospace;
+    margin: 0;
+}
+
+.solution > p, .solution > ul {
+  background-color: black;
+}
+
+.solution > p:hover, .solution > ul:hover {
+  background-color: inherit;
+}
