@@ -1,7 +1,0 @@
-title:  FB Messenger Analysis
-github_link: https://github.com/cselig/fbchat_analysis
-technologies:
-  - python
-  - sklearn
-description: Some investigation of my interactions with friends over fb Messenger,
-             including sentiment and response time analysis.

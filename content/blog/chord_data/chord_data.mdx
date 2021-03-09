@@ -5,6 +5,8 @@ excerpt: What makes a good chord progression?
 topic: music
 ---
 
+import ChordPicker from "./chord_picker"
+
 Whenever I listen to music I like trying to identify chord progressions and find common (or uncommon) patterns and changes.
 I recently came across the [McGill Billboard dataset](https://ddmal.music.mcgill.ca/research/The_McGill_Billboard_Project_(Chord_Analysis_Dataset)/),
 which is a set of Billboard Top 40 songs from the 60s, 70s, and 80s annotated with structure and chord information. This led me to build
@@ -36,7 +38,8 @@ near the bottom of the list your progression could sound more distinctive, but i
 If you don't have a great ear for chord progressions I suggest first plugging the progression above (which appears in [quite a few songs](https://www.youtube.com/watch?v=HTYrkOZ5nCs))
 into the widget below, hearing how it sounds, and then trying to modify it.
 
-
-import ChordPicker from "./chord_picker"
-
 <ChordPicker />
+
+## Code:
+
+<CodeBlockFromFile filePath="chord_data/chord_picker.jsx" />

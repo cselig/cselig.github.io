@@ -28,7 +28,7 @@ export default class TechViz extends React.Component {
       },
       {
         "category": "backend",
-        "items": ["postgres", "rails", "c++", "rb", "flask", "aws", "firebase"]
+        "items": ["postgres", "rails", "c++", "rb", "flask", "aws", "redis"]
       },
       {
         "category": "data",

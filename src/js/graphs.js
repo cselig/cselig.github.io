@@ -63,8 +63,8 @@ export function renderNodesD3({ svg, nodeData, opts }) {
     .style("transform", (d) => `translate(${d.x}px,${d.y}px)`)
     .select("circle")
       .style("fill", opts.fill)
-      .on("mouseover", (_, i, elems) => d3.select(elems[i]).attr("fill", "green").attr("r", opts.mouseoverRadius))
-      .on("mouseout",  (_, i, elems) => d3.select(elems[i]).attr("fill", "black").attr("r", opts.radius))
+      .on("mouseover", (_, i, elems) => d3.select(elems[i]).style("fill", "green").attr("r", opts.mouseoverRadius))
+      .on("mouseout",  (_, i, elems) => d3.select(elems[i]).style("fill", "black").attr("r", opts.radius))
       .on("click", opts.onClick)
 
   // nodesEnter.append("text")

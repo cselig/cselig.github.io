@@ -1,7 +1,0 @@
-title:  Recipe Saver
-github_link: https://github.com/cselig/recipe-saver
-technologies:
-  - react
-  - flask
-  - sqlalchemy
-description: A work-in-progress I started in an effort to get more familiar with web technologies.

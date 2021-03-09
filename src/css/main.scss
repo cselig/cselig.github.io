@@ -8,24 +8,24 @@ $color-2: #57606f;
 $color-3: #4b6584;
 
 body {
-  margin: 0;
-  height: 100%;
-  font-family: Helvetica Neue, sans-serif;
-  line-height: 1.5;
+  font-family: Avenir, "Helvetica Neue", "Lucida Grande", sans-serif;
+  padding: 20px 20px 60px;
+  max-width: 680px;
+  margin: 0 auto;
 }
 
 #page-container {
-  max-width: 800px;
-  padding: 30px 15px;
-  margin: 0 auto; // center
+  // max-width: 800px;
+  // padding: 30px 15px;
+  // margin: 0 auto; // center
 
-  a {
-    color: $color-3;
+  // a {
+  //   color: $color-3;
 
-    &:hover {
-      color: $color-3;
-    }
-  }
+  //   &:hover {
+  //     color: $color-3;
+  //   }
+  // }
 
   hr {
     color: $color-1;
@@ -34,194 +34,78 @@ body {
     margin: 0 0 15px 0;
   }
 
-  h1, h2, h3 {
-    margin: 0
+  // h1, h2, h3 {
+  //   margin: 0
+  // }
+
+  #about {
+    .title-container {
+      text-align: center;
+
+      .title {
+        height: 100px;
+      }
+    }
   }
 
   #index {
-    .greeting {
-      margin-bottom: 2em;
+    .title-container {
+      text-align: center;
 
       .title {
-        font-size: 2.5em;
-      }
-
-      .about {
-        font-size: 1.2em;
+        height: 120px;
       }
     }
 
-    #resume {
-      margin: 2em 0;
+    .description {
+      line-height: 150%;
+      margin-bottom: 30px;
+    }
 
-      .row {
+    .posts-container {
+      .post {
         display: flex;
-        align-items: center;
+        align-items: baseline;
+        margin: 15px 0;
+        color: black;
+        text-decoration: none;
 
-        .emoji {
-          font-size: 24px;
+        .title {
+          font-size: 32px;
           margin: 0;
-          margin-right: 5px;
-        }
-      }
-    }
-
-    .section {
-      width: 100%;
-      margin-bottom: 90px;
-
-      .section-header {
-        padding-top: 20px;
-        padding-bottom: 5px;
-        font-size: 3em;
-        font-weight: 500;
-      }
-
-      .topic {
-        color: grey;
-        margin: 0;
-
-        &.programming {
-          font-family: monospace;
+          margin-left: 10px;
         }
 
-        &.music {
-          font-family: Luminari, cursive;
+        .date {
+          font-size: 14px;
+          color: gray;
+          margin: 0;
+          white-space: nowrap;
         }
 
-        &.misc {
-          font-family: "Comic Sans MS", "Comic Sans";
-        }
-      }
+        @media only screen and (max-width: 700px) {
+          flex-direction: column-reverse;
 
-      .topic-selector {
-        padding-top: 10px;
-
-        .topics {
-          display: flex;
-          align-items: baseline;
-
-          .topic {
-            margin: 0 10px;
-            cursor: pointer;
-            font-size: 18px;
-
-            &:hover {
-              text-decoration: underline;
-            }
-
-            &.selected {
-              font-weight: 700;
-              color: black;
-            }
-
-            &:first-child {
-              margin-left: 0;
-            }
+          .title {
+            margin-left: 0;
           }
         }
       }
-
-      .posts-container {
-        display: flex;
-        flex-direction: column;
-
-        .post {
-          width: fit-content;
-          margin: 16px 0;
-
-          .title-container {
-            display: flex;
-            align-items: baseline;
-
-            @media only screen and (max-width: 800px) {
-              flex-direction: column;
-            }
-
-            .title-link {
-              color: $color-3;
-              text-decoration: none;
-              margin-right: 10px;
-
-              &:hover {
-                  text-decoration: underline;
-              }
-
-              h3 {
-                font-size: 2em;
-              }
-            }
-
-            .topic {
-              margin-right: 10px;
-              font-size: 16px;
-            }
-
-            .date {
-              color: $text-2-light;
-              margin: 0;
-            }
-          }
-
-          .excerpt {
-            color: $color-2;
-            margin: 0;
-            margin-top: 0.5em;
-
-            a {
-              font-weight: 700;
-            }
-          }
-        }
-      }
-
-      &#projects {
-        .title-container {
-          display: flex;
-          align-items: center;
-
-          @media only screen and (max-width: 800px) {
-            flex-direction: column;
-            align-items: unset;
-          }
-
-          .tech-badges {
-            display: flex;
-
-            .tech-badge {
-              background-color: lightgrey;
-              border-radius: 5px;
-              padding: 3px 5px;
-              margin: 0;
-              margin-right: 10px;
-              color: grey;
-              height: fit-content;
-              font-size: 12px;
-              pointer-events: none;
-            }
-          }
-        }
-      }
-    }
-
-    .social-links {
-      font-size: 5px;
-      margin: 0 auto 30px;
     }
   }
 
-  .post {
-    margin-top: 90px;
+  // .post {
+  //   margin-top: 90px;
 
-    @media only screen and (max-width: 500px) {
-      overflow-x: hidden;
-    }
+  //   @media only screen and (max-width: 500px) {
+  //     overflow-x: hidden;
+  //   }
 
-    pre {
-      font-size: 14px;
-      margin: 2em;
-      background-color: #f8f8f8; // this should be applied by the highlighter but it's not...
-      overflow-x: scroll;
-    }
-  }
+  //   pre {
+  //     font-size: 14px;
+  //     margin: 2em;
+  //     background-color: #f8f8f8; // this should be applied by the highlighter but it's not...
+  //     overflow-x: scroll;
+  //   }
+  // }
 }

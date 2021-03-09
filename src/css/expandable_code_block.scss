@@ -7,7 +7,7 @@
     font-size: 1.2em;
   }
 
-  .prism-code {
+  pre {
     overflow-y: scroll;
     max-height: 0;
     padding: 0;
@@ -15,7 +15,7 @@
   }
 
   &.expanded {
-    .prism-code {
+    pre {
       max-height: 90vh;
     }
   }

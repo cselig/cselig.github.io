@@ -1,5 +1,9 @@
 .post {
 
+  h1 {
+    text-align: center;
+  }
+
   .gatsby-resp-image-wrapper {
     pointer-events: none;
   }
@@ -195,7 +199,7 @@
             cursor: pointer;
 
             &.selected {
-              fill: red;
+              fill: red !important;
             }
           }
         }
