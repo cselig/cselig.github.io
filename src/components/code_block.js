@@ -1,12 +1,34 @@
-import React from 'react'
+import React from "react"
+import Highlight, {defaultProps} from "prism-react-renderer"
+import theme from "prism-react-renderer/themes/github"
 
-import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { xonokai } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import '../css/code_block.scss'
 
-export default function CodeBlock({ language, code }) {
+import Prism from "prism-react-renderer/prism"
+import vsDark from 'prism-react-renderer/themes/vsDark'
+
+// prism-react-renderer supports a small subset of languages that Prism does
+(typeof global !== 'undefined' ? global : window).Prism = Prism;
+["ruby", "clojure"].forEach((lang) => require(`../../node_modules/prismjs/components/prism-${lang}`))
+
+const CodeBlock = ({ language, code }) => {
+  defaultProps.theme = theme
   return (
-    <SyntaxHighlighter language={language} style={xonokai}>
-      {code}
-    </SyntaxHighlighter>
+    <Highlight {...defaultProps} code={code} language={language} theme={vsDark}>
+      {({className, style, tokens, getLineProps, getTokenProps}) => (
+        <pre className={className}>
+          {/* don't render blank last lines (which are always present in markdown code blocks) */}
+          {tokens.filter((line, i) => !(i === (tokens.length - 1) && line.length === 1 && line[0].empty)).map((line, i) => (
+            <div key={i} {...getLineProps({line, key: i})}>
+              {line.map((token, key) => (
+                <span key={key} {...getTokenProps({token, key})} />
+              ))}
+            </div>
+          ))}
+        </pre>
+      )}
+    </Highlight>
   )
 }
+
+export default CodeBlock
