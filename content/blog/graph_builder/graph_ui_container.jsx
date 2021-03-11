@@ -3,10 +3,12 @@ import * as d3 from "d3"
 
 import Graph from "./graph.jsx"
 import GraphEditor from "./graph_editor.jsx"
-import GraphPresetSelector from "./graph_preset_selector.jsx"
 import ConnectedComponentsUI from "./algorithm_uis/connected_components_ui.jsx"
 
 import * as graphUtils from "../../../src/js/graphs.js"
+
+import islandsNodes from "./data/islands/nodes.json"
+import islandsEdges from "./data/islands/edges.json"
 
 const SVG_WIDTH  = 500,
       SVG_HEIGHT = 500
@@ -62,8 +64,8 @@ class GraphUIContainer extends React.Component {
     super(props)
 
     this.state = {
-      nodes: [],
-      edges: [],
+      nodes: graphUtils.scaleNodeData(islandsNodes, SVG_WIDTH, SVG_HEIGHT),
+      edges: islandsEdges,
       mode: null, // null || "add-nodes" || "add-edges" || "algorithm"
       svg: null, // DOM node
       svgClickHandler: null,
@@ -159,72 +161,58 @@ class GraphUIContainer extends React.Component {
     return (
       <div className="graph-ui-container">
         <div className="editor-panel">
-          <GraphPresetSelector
-            setPreset={this.setPreset}
-            svgWidth={SVG_WIDTH}
-            svgHeight={SVG_HEIGHT}
-          />
-          {/* <button
-            name="toggle-edit"
-            onClick={() => this.setState({mode: this.state.mode === "edit" ? null : "edit"})}
-          >
-            {this.state.mode === "edit" ? "Done" : "Edit"}
-          </button> */}
-          <GraphEditor
-            addNode={this.addNode}
-            addEdge={this.addEdge}
-            svg={this.state.svg}
-            setSvgClickHandler={this.setSvgClickHandler}
-            setSvgMouseMoveHandler={this.setSvgMouseMoveHandler}
-            setSvgMouseLeaveHandler={this.setSvgMouseLeaveHandler}
-            setNodeClickHandler={this.setNodeClickHandler}
-            setNodes={this.setNodes}
-            setEdges={this.setEdges}
-            mode={this.state.mode}
-            setMode={this.setMode}
-          />
+          <div className="edit-container">
+            {this.state.mode === "add-nodes" || this.state.mode === "add-edges" ?
+              <GraphEditor
+                addNode={this.addNode}
+                addEdge={this.addEdge}
+                svg={this.state.svg}
+                setSvgClickHandler={this.setSvgClickHandler}
+                setSvgMouseMoveHandler={this.setSvgMouseMoveHandler}
+                setSvgMouseLeaveHandler={this.setSvgMouseLeaveHandler}
+                setNodeClickHandler={this.setNodeClickHandler}
+                setNodes={this.setNodes}
+                setEdges={this.setEdges}
+                mode={this.state.mode}
+                setMode={this.setMode}
+              /> :
+              <p className="edit-button" onClick={() => this.setMode("add-nodes")}>Click to edit graph</p>
+            }
+          </div>
+          <hr></hr>
+          <div className="algorithm-container">
+            {this.state.mode === "algorithm" ?
+              <ConnectedComponentsUI
+                nodes={this.state.nodes}
+                edges={this.state.edges}
+                nodeOpts={{...defaultNodeOpts, ...nodeOpts}}
+                resetHighlighting={this.resetHighlighting}
+                setMode={this.setMode}
+              /> :
+              <p
+                className="start-button"
+                onClick={() => this.setState({mode: "algorithm"})}>
+                Click to compute connected components
+              </p>
+            }
+          </div>
         </div>
-        <div className="container">
-          <Graph
-            nodes={this.state.nodes}
-            edges={this.state.edges}
-            nodeOpts={{...defaultNodeOpts, ...nodeOpts}}
-            edgeOpts={defaultEdgeOpts}
-            directed={false}
-            // https://reactjs.org/docs/refs-and-the-dom.html#callback-refs
-            svgRef={(el) => {
-              const svg = d3.select(el)
-                .attr("width", SVG_WIDTH)
-                .attr("height", SVG_HEIGHT)
-              graphUtils.setUpSvg(svg)
-              if (this.state.svg == null) this.setState({svg: el})
-            }}
-            svg={this.state.svg}
-          />
-          {/* <AlgorithmContainer
-            mode={this.state.mode}
-            setMode={(mode) => this.setState({mode: mode})}
-            algorithmInputs={{nodes: this.state.nodes,
-                              edges: this.state.edges,
-                              nodeOpts: {...defaultNodeOpts, ...nodeOpts},
-                              setNodeClickHandler: this.setNodeClickHandler,
-                              resetHighlighting: this.resetHighlighting}}
-          /> */}
-          {this.state.mode === "algorithm" ?
-            <ConnectedComponentsUI
-              nodes={this.state.nodes}
-              edges={this.state.edges}
-              nodeOpts={{...defaultNodeOpts, ...nodeOpts}}
-              resetHighlighting={this.resetHighlighting}
-            /> :
-            <p
-              className="start-button"
-              onClick={() => this.setState({mode: "algorithm"})}>
-              Start
-            </p>
-          }
-        </div>
-        {/* <Debug nodes={this.state.nodes} edges={this.state.edges} /> */}
+        <Graph
+          nodes={this.state.nodes}
+          edges={this.state.edges}
+          nodeOpts={{...defaultNodeOpts, ...nodeOpts}}
+          edgeOpts={defaultEdgeOpts}
+          directed={false}
+          // https://reactjs.org/docs/refs-and-the-dom.html#callback-refs
+          svgRef={(el) => {
+            const svg = d3.select(el)
+              .attr("width", SVG_WIDTH)
+              .attr("height", SVG_HEIGHT)
+            graphUtils.setUpSvg(svg)
+            if (this.state.svg == null) this.setState({svg: el})
+          }}
+          svg={this.state.svg}
+        />
       </div>
     )
   }

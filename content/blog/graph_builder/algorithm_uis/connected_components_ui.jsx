@@ -167,6 +167,7 @@ class ConnectedComponentsUI extends React.Component {
       <div id="connected-components" className="algorithm-ui">
         {/* <p className="text" onClick={reset}>Reset</p> */}
         <button onClick={advanceStep}>Next Step</button>
+        <button onClick={() => this.props.setMode(null)}>Reset</button>
         <pre className="steps">
           {stepsText.join("\n")}
         </pre>

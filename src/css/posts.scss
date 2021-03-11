@@ -209,12 +209,39 @@
 
   &#graph-builder {
     .graph-ui-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
       .editor-panel {
         display: flex;
-        height: 60px;
+        flex-direction: column;
+        width: 75%;
+
+        .edit-container, .algorithm-container {
+          height: 70px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        hr {
+          width: 100%;
+        }
+
+        .start-button, .edit-button {
+          font-size: 1.5em;
+          font-weight: 500;
+          cursor: pointer;
+          text-align: center;
+        }
 
         button[name=toggle-edit] {
           height: 21px;
+        }
+
+        .steps {
+          width: 320px;
         }
 
         .graph-editor {
@@ -245,40 +272,10 @@
         }
       }
 
-      .container {
-        // display: flex;
-
-        .graph-container {
-          svg {
-            border: 3px solid grey;
-            margin: 5px;
-          }
-        }
-
-        .algorithm-container {
-          padding: 10px;
-
-          .algorithm-card, .algorithm-ui {
-            border: 3px solid grey;
-            margin-bottom: 5px;
-            padding: 5px;
-          }
-
-          .algorithm-card {
-            cursor: pointer;
-          }
-
-          .algorithm-ui {
-            .text {
-              cursor: pointer;
-            }
-          }
-        }
-
-        .start-button {
-          font-size: 1.5em;
-          font-weight: 500;
-          cursor: pointer;
+      .graph-container {
+        svg {
+          border: 3px solid grey;
+          margin: 5px;
         }
       }
     }

@@ -26,7 +26,6 @@ class GraphPresetSelector extends React.Component {
   }
 
   render() {
-    return null;
     const selectPreset = (preset) => {
       const { nodes, edges } = presetsMap[preset]
       // TODO: there should be some sort of interface for getting this data
