@@ -280,4 +280,33 @@
       }
     }
   }
+
+  &#one-d-chess {
+    $dark-square-color: #D18B47;
+    $light-square-color: #FFCE9E;
+
+    .chess-ui {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      button[name=reset] {
+        margin-bottom: 10px;
+      }
+
+      svg {
+        border: 1px solid $dark-square-color;
+        border-radius: 5px;
+
+        .square {
+          &.dark {
+            fill: $dark-square-color;
+          }
+          &.light {
+            fill: $light-square-color;
+          }
+        }
+      }
+    }
+  }
 }
