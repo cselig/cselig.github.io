@@ -301,11 +301,21 @@
         .square {
           &.dark {
             fill: $dark-square-color;
+            &.highlighted {
+              fill: red;
+            }
           }
           &.light {
             fill: $light-square-color;
+            &.highlighted {
+              fill: pink;
+            }
           }
         }
+      }
+
+      .debug-panel {
+        width: 400px;
       }
     }
   }

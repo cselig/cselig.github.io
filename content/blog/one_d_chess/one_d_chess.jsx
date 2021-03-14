@@ -1,5 +1,7 @@
 import React from 'react'
 
+import * as utils from './utils'
+
 import black_king from './icons/black_king.svg'
 import white_king from './icons/white_king.svg'
 import black_rook from './icons/black_rook.svg'
@@ -46,20 +48,32 @@ const INITIAL_BOARD_STATE = [
   }
 ]
 
+function initialState() {
+  return {
+    board: INITIAL_BOARD_STATE.slice(),
+    whosTurn: "white",
+    selectedPiece: null, // index in this.state.board
+    gameOver: false,
+  }
+}
+
 const SQUARE_SIDE_LENGTH = 60 // px
 
-// FUNCTIONS
+// COMPONENTS
 
-// Transform board state to svg elements
-function createSquaresArr(board, onSquareClick) {
+function Board({ board, onSquareClick, highlightedSquares, clickableSquares }) {
+  // Transform board state to svg elements
   let squares = []
   for (let i = 0; i < 8; i++) {
+    let className = "square "
+    className += (i % 2 == 0 ? "dark " : "light ")
+    if (highlightedSquares.includes(i)) className += "highlighted "
     squares.push([
         <rect
-          key={i}
           width={SQUARE_SIDE_LENGTH}
           height={SQUARE_SIDE_LENGTH}
-          className={"square " + (i % 2 == 0 ? "dark" : "light")}
+          className={className}
+          key="rect"
         />
     ])
   }
@@ -68,11 +82,19 @@ function createSquaresArr(board, onSquareClick) {
     if (board[i] == null) continue
     const { color, piece } = board[i]
     const style = {height: SQUARE_SIDE_LENGTH, width: SQUARE_SIDE_LENGTH}
-    squares[i].push(<image href={PIECE_SVG_MAP[`${color}_${piece}`]} style={style} />)
+    squares[i].push(
+      <image
+        href={PIECE_SVG_MAP[`${color}_${piece}`]}
+        style={style}
+        key="image"
+      />)
   }
 
   squares = squares.map((elems, i) => {
-    const style = {transform: `translate(${SQUARE_SIDE_LENGTH*i}px,0)`}
+    const style = {
+      transform: `translate(${SQUARE_SIDE_LENGTH*i}px,0)`,
+      cursor: clickableSquares.includes(i) || highlightedSquares.includes(i) ? "pointer" : "auto",
+    }
     return (
       <g style={style} onClick={() => onSquareClick(i)} key={i}>
         {elems}
@@ -80,50 +102,123 @@ function createSquaresArr(board, onSquareClick) {
     )
   })
 
-  return squares
+  return (
+    <svg width={SQUARE_SIDE_LENGTH * 8} height={SQUARE_SIDE_LENGTH}>
+      {squares}
+    </svg>
+  )
 }
 
-// COMPONENT
+function DebugPanel({ board, whosTurn, selectedPiece }) {
+  const isCheck = utils.isCheck(board, whosTurn)
+  const isCheckmate = utils.isCheckmate(board, whosTurn)
+  const isStalemate = utils.isStalemate(board, whosTurn)
+  const legalMoves = utils.legalMovesForColor(board, whosTurn)
+  const legalMovesForPiece = utils.legalMovesForPiece(board, selectedPiece)
+
+  return (
+    <div className="debug-panel">
+      <p>Turn: {whosTurn}</p>
+      <p>Selected piece: {selectedPiece}</p>
+      <p>Is check: {`${isCheck}`}</p>
+      <p>Is checkmate: {`${isCheckmate}`}</p>
+      <p>Is stalemate: {`${isStalemate}`}</p>
+      <p>Legal moves: {JSON.stringify(legalMoves)}</p>
+      <p>Legal moves for piece: {JSON.stringify(legalMovesForPiece)}</p>
+    </div>
+  )
+}
+
 class Container extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      board: INITIAL_BOARD_STATE.slice(),
-      selectedPiece: null, // index in this.state.board
-    }
+    this.state = initialState()
 
     this.onSquareClick = this.onSquareClick.bind(this)
     this.reset = this.reset.bind(this)
+    this.getHighlightedSquares = this.getHighlightedSquares.bind(this)
+    this.getClickableSquares = this.getClickableSquares.bind(this)
+    this.checkEndConditions = this.checkEndConditions.bind(this)
   }
 
   onSquareClick(i) {
-    console.log("square click:", i)
-    if (this.state.selectedPiece == null) {
+    if (this.state.gameOver) return
+
+    if (this.state.selectedPiece === i) {
+      // de-select piece
+      this.setState({selectedPiece: null})
+    } else if (utils.isColorsPiece(this.state.board[i], this.state.whosTurn)) {
+      // select piece
       this.setState({selectedPiece: i})
-    } else {
-      this.setState(({ board, selectedPiece }) => {
-        // put selected piece at i
-        board[i] = board[selectedPiece]
-        // remove selected piece
-        board[selectedPiece] = null
-        return {board: board, selectedPiece: null}
+    } else if (this.state.selectedPiece != null) {
+      if (!utils.isLegalMove(this.state.board, [this.state.selectedPiece, i])) {
+        return
+      }
+
+      // make move
+      this.setState(({ board, whosTurn, selectedPiece }) => {
+        const newBoard = utils.makeMove(board, [selectedPiece, i])
+        return {
+          board: newBoard,
+          whosTurn: utils.other(whosTurn),
+          selectedPiece: null,
+        }
       })
     }
   }
 
   reset() {
-    this.setState({board: INITIAL_BOARD_STATE.slice(), selectedPiece: null})
+    this.setState(initialState())
+  }
+
+  getHighlightedSquares() {
+    let result = []
+    if (this.state.selectedPiece != null) {
+      for (const [_, dest] of utils.legalMovesForPiece(this.state.board, this.state.selectedPiece)) {
+        result.push(dest)
+      }
+    }
+    return result
+  }
+
+  getClickableSquares() {
+    let result = []
+    for (let i = 0; i < this.state.board.length; i++) {
+      if (this.state.board[i] != null && this.state.board[i].color === this.state.whosTurn) {
+        result.push(i)
+      }
+    }
+    return result
+  }
+
+  checkEndConditions() {
+    return [
+      utils.isStalemate(this.state.board, this.state.whosTurn),
+      utils.isCheckmate(this.state.board, this.state.whosTurn)
+    ]
   }
 
   render() {
-    const squares = createSquaresArr(this.state.board, this.onSquareClick)
+    const highlightedSquares = this.getHighlightedSquares()
+    const clickableSquares = this.getClickableSquares()
+    const [isStalemate, isCheckmate] = this.checkEndConditions()
 
     return (
       <div className="chess-ui">
         <button name="reset" onClick={this.reset}>Reset</button>
-        <svg width={SQUARE_SIDE_LENGTH * 8} height={SQUARE_SIDE_LENGTH}>
-          {squares}
-        </svg>
+        <Board
+          board={this.state.board}
+          onSquareClick={this.onSquareClick}
+          highlightedSquares={highlightedSquares}
+          clickableSquares={clickableSquares}
+        />
+        {isStalemate && <h2>Stalemate!</h2>}
+        {isCheckmate && <h2>Checkmate for {utils.other(this.state.whosTurn)}!</h2>}
+        {/* <DebugPanel
+          board={this.state.board}
+          selectedPiece={this.state.selectedPiece}
+          whosTurn={this.state.whosTurn}
+        /> */}
       </div>
     )
   }
