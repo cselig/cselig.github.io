@@ -53,7 +53,6 @@ function initialState() {
     board: INITIAL_BOARD_STATE.slice(),
     whosTurn: "white",
     selectedPiece: null, // index in this.state.board
-    gameOver: false,
   }
 }
 
@@ -156,8 +155,6 @@ class Container extends React.Component {
   }
 
   onSquareClick(i) {
-    if (this.state.gameOver) return
-
     if (this.state.selectedPiece === i) {
       // de-select piece
       this.setState({selectedPiece: null})
@@ -212,14 +209,16 @@ class Container extends React.Component {
     const isCheckmate = utils.isCheckmate(this.state.board, this.state.whosTurn)
     const isCheck = utils.isCheck(this.state.board, this.state.whosTurn)
 
+    const gameOver = isStalemate || isCheckmate
+
     return (
       <div className="chess-ui">
         <button name="reset" onClick={this.reset}>Reset</button>
         <Board
           board={this.state.board}
-          onSquareClick={this.onSquareClick}
-          highlightedSquares={highlightedSquares}
-          clickableSquares={clickableSquares}
+          onSquareClick={gameOver ? null : this.onSquareClick}
+          highlightedSquares={gameOver ? [] : highlightedSquares}
+          clickableSquares={gameOver ? [] : clickableSquares}
         />
         {isStalemate && <h2>Stalemate!</h2>}
         {isCheckmate && <h2>Checkmate - {utils.other(this.state.whosTurn)} wins!</h2>}
