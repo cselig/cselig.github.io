@@ -67,7 +67,6 @@ function Board({ board, onSquareClick, highlightedSquares, clickableSquares }) {
   for (let i = 0; i < 8; i++) {
     let className = "square "
     className += (i % 2 == 0 ? "dark " : "light ")
-    if (highlightedSquares.includes(i)) className += "highlighted "
     squares.push([
         <rect
           width={SQUARE_SIDE_LENGTH}
@@ -78,6 +77,7 @@ function Board({ board, onSquareClick, highlightedSquares, clickableSquares }) {
     ])
   }
 
+  // add piece SVGs
   for (let i = 0; i < board.length; i++) {
     if (board[i] == null) continue
     const { color, piece } = board[i]
@@ -88,6 +88,21 @@ function Board({ board, onSquareClick, highlightedSquares, clickableSquares }) {
         style={style}
         key="image"
       />)
+  }
+
+  // add dots for legal moves
+  for (let i = 0; i < board.length; i++) {
+    if (highlightedSquares.includes(i)) {
+      squares[i].push(
+        <circle
+          className="legal-move-dot"
+          r="10"
+          cx={SQUARE_SIDE_LENGTH / 2}
+          cy={SQUARE_SIDE_LENGTH / 2}
+          key="dot"
+        ></circle>
+      )
+    }
   }
 
   squares = squares.map((elems, i) => {
@@ -138,7 +153,6 @@ class Container extends React.Component {
     this.reset = this.reset.bind(this)
     this.getHighlightedSquares = this.getHighlightedSquares.bind(this)
     this.getClickableSquares = this.getClickableSquares.bind(this)
-    this.checkEndConditions = this.checkEndConditions.bind(this)
   }
 
   onSquareClick(i) {
@@ -191,17 +205,12 @@ class Container extends React.Component {
     return result
   }
 
-  checkEndConditions() {
-    return [
-      utils.isStalemate(this.state.board, this.state.whosTurn),
-      utils.isCheckmate(this.state.board, this.state.whosTurn)
-    ]
-  }
-
   render() {
     const highlightedSquares = this.getHighlightedSquares()
     const clickableSquares = this.getClickableSquares()
-    const [isStalemate, isCheckmate] = this.checkEndConditions()
+    const isStalemate = utils.isStalemate(this.state.board, this.state.whosTurn)
+    const isCheckmate = utils.isCheckmate(this.state.board, this.state.whosTurn)
+    const isCheck = utils.isCheck(this.state.board, this.state.whosTurn)
 
     return (
       <div className="chess-ui">
@@ -213,7 +222,8 @@ class Container extends React.Component {
           clickableSquares={clickableSquares}
         />
         {isStalemate && <h2>Stalemate!</h2>}
-        {isCheckmate && <h2>Checkmate for {utils.other(this.state.whosTurn)}!</h2>}
+        {isCheckmate && <h2>Checkmate - {utils.other(this.state.whosTurn)} wins!</h2>}
+        {isCheck && !isCheckmate && <h2>{utils.capitalize(this.state.whosTurn)} is in check!</h2>}
         {/* <DebugPanel
           board={this.state.board}
           selectedPiece={this.state.selectedPiece}

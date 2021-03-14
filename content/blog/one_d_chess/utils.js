@@ -18,6 +18,11 @@ function samePiece(p1, p2) {
   return p1 != null && p2 != null && p1.color === p2.color && p1.piece === p2.piece
 }
 
+export function capitalize(str) {
+  if (str === "") return ""
+  return str[0].toUpperCase() + str.slice(1).toLowerCase()
+}
+
 function destinationSquaresForKing(board, pieceInd) {
   let squares = []
   if (pieceInd > 0) squares.push(pieceInd - 1)
