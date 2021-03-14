@@ -7,17 +7,34 @@ import BaseLayout from "../components/base_layout"
 
 import "../css/main.scss"
 
+import connectedComponentsSketch from "../images/sketches/connected_components.svg"
+import skiGraphsSketch from "../images/sketches/ski_graphs.svg"
+import chordDataSketch from "../images/sketches/chord_data.svg"
+import cryptogramsSketch from "../images/sketches/cryptograms.svg"
+import d3Sketch from "../images/sketches/d3.svg"
+
+const SKETCH_MAP = {
+  "graph-builder": connectedComponentsSketch,
+  "ski-graphs": skiGraphsSketch,
+  "cryptograms": cryptogramsSketch,
+  "chord-data": chordDataSketch,
+  "three-js": connectedComponentsSketch,
+  "d3": d3Sketch,
+}
+
 const BlogSection = ({ posts }) => {
   posts = posts.filter(({ node }) => !node.frontmatter.draft)
+  console.log(posts)
   return (
     <div className="posts-container">
       {posts.map(({ node }) => (
-        // <div className="post" key={node.id}>
-          <Link to={`/blog/${node.fields.slug}`} className="post" key={node.id}>
-            <p className="date">{node.frontmatter.date}</p>
+        <Link to={`/blog/${node.fields.slug}`} className="post" key={node.id}>
+          <img className="sketch" src={SKETCH_MAP[node.fields.slug]} />
+          <div className="title-container">
             <h3 className="title">{node.frontmatter.title}</h3>
-          </Link>
-        // </div>
+            <p className="date">{node.frontmatter.date}</p>
+          </div>
+        </Link>
       ))}
     </div>
   )
@@ -31,8 +48,8 @@ const IndexPage = ({ data }) => {
   return (
     <BaseLayout home>
       <div id="index">
-        <div className="title-container">
-          <img className="title" src={codeSketches} alt="Code Sketches" />
+        <div className="site-title-container">
+          <img className="site-title" src={codeSketches} alt="Code Sketches" />
         </div>
 
         <div className="description">

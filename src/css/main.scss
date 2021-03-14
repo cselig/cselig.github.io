@@ -1,11 +1,4 @@
-// https://flatuicolors.com/palette/cn
-// https://broccolini.net/50shadesofblk/
-$text-2-dark: #5F6E78;
-$text-1-light: #BEC4C8;
-$text-2-light: #97A1A7;
-$color-1: #747d8c;
-$color-2: #57606f;
-$color-3: #4b6584;
+$transition-width: 700px;
 
 body {
   font-family: Avenir, "Helvetica Neue", "Lucida Grande", sans-serif;
@@ -15,29 +8,6 @@ body {
 }
 
 #page-container {
-  // max-width: 800px;
-  // padding: 30px 15px;
-  // margin: 0 auto; // center
-
-  // a {
-  //   color: $color-3;
-
-  //   &:hover {
-  //     color: $color-3;
-  //   }
-  // }
-
-  hr {
-    color: $color-1;
-    background: none;
-    border-top: 1px solid;
-    margin: 0 0 15px 0;
-  }
-
-  // h1, h2, h3 {
-  //   margin: 0
-  // }
-
   #about {
     .title-container {
       text-align: center;
@@ -49,10 +19,10 @@ body {
   }
 
   #index {
-    .title-container {
+    .site-title-container {
       text-align: center;
 
-      .title {
+      .site-title {
         height: 120px;
       }
     }
@@ -63,49 +33,56 @@ body {
     }
 
     .posts-container {
+      &:hover {
+        .post {
+          opacity: 0.3;
+        }
+      }
+
       .post {
         display: flex;
-        align-items: baseline;
-        margin: 15px 0;
+        padding: 10px 0;
         color: black;
         text-decoration: none;
+        transition: opacity 350ms;
 
-        .title {
-          font-size: 32px;
-          margin: 0;
-          margin-left: 10px;
+        &:hover {
+          opacity: 1;
         }
 
-        .date {
-          font-size: 14px;
-          color: gray;
-          margin: 0;
-          white-space: nowrap;
+        .sketch {
+          background-color: lightblue;
+          width: 100px;
+          height: 100px;
+          margin-right: 10px;
         }
 
-        @media only screen and (max-width: 700px) {
-          flex-direction: column-reverse;
+        .title-container {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
 
           .title {
-            margin-left: 0;
+            font-size: 32px;
+            margin: 0;
           }
+
+          .date {
+            font-size: 14px;
+            color: gray;
+            margin: 0;
+            white-space: nowrap;
+          }
+        }
+
+        @media only screen and (max-width: $transition-width) {
+          // flex-direction: column-reverse;
+
+          // .title {
+          //   margin-left: 0;
+          // }
         }
       }
     }
   }
-
-  // .post {
-  //   margin-top: 90px;
-
-  //   @media only screen and (max-width: 500px) {
-  //     overflow-x: hidden;
-  //   }
-
-  //   pre {
-  //     font-size: 14px;
-  //     margin: 2em;
-  //     background-color: #f8f8f8; // this should be applied by the highlighter but it's not...
-  //     overflow-x: scroll;
-  //   }
-  // }
 }
