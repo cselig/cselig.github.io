@@ -36,10 +36,9 @@ This chart (in conjunction with some informative text/tooltips) could be used to
 ### Edit Distance
 
 I thought it would be cool to visualize the shortest edit distance between two words with the below animation.
-However, it isn't completely correct - the key function I'm
-providing to `.data()` is just the letter itself, which means that repeat letters
-aren't keyed properly. In theory I could write a more sophisticated key function, which I might get around to but
-sounds tricky.
+However, it isn't completely correct - the key function I'm providing to `.data()` is just the letter itself,
+which means that repeat letters aren't keyed properly. To solve this I'd have to write a more sophisticated key
+function, which sounds tricky.
 
 Type a new word or phrase and hit "Update".
 
@@ -48,6 +47,5 @@ Type a new word or phrase and hit "Update".
 ### Tech Viz
 
 A cool way of displaying technologies I've worked with, with the detail that a technology can be in multiple categories.
-I was going to put this on the home page of this blog but it felt a little try-hard.
 
 <TechViz />
