@@ -102,6 +102,7 @@ export function isLegalMove(board, move) {
   return legalMove
 }
 
+// Apply `fn` to each piece of a given color and return the accumulated results.
 function generateForEachPieceOfColor(fn, board, color) {
   let result = []
   for (let i = 0; i < board.length; i++) {
