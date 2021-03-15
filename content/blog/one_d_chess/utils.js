@@ -1,5 +1,44 @@
-const WHITE_KING = {color: "white", piece: "king"}
-const BLACK_KING = {color: "black", piece: "king"}
+import black_king from './icons/black_king.svg'
+import white_king from './icons/white_king.svg'
+import black_rook from './icons/black_rook.svg'
+import white_rook from './icons/white_rook.svg'
+import black_knight from './icons/black_knight.svg'
+import white_knight from './icons/white_knight.svg'
+
+export const PIECE_SVG_MAP = {
+  black_king,
+  white_king,
+  black_rook,
+  white_rook,
+  black_knight,
+  white_knight,
+}
+
+const WHITE_KING   = {color: 'white', piece: 'king'},
+      WHITE_KNIGHT = {color: 'white', piece: 'knight'},
+      WHITE_ROOK   = {color: 'white', piece: 'rook'},
+      BLACK_KING   = {color: 'black', piece: 'king'},
+      BLACK_KNIGHT = {color: 'black', piece: 'knight'},
+      BLACK_ROOK   = {color: 'black', piece: 'rook'}
+
+const INITIAL_BOARD_STATE = [
+  WHITE_KING,
+  WHITE_KNIGHT,
+  WHITE_ROOK,
+  null,
+  null,
+  BLACK_ROOK,
+  BLACK_KNIGHT,
+  BLACK_KING
+]
+
+export function initialState() {
+  return {
+    timeline: [INITIAL_BOARD_STATE.slice()],
+    timelineInd: 0,
+    selectedPiece: null, // index in this.state.board
+  }
+}
 
 export function other(color) {
   return color === "white" ? "black" : "white"
@@ -140,14 +179,13 @@ export function isCheck(board, color) {
   return false
 }
 
-function onlyKingsRemain(board) {
+function rooksRemain(board) {
   for (const piece of board) {
-    if (piece == null) continue
-    if (!(samePiece(piece, WHITE_KING) || samePiece(piece, BLACK_KING))) {
-      return false
+    if (samePiece(piece, WHITE_ROOK) || samePiece(piece, BLACK_ROOK)) {
+      return true
     }
   }
-  return true
+  return false
 }
 
 export function hasNoLegalMoves(board, color) {
@@ -155,8 +193,8 @@ export function hasNoLegalMoves(board, color) {
 }
 
 export function isStalemate(board, color) {
-  // NOTE: there are probably other piece combinations other than just kings that end up in stalemate
-  return hasNoLegalMoves(board, color) && !isCheck(board, color) || onlyKingsRemain(board)
+  // If the rooks are off the board, no checkmates exist.
+  return hasNoLegalMoves(board, color) && !isCheck(board, color) || !rooksRemain(board)
 }
 
 export function isCheckmate(board, color) {
