@@ -1,13 +1,21 @@
 ---
 title: 1D Chess
 date: 2021-03-11
-draft: true
 ---
 
 import OneDChess from './one_d_chess.jsx'
 
-There are a number of 1D chess variations, one of which is shown below. (rules here)
+I was recently watching a YouTube video about a one-dimensional chess variant and thought it would be fun to implement.
+You can check out the completed code [here](https://github.com/cselig/cselig.github.io/blob/develop/content/blog/one_d_chess).
 
-Below you can play as the white pieces against an AI I programmed. It turns out there's a forced win for white - can you find it?
+It turns out there are a number of different 1D chess variants, but in this specific one the board is 8 squares long and each side
+only has a king, knight, and rook.
+Piece movement is similar to regular chess except for the knight, which can move two squares in either direction (and hop
+over pieces). Capturing pieces, stalemate, check, and checkmate all work the same as in normal chess.
+
+Below you can play as the white pieces against an AI I programmed. Click on a piece and grey dots will appear to show
+that piece's legal moves. Clicking on a square with a grey dot will move the piece to that square.
+
+It turns out that white has a forced win from the very beginning - can you find it? Be careful not to blunder a stalemate!
 
 <OneDChess />

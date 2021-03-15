@@ -7,6 +7,7 @@ import BaseLayout from "../components/base_layout"
 
 import "../css/main.scss"
 
+import chessSketch from "../images/sketches/chess.svg"
 import connectedComponentsSketch from "../images/sketches/connected_components.svg"
 import skiGraphsSketch from "../images/sketches/ski_graphs.svg"
 import chordDataSketch from "../images/sketches/chord_data.svg"
@@ -15,6 +16,7 @@ import pipesSketch from "../images/sketches/pipes.svg"
 import d3Sketch from "../images/sketches/d3.svg"
 
 const SKETCH_MAP = {
+  "one-d-chess": chessSketch,
   "graph-builder": connectedComponentsSketch,
   "ski-graphs": skiGraphsSketch,
   "cryptograms": cryptogramsSketch,
@@ -25,7 +27,7 @@ const SKETCH_MAP = {
 
 const BlogSection = ({ posts }) => {
   posts = posts.filter(({ node }) => !node.frontmatter.draft)
-  console.log(posts)
+
   return (
     <div className="posts-container">
       {posts.map(({ node }) => (
