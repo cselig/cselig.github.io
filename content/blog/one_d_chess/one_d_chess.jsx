@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from '@material-ui/icons'
 import * as ai from './ai'
 import * as utils from './utils'
 
+var $ = require("jquery")
 
 function Board({ board, onSquareClick, highlightedSquares, clickableSquares }) {
   // Transform board state to svg elements
@@ -225,6 +226,15 @@ class Container extends React.Component {
     if (!this.gameOver() && this.whosTurn() === "black") {
       setTimeout(this.makeAIMove, 500)
     }
+
+    if (utils.isCheckmate(this.currBoard(), "black")) {
+      // kind of hacky
+      $("#unlockable-text").removeClass("hidden")
+      setTimeout(
+        () => $("#unlockable-text").addClass("visible"),
+        300
+      )
+    }
   }
 
   render() {
@@ -263,11 +273,13 @@ class Container extends React.Component {
           highlightedSquares={this.gameOver() ? [] : highlightedSquares}
           clickableSquares={this.gameOver() ? [] : clickableSquares}
         />
-        {this.isDraw() && <h2>Draw by insufficient material!</h2>}
-        {this.isStalemate() && <h2>Stalemate!</h2>}
-        {this.isCheckmate() && <h2>Checkmate - {utils.other(this.whosTurn())} wins!</h2>}
-        {this.isCheck() && !this.isCheckmate() && !this.isStalemate() &&!this.isDraw() &&
-          <h2>{utils.capitalize(this.whosTurn())} is in check!</h2>}
+        <div className="game-state-display">
+          {this.isDraw() && <h2>Draw by insufficient material!</h2>}
+          {this.isStalemate() && <h2>Stalemate!</h2>}
+          {this.isCheckmate() && <h2>Checkmate - {utils.other(this.whosTurn())} wins!</h2>}
+          {this.isCheck() && !this.isCheckmate() && !this.isStalemate() &&!this.isDraw() &&
+            <h2>{utils.capitalize(this.whosTurn())} is in check!</h2>}
+        </div>
         {/* <DebugPanel
           board={this.currBoard()}
           selectedPiece={this.state.selectedPiece}

@@ -320,8 +320,25 @@
         }
       }
 
+      .game-state-display {
+        height: 75px;
+      }
+
       .debug-panel {
         width: 400px;
+      }
+    }
+
+    #unlockable-text {
+      opacity: 0;
+      transition: opacity 2s linear;
+
+      &.hidden {
+        display: none;
+      }
+
+      &.visible {
+        opacity: 1;
       }
     }
   }
