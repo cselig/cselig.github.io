@@ -11,6 +11,7 @@ import connectedComponentsSketch from "../images/sketches/connected_components.s
 import skiGraphsSketch from "../images/sketches/ski_graphs.svg"
 import chordDataSketch from "../images/sketches/chord_data.svg"
 import cryptogramsSketch from "../images/sketches/cryptograms.svg"
+import pipesSketch from "../images/sketches/pipes.svg"
 import d3Sketch from "../images/sketches/d3.svg"
 
 const SKETCH_MAP = {
@@ -18,7 +19,7 @@ const SKETCH_MAP = {
   "ski-graphs": skiGraphsSketch,
   "cryptograms": cryptogramsSketch,
   "chord-data": chordDataSketch,
-  "three-js": connectedComponentsSketch,
+  "three-js": pipesSketch,
   "d3": d3Sketch,
 }
 
