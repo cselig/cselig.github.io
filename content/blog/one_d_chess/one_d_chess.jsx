@@ -144,7 +144,7 @@ class Container extends React.Component {
   }
 
   onSquareClick(i) {
-    if (this.whosTurn() === "black") return
+    if (this.whosTurn() === "black" || this.gameOver()) return
 
     if (this.state.selectedPiece === i) {
       // de-select piece
@@ -219,7 +219,7 @@ class Container extends React.Component {
   }
 
   gameOver() {
-    return this.isStalemate() || this.isCheckmate()
+    return this.isStalemate() || this.isCheckmate() || this.isDraw()
   }
 
   componentDidUpdate() {
