@@ -31,6 +31,9 @@ function About() {
           Finally, I'm a very active cellist and I love playing orchestral and chamber music (and attending summer music festivals
           when I get the chance).
         </p>
+        <p>
+          You can connect with me on: <a href="https://github.com/cselig">GitHub</a> | <a href="https://www.linkedin.com/in/c-selig/">LinkedIn</a>
+        </p>
       </div>
     </BaseLayout>
   )
