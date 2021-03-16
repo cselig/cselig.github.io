@@ -6,17 +6,18 @@ import * as utils from './utils'
 
 var $ = require("jquery")
 
-function Board({ board, onSquareClick, highlightedSquares, clickableSquares }) {
+const MAX_SQUARE_SIDE_LENGTH = 70 // px
+
+function Board({ board, onSquareClick, highlightedSquares, clickableSquares, squareSideLength }) {
   // Transform board state to svg elements
-  const SQUARE_SIDE_LENGTH = 60 // px
   let squares = []
   for (let i = 0; i < 8; i++) {
     let className = "square "
     className += (i % 2 == 0 ? "dark " : "light ")
     squares.push([
         <rect
-          width={SQUARE_SIDE_LENGTH}
-          height={SQUARE_SIDE_LENGTH}
+          width={squareSideLength}
+          height={squareSideLength}
           className={className}
           key="rect"
         />
@@ -27,7 +28,7 @@ function Board({ board, onSquareClick, highlightedSquares, clickableSquares }) {
   for (let i = 0; i < board.length; i++) {
     if (board[i] == null) continue
     const { color, piece } = board[i]
-    const style = {height: SQUARE_SIDE_LENGTH, width: SQUARE_SIDE_LENGTH}
+    const style = {height: squareSideLength, width: squareSideLength}
     squares[i].push(
       <image
         href={utils.PIECE_SVG_MAP[`${color}_${piece}`]}
@@ -43,8 +44,8 @@ function Board({ board, onSquareClick, highlightedSquares, clickableSquares }) {
         <circle
           className="legal-move-dot"
           r="10"
-          cx={SQUARE_SIDE_LENGTH / 2}
-          cy={SQUARE_SIDE_LENGTH / 2}
+          cx={squareSideLength / 2}
+          cy={squareSideLength / 2}
           key="dot"
         ></circle>
       )
@@ -53,7 +54,7 @@ function Board({ board, onSquareClick, highlightedSquares, clickableSquares }) {
 
   squares = squares.map((elems, i) => {
     const style = {
-      transform: `translate(${SQUARE_SIDE_LENGTH*i}px,0)`,
+      transform: `translate(${squareSideLength*i}px,0)`,
       cursor: clickableSquares.includes(i) || highlightedSquares.includes(i) ? "pointer" : "auto",
     }
     return (
@@ -64,7 +65,7 @@ function Board({ board, onSquareClick, highlightedSquares, clickableSquares }) {
   })
 
   return (
-    <svg className="board" width={SQUARE_SIDE_LENGTH * 8} height={SQUARE_SIDE_LENGTH}>
+    <svg className="board" width={squareSideLength * 8} height={squareSideLength}>
       {squares}
     </svg>
   )
@@ -101,6 +102,7 @@ class Container extends React.Component {
   constructor(props) {
     super(props)
     this.state = utils.initialState()
+    this.state.squareSideLength = MAX_SQUARE_SIDE_LENGTH
 
     this.currBoard = this.currBoard.bind(this)
     this.whosTurn = this.whosTurn.bind(this)
@@ -222,6 +224,16 @@ class Container extends React.Component {
     return this.isStalemate() || this.isCheckmate() || this.isDraw()
   }
 
+  componentDidMount() {
+    const recalcWidth = () => {
+      const w = $("#one-d-chess").width()
+      const squareSideLength = Math.min(MAX_SQUARE_SIDE_LENGTH, w / 8)
+      this.setState({squareSideLength: squareSideLength})
+    }
+    recalcWidth()
+    $(window).on("resize", recalcWidth)
+  }
+
   componentDidUpdate() {
     if (!this.gameOver() && this.whosTurn() === "black") {
       setTimeout(this.makeAIMove, 500)
@@ -272,6 +284,7 @@ class Container extends React.Component {
           onSquareClick={this.gameOver() ? () => null : this.onSquareClick}
           highlightedSquares={this.gameOver() ? [] : highlightedSquares}
           clickableSquares={this.gameOver() ? [] : clickableSquares}
+          squareSideLength={this.state.squareSideLength}
         />
         <div className="game-state-display">
           {this.isDraw() && <h2>Draw - neither side can win without rooks!</h2>}
