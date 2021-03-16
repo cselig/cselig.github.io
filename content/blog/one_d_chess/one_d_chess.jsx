@@ -43,7 +43,7 @@ function Board({ board, onSquareClick, highlightedSquares, clickableSquares, squ
       squares[i].push(
         <circle
           className="legal-move-dot"
-          r="10"
+          r={squareSideLength / 8}
           cx={squareSideLength / 2}
           cy={squareSideLength / 2}
           key="dot"
