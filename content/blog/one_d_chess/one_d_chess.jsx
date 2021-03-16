@@ -274,8 +274,8 @@ class Container extends React.Component {
           clickableSquares={this.gameOver() ? [] : clickableSquares}
         />
         <div className="game-state-display">
-          {this.isDraw() && <h2>Draw by insufficient material!</h2>}
-          {this.isStalemate() && <h2>Stalemate!</h2>}
+          {this.isDraw() && <h2>Draw - neither side can win without rooks!</h2>}
+          {this.isStalemate() && <h2>Stalemate - {this.whosTurn()} has no legal moves!</h2>}
           {this.isCheckmate() && <h2>Checkmate - {utils.other(this.whosTurn())} wins!</h2>}
           {this.isCheck() && !this.isCheckmate() && !this.isStalemate() &&!this.isDraw() &&
             <h2>{utils.capitalize(this.whosTurn())} is in check!</h2>}
