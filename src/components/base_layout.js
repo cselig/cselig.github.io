@@ -2,8 +2,8 @@ import React from "react"
 import { Helmet } from "react-helmet"
 import { Link } from "gatsby"
 
-import { ArrowBack } from '@material-ui/icons'
 import favicon from "../images/favicon.ico"
+import backArrow from "../images/handwriting/back_arrow.svg"
 
 import "../css/base_layout.scss"
 
@@ -16,7 +16,7 @@ const BaseLayout = ({ children, home }) => {
       </Helmet>
       {!home &&
         <Link to="/">
-          <ArrowBack className="back-button" />
+          <img className="back-button" src={backArrow} alt="back" />
         </Link>
       }
       <>{ children }</>

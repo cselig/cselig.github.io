@@ -3,7 +3,7 @@ import React from 'react'
 import * as ai from './ai'
 import * as utils from './utils'
 
-import Reset from '../../../src/images/icons/reset.jsx'
+import Reset from '../../../src/images/handwriting/reset.jsx'
 
 var $ = require("jquery")
 
