@@ -39,6 +39,26 @@ p a {
 @mixin wipe-end {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
+@keyframes wipe-right {
+  0%   { @include wipe-right-start() }
+  50%  { @include wipe-right-start() }
+  100% { @include wipe-end() }
+}
+@keyframes wipe-left {
+  0%   { @include wipe-left-start() }
+  50%  { @include wipe-left-start() }
+  100% { @include wipe-end() }
+}
+@keyframes wipe-down {
+  0%   { @include wipe-down-start() }
+  50%  { @include wipe-down-start() }
+  100% { @include wipe-end() }
+}
+@keyframes wipe-up {
+  0%   { @include wipe-up-start() }
+  50%  { @include wipe-up-start() }
+  100% { @include wipe-end() }
+}
 
 #page-container {
   #about {
@@ -66,7 +86,7 @@ p a {
     }
 
     .posts-container {
-      // Don't do the hover effect for touch screen devices.
+      // Only do hover effects for mouse devices.
       @media (pointer: fine) {
         &:hover {
           .post {
@@ -78,18 +98,18 @@ p a {
           opacity: 1;
         }
 
-        .post .sketch {
-          &.chess .animate { @include wipe-up-start(); }
-          &.connected-components .animate { @include wipe-right-start(); }
-          &.ski-graphs .animate { @include wipe-right-start(); }
-          &.cryptograms .animate { @include wipe-down-start(); }
-          &.music-note .animate { @include wipe-down-start(); }
-          &.pipes .animate { @include wipe-down-start(); }
-          &.d3 .animate { @include wipe-up-start(); }
-        }
+        .post:hover .sketch {
+          .animate {
+            animation-duration: 600ms;
+          }
 
-        .post:hover .sketch .animate {
-          @include wipe-end();
+          &.chess .animate { animation-name: wipe-up; }
+          &.connected-components .animate { animation-name: wipe-right; }
+          &.ski-graphs .animate { animation-name: wipe-right; }
+          &.cryptograms .animate { animation-name: wipe-down; }
+          &.music-note .animate { animation-name: wipe-down; }
+          &.pipes .animate { animation-name: wipe-down; }
+          &.d3 .animate { animation-name: wipe-up; }
         }
       }
 
