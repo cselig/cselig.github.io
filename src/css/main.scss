@@ -5,6 +5,20 @@ body {
   margin: 0 auto;
 }
 
+p {
+  font-size: 18px;
+}
+
+p a {
+  background-image: url('../images/handwriting/highlight.svg');
+  background-position: 50% 50%;
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 #page-container {
   #about {
     .title-container {
