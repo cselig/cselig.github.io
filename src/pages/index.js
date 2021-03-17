@@ -7,22 +7,31 @@ import BaseLayout from "../components/base_layout"
 
 import "../css/main.scss"
 
-import chessSketch from "../images/sketches/chess.svg"
-import connectedComponentsSketch from "../images/sketches/connected_components.svg"
-import skiGraphsSketch from "../images/sketches/ski_graphs.svg"
-import chordDataSketch from "../images/sketches/chord_data.svg"
-import cryptogramsSketch from "../images/sketches/cryptograms.svg"
-import pipesSketch from "../images/sketches/pipes.svg"
-import d3Sketch from "../images/sketches/d3.svg"
+import ConnectedComponentsSketch from "../images/sketches/connected_components.jsx"
+import CryptogramsSketch from "../images/sketches/cryptograms.jsx"
+import PipesSketch from "../images/sketches/pipes.jsx"
+import ChessSketch from "../images/sketches/chess.jsx"
+import MusicNote from "../images/sketches/music_note.jsx"
+import SkiGraphsSketch from "../images/sketches/ski_graphs.jsx"
+import D3Sketch from "../images/sketches/d3.jsx"
 
-const SKETCH_MAP = {
-  "one-d-chess": chessSketch,
-  "graph-builder": connectedComponentsSketch,
-  "ski-graphs": skiGraphsSketch,
-  "cryptograms": cryptogramsSketch,
-  "chord-data": chordDataSketch,
-  "three-js": pipesSketch,
-  "d3": d3Sketch,
+function sketchForSlug(slug) {
+  switch (slug) {
+    case "graph-builder":
+      return <ConnectedComponentsSketch />
+    case "cryptograms":
+      return <CryptogramsSketch />
+    case "three-js":
+      return <PipesSketch />
+    case "one-d-chess":
+      return <ChessSketch />
+    case "chord-data":
+      return <MusicNote />
+    case "ski-graphs":
+      return <SkiGraphsSketch />
+    case "d3":
+      return <D3Sketch />
+  }
 }
 
 const BlogSection = ({ posts }) => {
@@ -32,7 +41,7 @@ const BlogSection = ({ posts }) => {
     <div className="posts-container">
       {posts.map(({ node }) => (
         <Link to={`/blog/${node.fields.slug}`} className="post" key={node.id}>
-          <img className="sketch" src={SKETCH_MAP[node.fields.slug]} />
+          {sketchForSlug(node.fields.slug)}
           <div className="title-container">
             <h3 className="title">{node.frontmatter.title}</h3>
             <p className="date">{node.frontmatter.date}</p>

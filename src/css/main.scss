@@ -10,13 +10,34 @@ p {
 }
 
 p a {
-  background-image: url('../images/handwriting/highlight.svg');
-  background-position: 50% 50%;
   text-decoration: none;
   color: inherit;
   font-weight: 500;
+
+  background-image: url('../images/handwriting/highlight.svg');
   background-repeat: no-repeat;
+  background-position: 50% 50%;
   background-size: cover;
+}
+
+@mixin wipe-right-start {
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  transition: clip-path 300ms;
+}
+@mixin wipe-left-start {
+  clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  transition: clip-path 300ms;
+}
+@mixin wipe-down-start {
+  clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  transition: clip-path 300ms;
+}
+@mixin wipe-up-start {
+  clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+  transition: clip-path 300ms;
+}
+@mixin wipe-end {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
 
 #page-container {
@@ -55,6 +76,20 @@ p a {
 
         .post:hover {
           opacity: 1;
+        }
+
+        .post .sketch {
+          &.chess .animate { @include wipe-up-start(); }
+          &.connected-components .animate { @include wipe-right-start(); }
+          &.ski-graphs .animate { @include wipe-right-start(); }
+          &.cryptograms .animate { @include wipe-down-start(); }
+          &.music-note .animate { @include wipe-down-start(); }
+          &.pipes .animate { @include wipe-down-start(); }
+          &.d3 .animate { @include wipe-up-start(); }
+        }
+
+        .post:hover .sketch .animate {
+          @include wipe-end();
         }
       }
 
