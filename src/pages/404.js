@@ -1,14 +1,13 @@
 import React from "react"
 import { Link } from "gatsby"
-import Emoji from "../components/emoji"
 
 import "../css/404.scss"
 
 const PageNotFound = () => (
   <div id="page-not-found">
-    <p>404: Page not found <Emoji symbol="😢" /></p>
+    <h1 className="four-oh-four">404</h1>
     <Link to="/">
-      <p className="link">home</p>
+      <p className="link">Home</p>
     </Link>
   </div>
 )

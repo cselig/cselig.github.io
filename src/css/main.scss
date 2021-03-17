@@ -9,15 +9,19 @@ p {
   font-size: 16px;
 }
 
-p a {
+@mixin link {
   text-decoration: none;
-  color: inherit;
+  color: black;
   font-weight: 500;
 
   background-image: url('../images/handwriting/highlight.svg');
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: cover;
+}
+
+p a {
+  @include link();
 }
 
 @mixin wipe-right-start {
