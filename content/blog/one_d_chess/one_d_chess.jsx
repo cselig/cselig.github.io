@@ -1,8 +1,9 @@
 import React from 'react'
-import { ChevronLeft, ChevronRight } from '@material-ui/icons'
 
 import * as ai from './ai'
 import * as utils from './utils'
+
+import Reset from '../../../src/images/icons/reset.jsx'
 
 var $ = require("jquery")
 
@@ -107,8 +108,6 @@ class Container extends React.Component {
     this.currBoard = this.currBoard.bind(this)
     this.whosTurn = this.whosTurn.bind(this)
     this.reset = this.reset.bind(this)
-    this.advance = this.advance.bind(this)
-    this.rewind = this.rewind.bind(this)
     this.onSquareClick = this.onSquareClick.bind(this)
     this.makeMove = this.makeMove.bind(this)
     this.makeAIMove = this.makeAIMove.bind(this)
@@ -131,18 +130,6 @@ class Container extends React.Component {
 
   reset() {
     this.setState(utils.initialState())
-  }
-
-  advance() {
-    this.setState(({ timeline, timelineInd }) => ({
-      timelineInd: (timelineInd < timeline.length - 1) ? timelineInd + 1 : timelineInd
-    }))
-  }
-
-  rewind() {
-    this.setState(({ timelineInd }) => ({
-      timelineInd: (timelineInd > 0) ? timelineInd - 1 : timelineInd
-    }))
   }
 
   onSquareClick(i) {
@@ -253,31 +240,10 @@ class Container extends React.Component {
     const highlightedSquares = this.getHighlightedSquares()
     const clickableSquares = this.getClickableSquares()
 
-    // Doing this because I don't think you can apply classNames to material-ui icon components
-    const canRewind = this.state.timelineInd > 0
-    const canAdvance = this.state.timelineInd < this.state.timeline.length - 1
-    const rewindStyle = {
-      cursor: "pointer",
-      fontSize: "32px",
-      opacity: canRewind ? 1 : 0.3,
-      pointerEvents: canRewind ? "all" : "none",
-    }
-    const advanceStyle = {
-      cursor: "pointer",
-      fontSize: "32px",
-      opacity: canAdvance ? 1 : 0.3,
-      pointerEvents: canAdvance ? "all" : "none",
-    }
-
     return (
       <div className="chess-ui">
         <div className="control-panel">
-          <button name="reset" onClick={this.reset}>Reset</button>
-          {/* TODO: figure out how to make this work cleanly with the automatic AI moves */}
-          {/* <div className="timeline-buttons">
-            <ChevronLeft style={rewindStyle} onClick={this.rewind} />
-            <ChevronRight style={advanceStyle} onClick={this.advance} />
-          </div> */}
+          <Reset className="reset" onClick={this.reset} />
         </div>
         <Board
           board={this.currBoard()}
