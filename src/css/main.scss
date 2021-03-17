@@ -104,7 +104,7 @@ p a {
           }
 
           &.chess .animate { animation-name: wipe-up; }
-          &.connected-components .animate { animation-name: wipe-right; }
+          &.connected-components .animate { animation-name: wipe-up; }
           &.ski-graphs .animate { animation-name: wipe-right; }
           &.cryptograms .animate { animation-name: wipe-down; }
           &.music-note .animate { animation-name: wipe-down; }
