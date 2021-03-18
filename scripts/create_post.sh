@@ -11,7 +11,6 @@ cat > "./content/blog/$1/$1.mdx" <<- EOM
 ---
 title: $1
 date: `date +%F`
-excerpt:
 ---
 EOM
 
