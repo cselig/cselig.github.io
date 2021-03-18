@@ -21,10 +21,18 @@ export default function KeyboardUIContainer() {
   const [keyFreqs, setKeyFreqs] = useState(new Map())
   const [lastPressedKey, setLastPressedKey] = useState("")
   const [keyboardLayout, setKeyboardLayout] = useState("standard") // "standard" | "dvorak" | "colemak"
+  const [timeoutId, setTimeoutId] = useState(null)
 
   function registerKeyPress(key) {
     key = key.toLowerCase()
     setLastPressedKey(key)
+    clearTimeout(timeoutId)
+    setTimeoutId(
+      setTimeout(
+        () => setLastPressedKey(""),
+        500
+      )
+    )
 
     // unsure if I can avoid this copy
     let newKeyFreqs = new Map(keyFreqs)
