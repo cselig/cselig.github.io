@@ -34,8 +34,6 @@ const sumMapValues = map => {
   return result
 }
 
-const getWithDefault = (map, k, default_) => map.has(k) ? map.get(k) : default_
-
 export default function Keyboard({ keyFreqs, lastPressedKey, keyboardLayout }) {
   let rows
   let rowXOffsets
@@ -52,9 +50,11 @@ export default function Keyboard({ keyFreqs, lastPressedKey, keyboardLayout }) {
 
   const computeFill = key => {
     const total = sumMapValues(keyFreqs)
-    const n = getWithDefault(keyFreqs, key, 0)
+    const n = keyFreqs.get(key)
+    if (n == undefined) return "white"
     const proportion = total === 0 ? 0 : n / total
-    return d3.interpolateReds(proportion)
+    // x^1/3 gives a more distributed range of color shades
+    return d3.interpolateReds(Math.pow(proportion, 1/3))
   }
 
   const createKey = (key, i) => {
