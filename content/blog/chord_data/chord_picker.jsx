@@ -145,6 +145,10 @@ class ChordPicker extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.midiSounds.stopPlayLoop()
+  }
+
   render() {
     const resetChords = () => {
       this.midiSounds.stopPlayLoop()
