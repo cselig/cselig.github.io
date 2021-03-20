@@ -114,6 +114,7 @@ p a {
           &.music-note .animate { animation-name: wipe-down; }
           &.pipes .animate { animation-name: wipe-down; }
           &.d3 .animate { animation-name: wipe-up; }
+          &.keyboard .animate { animation-name: wipe-right; }
         }
       }
 

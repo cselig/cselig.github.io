@@ -14,6 +14,7 @@ import ChessSketch from "../images/sketches/chess.jsx"
 import MusicNote from "../images/sketches/music_note.jsx"
 import SkiGraphsSketch from "../images/sketches/ski_graphs.jsx"
 import D3Sketch from "../images/sketches/d3.jsx"
+import KeyboardSketch from "../images/sketches/keyboard.jsx"
 
 function sketchForSlug(slug) {
   switch (slug) {
@@ -31,6 +32,8 @@ function sketchForSlug(slug) {
       return <SkiGraphsSketch />
     case "d3":
       return <D3Sketch />
+    case "keyboard-frequencies":
+      return <KeyboardSketch />
   }
 }
 
