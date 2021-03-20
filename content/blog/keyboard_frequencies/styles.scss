@@ -28,13 +28,11 @@
 }
 
 #keyboard {
-  .row {
-    .key {
-      rect {
-        fill: none;
-        transition: fill 300ms;
-        stroke: grey;
-      }
+  .key {
+    rect {
+      fill: none;
+      transition: fill 300ms;
+      stroke: grey;
     }
   }
 }
@@ -59,6 +57,14 @@
 
     .complete {
       background-color: lightblue;
+    }
+  }
+
+  .wpm {
+    transition: opacity 2s;
+
+    &.hidden {
+      opacity: 0;
     }
   }
 }

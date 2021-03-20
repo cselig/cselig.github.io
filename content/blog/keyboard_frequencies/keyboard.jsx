@@ -57,9 +57,11 @@ export default function Keyboard({ keyFreqs, lastPressedKey, keyboardLayout }) {
     return d3.interpolateYlOrRd(Math.pow(proportion, 1/5))
   }
 
-  const createKey = (key, i) => {
-    const xOffset = i * KEY_HEIGHT + X_OFFSET
-    const transform = `translate(${xOffset}px, 0)`
+  const createKey = (key, i, rowInd) => {
+    const xOffset = i * KEY_HEIGHT + X_OFFSET + rowXOffsets[rowInd]
+    const yOffset = rowInd * KEY_HEIGHT + Y_OFFSET
+    const transform = `translate(${xOffset}px, ${yOffset}px)`
+
     const fill = computeFill(key)
 
     const pressed = key === lastPressedKey
@@ -80,18 +82,12 @@ export default function Keyboard({ keyFreqs, lastPressedKey, keyboardLayout }) {
     )
   }
 
-  const createRow = (row, i) => {
-    const xOffset = rowXOffsets[i]
-    const yOffset = i * KEY_HEIGHT + Y_OFFSET
-    const transform = `translate(${xOffset}px, ${yOffset}px)`
-    return (
-      <g className="row" style={{ transform }} key={i}>
-        {row.map(createKey)}
-      </g>
-    )
-  }
-
-  const keys = rows.map(createRow)
+  let keys = []
+  rows.forEach((row, rowInd) => {
+    row.forEach((key, keyInd) => {
+      keys.push(createKey(key, keyInd, rowInd))
+    })
+  })
 
   return (
     <svg
