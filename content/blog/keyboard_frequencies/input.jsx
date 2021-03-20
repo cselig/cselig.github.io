@@ -58,7 +58,7 @@ export default function InputContainer({ registerKeyPress, typedText, setTypedTe
         </blockquote>
       }
 
-      <p className="wpm hidden">Nice! Your words per minute: {wpm}</p>
+      <p className="wpm hidden">Nice! Your words per minute: {Math.round(wpm)}</p>
     </div>
   )
 }
