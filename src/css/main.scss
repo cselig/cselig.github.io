@@ -63,6 +63,8 @@ p a {
   50%  { @include wipe-up-start() }
   100% { @include wipe-end() }
 }
+@keyframes spin { 100% { transform:rotate(360deg); } }
+
 
 #page-container {
   #about {
@@ -107,7 +109,10 @@ p a {
             animation-duration: 600ms;
           }
 
-          &.chess .animate { animation-name: wipe-up; }
+          &.chess .animate {
+            animation-name: spin;
+            transform-origin: 50% 15%;
+          }
           &.connected-components .animate { animation-name: wipe-up; }
           &.ski-graphs .animate { animation-name: wipe-right; }
           &.cryptograms .animate { animation-name: wipe-down; }
