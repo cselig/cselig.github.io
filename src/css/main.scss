@@ -63,7 +63,11 @@ p a {
   50%  { @include wipe-up-start() }
   100% { @include wipe-end() }
 }
-@keyframes spin { 100% { transform:rotate(360deg); } }
+@keyframes spin {
+  0%   { transform:rotate(0); }
+  50%  { transform:rotate(0); }
+  100% { transform:rotate(360deg); }
+}
 
 
 #page-container {
