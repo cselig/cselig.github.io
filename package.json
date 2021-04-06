@@ -15,6 +15,7 @@
     "d3": "^5.16.0",
     "gatsby": "^3.1.1",
     "gatsby-image": "^3.1.0",
+    "gatsby-plugin-feed-mdx": "^1.1.0",
     "gatsby-plugin-google-analytics": "^3.1.0",
     "gatsby-plugin-google-fonts": "^1.0.1",
     "gatsby-plugin-mdx": "^2.1.0",

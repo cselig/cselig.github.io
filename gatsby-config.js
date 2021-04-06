@@ -1,8 +1,9 @@
 module.exports = {
   siteMetadata: {
-    title: `Christian Selig`,
+    title: `Cselig's Code Sketches`,
     description: ``,
     author: `@cselig`,
+    siteUrl: 'https://cselig.github.io',
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -46,6 +47,57 @@ module.exports = {
       },
     },
     `gatsby-transformer-sharp`,
+    {
+      resolve: `gatsby-plugin-feed-mdx`,
+      options: {
+        query: `
+          {
+            site {
+              siteMetadata {
+                title
+                description
+                siteUrl
+                site_url: siteUrl
+              }
+            }
+          }
+        `,
+        feeds: [
+          {
+            serialize: ({ query: { site, allMdx } }) => {
+              return allMdx.edges.map((edge) => {
+                const url = `${site.siteMetadata.siteUrl}/blog/${edge.node.fields.slug}`
+                return Object.assign({}, edge.node.frontmatter, {
+                  date: edge.node.frontmatter.date,
+                  url: url,
+                  guid: edge.node.fields.slug,
+                });
+              });
+            },
+            query: `
+              {
+                allMdx(
+                  sort: { order: DESC, fields: [frontmatter___date] },
+                ) {
+                  edges {
+                    node {
+                      fields { slug }
+                      frontmatter {
+                        title
+                        date
+                      }
+                    }
+                  }
+                }
+              }
+            `,
+            output: '/rss.xml',
+            title: "Cselig's Code Sketches",
+            match: '^/blog/'
+          }
+        ]
+      }
+    },
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
