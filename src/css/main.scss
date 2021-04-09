@@ -24,25 +24,13 @@ p a {
   @include link();
 }
 
-@mixin wipe-right-start {
-  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
-  transition: clip-path 300ms;
-}
-@mixin wipe-left-start {
-  clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
-  transition: clip-path 300ms;
-}
-@mixin wipe-down-start {
-  clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-  transition: clip-path 300ms;
-}
-@mixin wipe-up-start {
-  clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
-  transition: clip-path 300ms;
-}
-@mixin wipe-end {
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-}
+@mixin wipe-right-start { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); }
+@mixin wipe-left-start { clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%); }
+@mixin wipe-down-start { clip-path: polygon(0 0, 100% 0, 100% 0, 0 0); }
+@mixin wipe-up-start { clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%); }
+@mixin wipe-end { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+@mixin cursor-start { transform:translate(0, 0) }
+@mixin cursor-end { transform:translate(-20px, -10px) }
 @keyframes wipe-right {
   0%   { @include wipe-right-start() }
   50%  { @include wipe-right-start() }
@@ -68,7 +56,11 @@ p a {
   50%  { transform:rotate(0); }
   100% { transform:rotate(360deg); }
 }
-
+@keyframes cursor-animation {
+  0%   { @include cursor-start() }
+  50%  { @include cursor-start() }
+  100% { @include cursor-end() }
+}
 
 #page-container {
   #about {
@@ -108,6 +100,10 @@ p a {
           opacity: 1;
         }
 
+        .sketch.cursor .animate {
+          @include cursor-end();
+        }
+
         .post:hover .sketch {
           .animate {
             animation-duration: 600ms;
@@ -124,6 +120,7 @@ p a {
           &.pipes .animate { animation-name: wipe-down; }
           &.d3 .animate { animation-name: wipe-up; }
           &.keyboard .animate { animation-name: wipe-right; }
+          &.cursor .animate { animation-name: cursor-animation; }
         }
       }
 

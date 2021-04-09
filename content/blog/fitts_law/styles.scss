@@ -1,0 +1,27 @@
+#fitts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#clicking-field {
+  svg {
+    outline: 3px solid grey;
+    margin: 10px;
+
+    circle {
+      fill: black;
+      cursor: pointer;
+
+      &:hover {
+        fill: green;
+      }
+    }
+  }
+}
+
+#chart {
+  svg {
+    margin: 10px;
+  }
+}

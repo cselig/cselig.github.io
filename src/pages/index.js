@@ -15,8 +15,10 @@ import MusicNote from "../images/sketches/music_note.jsx"
 import SkiGraphsSketch from "../images/sketches/ski_graphs.jsx"
 import D3Sketch from "../images/sketches/d3.jsx"
 import KeyboardSketch from "../images/sketches/keyboard.jsx"
+import CursorSketch from "../images/sketches/cursor.jsx"
 
 function sketchForSlug(slug) {
+  console.log(slug)
   switch (slug) {
     case "graph-builder":
       return <ConnectedComponentsSketch />
@@ -34,6 +36,8 @@ function sketchForSlug(slug) {
       return <D3Sketch />
     case "keyboard-frequencies":
       return <KeyboardSketch />
+    case "fitts-law":
+      return <CursorSketch />
   }
 }
 
