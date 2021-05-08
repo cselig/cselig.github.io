@@ -30,7 +30,7 @@ function Container() {
       />
       <Chart data={data}  />
       {clicksRemaining === 0 &&
-        <p>Average time between target clicks: {meanClickTime} ms</p>}
+        <p>Average time between target clicks: {Math.round(meanClickTime)} ms</p>}
     </div>
   )
 }

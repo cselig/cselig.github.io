@@ -18,7 +18,6 @@ import KeyboardSketch from "../images/sketches/keyboard.jsx"
 import CursorSketch from "../images/sketches/cursor.jsx"
 
 function sketchForSlug(slug) {
-  console.log(slug)
   switch (slug) {
     case "graph-builder":
       return <ConnectedComponentsSketch />
