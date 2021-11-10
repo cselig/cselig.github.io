@@ -1,0 +1,38 @@
+@mixin center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#keyboard-ui-container {
+  @include center();
+
+  margin-top: 30px;
+
+  .keyboard-layouts {
+    display: flex;
+
+    p {
+      cursor: pointer;
+      margin: 0 10px;
+      font-size: 18px;
+      opacity: 0.5;
+
+      &.selected {
+        opacity: 1;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+#keyboard {
+  .key {
+    rect {
+      fill: none;
+      transition: fill 300ms;
+      stroke: grey;
+    }
+  }
+}
