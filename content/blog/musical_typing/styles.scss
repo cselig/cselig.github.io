@@ -36,3 +36,36 @@
     }
   }
 }
+
+
+#input-container {
+  @include center();
+
+  input {
+    width: 20px;
+  }
+
+  .text {
+    background: #f9f9f9;
+    border-left: 10px solid #ccc;
+    margin: 1.5em 10px;
+    padding: 0.5em 10px;
+      // quotes: "\201C""\201D""\2018""\2019";
+
+    .failed {
+      background-color: lightcoral;
+    }
+
+    .complete {
+      background-color: lightblue;
+    }
+  }
+
+  .wpm {
+    transition: opacity 2s;
+
+    &.hidden {
+      opacity: 0;
+    }
+  }
+}

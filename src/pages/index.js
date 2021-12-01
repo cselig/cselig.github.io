@@ -16,6 +16,7 @@ import SkiGraphsSketch from "../images/sketches/ski_graphs.jsx"
 import D3Sketch from "../images/sketches/d3.jsx"
 import KeyboardSketch from "../images/sketches/keyboard.jsx"
 import CursorSketch from "../images/sketches/cursor.jsx"
+import PianoSketch from "../images/sketches/piano.jsx"
 
 function sketchForSlug(slug) {
   switch (slug) {
@@ -37,6 +38,8 @@ function sketchForSlug(slug) {
       return <KeyboardSketch />
     case "fitts-law":
       return <CursorSketch />
+    case "musical-typing":
+      return <PianoSketch />
   }
 }
 

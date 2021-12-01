@@ -121,6 +121,7 @@ p a {
           &.d3 .animate { animation-name: wipe-up; }
           &.keyboard .animate { animation-name: wipe-right; }
           &.cursor .animate { animation-name: cursor-animation; }
+          // &.piano .animate { animation-name: wipe-down; } // looks weird :(
         }
       }
 
