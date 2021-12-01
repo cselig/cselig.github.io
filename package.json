@@ -35,7 +35,7 @@
     "npm": "^7.6.2",
     "postcss": "^8.2.8",
     "prism-react-renderer": "^1.2.0",
-    "prismjs": "^1.23.0",
+    "prismjs": "^1.25.0",
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
