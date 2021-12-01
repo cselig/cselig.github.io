@@ -33,7 +33,7 @@
     "midi-sounds-react": "^1.2.54",
     "node-sass": "^5.0.0",
     "npm": "^7.6.2",
-    "postcss": "^8.2.8",
+    "postcss": "^8.2.10",
     "prism-react-renderer": "^1.2.0",
     "prismjs": "^1.23.0",
     "prop-types": "^15.7.2",
