@@ -1,0 +1,9 @@
+#lexing-ui-container {
+  .lexed-input {
+    font-family: monospace;
+
+    .STRING { color: coral; }
+    .COMMENT { color: grey; }
+    .IDENTIFIER { color: lightblue; }
+  }
+}
