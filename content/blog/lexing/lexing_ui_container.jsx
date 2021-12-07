@@ -1,13 +1,8 @@
-import React, { useState } from "react"
-import * as lexerUtils from "./cool_lexer"
+import React from "react"
 
 import "./styles.scss"
 
-export default function LexingUIContainer() {
-  const [input, setInput] = useState("")
-  const tokens = lexerUtils.lex(input)
-  console.log(tokens)
-
+export default function LexingUIContainer({ tokens, input }) {
   let lexedInput = []
   let inputInd = 0
   let tokenInd = 0
@@ -22,10 +17,8 @@ export default function LexingUIContainer() {
     }
   }
 
-  const onChange = (e) => setInput(e.target.value)
   return (
     <div id="lexing-ui-container">
-      <textarea value={input} onChange={onChange}></textarea>
       <pre className="lexed-input">{lexedInput}</pre>
     </div>
   )

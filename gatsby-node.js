@@ -19,6 +19,15 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
   }
 }
 
+// packages shouldn't use fs, which only exists server-side.
+exports.onCreateWebpackConfig = ({ actions }) => {
+  actions.setWebpackConfig({
+    node: {
+      fs: 'empty'
+    }
+  })
+}
+
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 

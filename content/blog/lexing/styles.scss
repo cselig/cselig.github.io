@@ -3,7 +3,12 @@
     font-family: monospace;
 
     .STRING { color: coral; }
+    .INTEGER { color: coral; }
     .COMMENT { color: grey; }
     .IDENTIFIER { color: lightblue; }
+    .TYPE { color: blue; }
+    .OPERATOR { color: yellowgreen; }
+    .PUNCTUATION { color: grey; }
+    .KEYWORD { color: purple; }
   }
 }
