@@ -1,0 +1,26 @@
+---
+title: Interactive Compiler
+date: 2021-12-09
+draft: true
+---
+
+I'm taking [this](https://www.edx.org/course/compilers) online compilers course right now and the class project is to build
+a compiler for a simple object-oriented language, [COOL](https://courses.edx.org/assets/courseware/v1/27e1a38f1161e61d91c25a4b1805489b/asset-v1:StanfordOnline+SOE.YCSCS1+3T2020+type@asset+block/cool_manual.pdf).
+Instead of implementing the components in C++ or Java run the compiler from the command line, I thought it would be fun
+to implement the compiler in Javascript and make it visual. Below you can type COOL code and examine the outputs of each
+compiler stage.
+
+## Lexing
+
+The first stage of the compiler is to tokenize the input code and classify those tokens, which is called
+lexing. This is the simplest step to implement and involves specifying regular expressions for each
+token class in the language. You can type code below but lexing will not identify any errors except
+for unidentified tokens; checking syntax and semantics is left for parsing and later stages.
+
+import RootUIContainer from "./root_ui_container"
+
+<RootUIContainer />
+
+## Parsing
+
+In progress.

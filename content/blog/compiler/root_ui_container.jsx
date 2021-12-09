@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import LexingUIContainer from "./lexing_ui_container"
-import ParsingUIContainer from "./parsing_ui_container"
 import { lex } from "./cool_lexer"
 import { parse } from "./cool_parser"
 
@@ -57,12 +56,12 @@ export default function RootUIContainer() {
       <div className="input-container">
         <div className="examples">
           <Example
-            selected={input == EXAMPLE1}
+            selected={input === EXAMPLE1}
             setInput={setInput}
             code={EXAMPLE1}
             name="Example 1" key="1" />
           <Example
-            selected={input == EXAMPLE2}
+            selected={input === EXAMPLE2}
             setInput={setInput}
             code={EXAMPLE2}
             name="Example 2" key="2" />
@@ -73,7 +72,6 @@ export default function RootUIContainer() {
           onChange={onChange}></textarea>
       </div>
       <LexingUIContainer tokens={tokens} input={input} />
-      <ParsingUIContainer />
     </div>
   )
 }
