@@ -14,6 +14,8 @@
 ')' return ')'
 ':' return ':'
 ',' return ','
+'@' return '@'
+'.' return '.'
 
 // operators
 '+' return '+'
@@ -24,6 +26,7 @@
 "<-" return '<-'
 '<' return '<'
 "<=" return '<='
+'=' return '='
 
 // keywords
 "class" return 'CLASS'
@@ -49,8 +52,9 @@
 [a-z][a-zA-Z0-9_]* return 'ID'
 
 // literals
+\".+\" return 'STRING'
 [0-9]+  return 'INTEGER'
-"true" return 'TRUE'
+"true"  return 'TRUE'
 "false" return 'FALSE'
 // TODO: string
 
@@ -71,7 +75,6 @@ let allClasses = []
 %left '+' '-'
 %left '*' '/'
 
-
 // start symbol
 %start program
 
@@ -80,30 +83,40 @@ let allClasses = []
 program
   : (class ';')+ EOF
     { 
-      return {type: 'program', classes: $1};
+      return {nodeType: 'program', classes: $1};
     }
   ;
 
 class
   : CLASS TYPE (INHERITS TYPE)? '{' (feature ';')* '}'
     {
-      $$ = {type: 'class', className: $2}
+      $$ = {nodeType: 'class', className: $2, features: $5}
     }
   ;
 
 feature
   // method
   : ID '(' formal? (',' formal)* ')' ':' TYPE '{' expr '}'
+    {
+      $$ = {nodeType: 'method', name: $1, body: $9}
+    }
   | formal ('<-' expr)?
+    {
+      $$ = {nodeType: 'attribute', id: $1.id, type: $1.type}
+    }
   ;
 
 formal
   : ID ':' TYPE
+    {
+      $$ = {nodeType: 'formal', id: $1, type: $3}
+    }
   ;
 
 expr
   : ID '<-' expr
-  // method call
+  // method calls
+  | expr ('@' TYPE)? '.' ID '(' expr? (',' expr)* ')'
   | ID '(' expr? (',' expr)* ')'
   // if statement
   | IF expr THEN expr ELSE expr FI
@@ -116,6 +129,9 @@ expr
   | NEW TYPE
   | ISVOID expr
   | expr '+' expr
+  {
+    $$ = {nodeType: 'expr', operator: '+', lhs: $1, rhs: $3}
+  }
   | expr '-' expr
   | expr '*' expr
   | expr '/' expr
@@ -126,6 +142,10 @@ expr
   | NOT expr
   | '(' expr ')'
   | ID
+  {
+    $$ = {nodeType: 'identifier', value: $1}
+  }
+  | STRING
   | INTEGER
   | TRUE
   | FALSE

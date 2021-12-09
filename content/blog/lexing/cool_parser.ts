@@ -6,8 +6,8 @@ export function parse(input: string) {
   try {
     const parseTree = parser.parse(input)
     console.log("parseTree:", parseTree)
-    console.log("classes:", parseTree.classes)
+    // console.log("classes:", parseTree.classes)
   } catch (e) {
-    console.error(e)
+    console.log("%c" + e.message, "color: red")
   }
 }

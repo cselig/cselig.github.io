@@ -1,14 +1,85 @@
-#lexing-ui-container {
-  .lexed-input {
-    font-family: monospace;
+.input-container {
+  .examples {
+    display: flex;
+    
+    .example {
+      padding-right: 10px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      border: 2px solid grey;
+      p {
+        margin: 5px;
+      }
 
-    .STRING { color: coral; }
-    .INTEGER { color: coral; }
-    .COMMENT { color: grey; }
-    .IDENTIFIER { color: lightblue; }
-    .TYPE { color: blue; }
-    .OPERATOR { color: yellowgreen; }
-    .PUNCTUATION { color: grey; }
-    .KEYWORD { color: purple; }
+      &.selected {
+        color: green;
+      }
+    }
+  }
+
+  textarea {
+    width: 80%;
+  }
+}
+
+#lexing-ui-container {
+  $BG: #1E1E1E;
+  $BLUE: #389EDB;
+  $WHITE: #D4D4D4;
+  $ORANGE: #D98E73;
+  $GREEN: #5B9B4C;
+  $LIGHTGREEN: #AFCFA4;
+  $GREY: grey;
+
+  .lexed-input {
+    padding: 5px;
+    font-family: monospace;
+    font-size: 16px;
+    background: $BG;
+    width: 80%;
+    overflow-x: scroll;
+    line-height: 1.3;
+
+    .STRING { color: $ORANGE; }
+    .INTEGER { color: $ORANGE; }
+    .COMMENT { color: $GREY; }
+    .IDENTIFIER { color: $LIGHTGREEN; }
+    .TYPE { color: $GREEN; }
+    .OPERATOR { color: $WHITE; }
+    .PUNCTUATION { color: $WHITE; }
+    .KEYWORD { color: $BLUE; }
+
+    &:hover {
+      span {
+        transition: opacity 150ms;
+        opacity: 0.3;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+
+    .tooltip {
+      background: grey;
+      width: fit-content;
+      border-radius: 5px;
+      padding: 5px;
+      position: absolute;
+      z-index: 1;
+
+      &::before {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-width: 6px;
+        border-style: solid;
+        border-color: transparent grey transparent transparent;
+        top: 9px;
+        left: -12px;
+      }
+    }
   }
 }

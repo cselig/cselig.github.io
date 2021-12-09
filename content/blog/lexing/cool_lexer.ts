@@ -30,8 +30,8 @@ export function buildCoolLexer(): Lexer {
       // Anything between ** is a comment.
       .addRule(/\*[\w\s]*\*/, tokenFactory(TokenClass.COMMENT))
       .addRule(/class|inherits|if|then|else|fi|while|loop|pool|let|in|case|of|esac|isvoid|new|not/, tokenFactory(TokenClass.KEYWORD))
-      // This is a simplified COOL string (no escape characters).
-      .addRule(/\"[\w\s:()]+\"/, tokenFactory(TokenClass.STRING))
+      // This is a simplified COOL string (no escaped quotes).
+      .addRule(/\"[^\"]+\"/, tokenFactory(TokenClass.STRING))
       // An integer is a string of digit.
       .addRule(/\d+/, tokenFactory(TokenClass.INTEGER))
       // An identifier starts with a letter and can contain letters, numbers, and underscores.
@@ -41,8 +41,8 @@ export function buildCoolLexer(): Lexer {
         comment = false
         return tokenFactory(TokenClass.WHITESPACE)(lexeme)
       })
-      .addRule(/\+|\-|\*|\/|<-/, tokenFactory(TokenClass.OPERATOR))
-      .addRule(/[;{}():,]/, tokenFactory(TokenClass.PUNCTUATION))
+      .addRule(/\+|\-|\*|\/|<-|=/, tokenFactory(TokenClass.OPERATOR))
+      .addRule(/[;{}():,.]/, tokenFactory(TokenClass.PUNCTUATION))
       .addRule(/\s/, tokenFactory(TokenClass.WHITESPACE))
       .addRule(/./, tokenFactory(TokenClass.UNDEFINED))
   }
