@@ -53,8 +53,10 @@ export default function LexingUIContainer({ tokens, input }) {
 
   return (
     <div id="lexing-ui-container">
-      <h3>Lexed code:</h3>
-      <p>Hover over a token to see its class.</p>
+      <p>
+        Below is the lexed code with coloring to distinguish different token classes.
+        Hover over a token to see its class.
+      </p>
       <pre className="lexed-input">
         {lexedInput}
         {hoveredToken && hoveredToken.class !== "WHITESPACE" &&

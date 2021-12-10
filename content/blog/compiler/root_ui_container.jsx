@@ -68,7 +68,6 @@ export default function RootUIContainer() {
         </div>
         <textarea
           value={input}
-          style={{height: String(input.split("\n").length * 15) + "px"}}
           onChange={onChange}></textarea>
       </div>
       <LexingUIContainer tokens={tokens} input={input} />
