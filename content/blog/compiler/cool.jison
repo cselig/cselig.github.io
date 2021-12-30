@@ -88,38 +88,62 @@ program
   ;
 
 class
-  : CLASS TYPE (INHERITS TYPE)? '{' (feature ';')* '}'
+  : CLASS TYPE inherits? '{' (feature ';')* '}'
     {
-      $$ = {nodeType: 'class', className: $2, features: $5}
+      $$ = {
+        nodeType: 'class', className: $2, features: $5, type: $2,
+        classParent: $3,
+      }
+    }
+  ;
+
+inherits
+  : INHERITS TYPE
+    {
+      $$ = $2
     }
   ;
 
 feature
   // method
-  : ID '(' formal? (',' formal)* ')' ':' TYPE '{' expr '}'
+  : ID '(' formal? comma_formal* ')' ':' TYPE '{' expr '}'
     {
-      $$ = {nodeType: 'method', name: $1, body: $9}
+      params = []
+      if ($3 != undefined) params.push($3)
+      params = params.concat($4)
+      $$ = {nodeType: 'method', name: $1, body: $9, params: params}
     }
+  // attribute
   | formal ('<-' expr)?
     {
-      $$ = {nodeType: 'attribute', id: $1.id, type: $1.type}
+      $$ = {nodeType: 'attribute', name: $1.name, type: $1.type}
+    }
+  ;
+
+comma_formal
+  : ',' formal
+    {
+      $$ = $2
     }
   ;
 
 formal
   : ID ':' TYPE
     {
-      $$ = {nodeType: 'formal', id: $1, type: $3}
+      $$ = {nodeType: 'formal', name: $1, type: $3}
     }
   ;
 
 expr
   : ID '<-' expr
-  // method calls
+  // dispatch
   | expr ('@' TYPE)? '.' ID '(' expr? (',' expr)* ')'
   | ID '(' expr? (',' expr)* ')'
   // if statement
   | IF expr THEN expr ELSE expr FI
+    {
+      $$ = {nodeType: 'expression', expressionType: 'if'}
+    }
   // while loop
   | WHILE expr LOOP expr POOL
   | '{' (expr ';')+ '}'
@@ -130,7 +154,7 @@ expr
   | ISVOID expr
   | expr '+' expr
   {
-    $$ = {nodeType: 'expr', operator: '+', lhs: $1, rhs: $3}
+    $$ = {nodeType: 'expression', operator: '+', lhs: $1, rhs: $3}
   }
   | expr '-' expr
   | expr '*' expr

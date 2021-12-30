@@ -1,39 +1,13 @@
 import React, { useState } from "react"
 import LexingUIContainer from "./lexing_ui_container"
+import ParsingUIContainer from "./parsing_ui_container"
+import StaticAnalysisUIContainer from "./static_analysis_ui_container"
+
 import { lex } from "./cool_lexer"
 import { parse } from "./cool_parser"
 
-const EXAMPLE1 = `class Example1 {
-  sayHello(language: String) : Null {
-    if language = "en" then
-      print("Hello!")
-    else
-      print("¡Hola!")
-    fi
-  };
-};`
+import * as examples from "./cool_examples"
 
-const EXAMPLE2 = `class B {
-  s : String <- "Hello";
-
-  g (y: String) : Int {
-    y.concat(s)
-  };
-
-  f (x: Int) : Int {
-    x + 1
-  };
-};
-
-class A inherits B {
-  a : Int;
-
-  b : B <- new B;
-
-  f(x: Int) : Int {
-    x + a
-  };
-};`
 
 function Example({ selected, setInput, code, name }) {
   return (
@@ -44,10 +18,11 @@ function Example({ selected, setInput, code, name }) {
 }
 
 export default function RootUIContainer() {
-  const [input, setInput] = useState(EXAMPLE1)
+  const [input, setInput] = useState(examples.EXAMPLE2)
 
   const tokens = lex(input)
-  parse(input)
+  const parseTree = parse(input)
+  console.log("parse tree:", parseTree)
 
   const onChange = (e) => setInput(e.target.value)
 
@@ -56,21 +31,33 @@ export default function RootUIContainer() {
       <div className="input-container">
         <div className="examples">
           <Example
-            selected={input === EXAMPLE1}
+            selected={input === examples.EXAMPLE1}
             setInput={setInput}
-            code={EXAMPLE1}
+            code={examples.EXAMPLE1}
             name="Example 1" key="1" />
           <Example
-            selected={input === EXAMPLE2}
+            selected={input === examples.EXAMPLE2}
             setInput={setInput}
-            code={EXAMPLE2}
+            code={examples.EXAMPLE2}
             name="Example 2" key="2" />
+          <Example
+            selected={input === examples.EXAMPLE3}
+            setInput={setInput}
+            code={examples.EXAMPLE3}
+            name="Cyclic Inheritance" key="3" />
+          <Example
+            selected={input === examples.EXAMPLE4}
+            setInput={setInput}
+            code={examples.EXAMPLE4}
+            name="Redefined Class" key="4" />
         </div>
         <textarea
           value={input}
           onChange={onChange}></textarea>
       </div>
       <LexingUIContainer tokens={tokens} input={input} />
+      <ParsingUIContainer parseTree={parseTree} />
+      <StaticAnalysisUIContainer parseTree={parseTree} />
     </div>
   )
 }

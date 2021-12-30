@@ -94,3 +94,31 @@
     }
   }
 }
+
+#parsing-ui-container {
+  padding: 5px;
+
+  .parse-error pre {
+    color: red;
+  }
+
+  .parse-tree-node {
+    padding: 5px;
+    margin: 5px;
+    border: 2px solid grey;
+
+    &.focused {
+      background: lightblue;
+    }
+
+    .node-type {
+      font-weight: 700;
+    }
+  }
+}
+
+#static-analysis-ui-container {
+  .error {
+    color: red;
+  }
+}

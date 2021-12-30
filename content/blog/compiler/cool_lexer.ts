@@ -42,7 +42,7 @@ export function buildCoolLexer(): Lexer {
         return tokenFactory(TokenClass.WHITESPACE)(lexeme)
       })
       .addRule(/\+|\-|\*|\/|<-|=/, tokenFactory(TokenClass.OPERATOR))
-      .addRule(/[;{}():,.]/, tokenFactory(TokenClass.PUNCTUATION))
+      .addRule(/[;{}():,.@]/, tokenFactory(TokenClass.PUNCTUATION))
       .addRule(/\s/, tokenFactory(TokenClass.WHITESPACE))
       .addRule(/./, tokenFactory(TokenClass.UNDEFINED))
   }
