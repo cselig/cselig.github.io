@@ -11,6 +11,7 @@ export function isChild(node, parentNodeId) {
 }
 
 function expressionChildren(parseTreeNode) {
+  return []
   switch (parseTreeNode.expressionType) {
     case "let": parseTreeNode.variables.concat(parseTreeNode.body)
     case "block": parseTreeNode.body
@@ -19,11 +20,8 @@ function expressionChildren(parseTreeNode) {
 
 export function children(parseTreeNode) {
   switch (parseTreeNode.nodeType) {
-    case "program": return parseTreeNode.classes
-    case "class": return parseTreeNode.features
-    case "attribute": return []
-    case "method": return [parseTreeNode.body]
-    case "identifier": return []
+    case "program": return parseTreeNode.functions
+    case "function": return parseTreeNode.body
     case "expression": return expressionChildren(parseTreeNode)
     default: console.error("Unknown node type in children: " + parseTreeNode.nodeType)
   }

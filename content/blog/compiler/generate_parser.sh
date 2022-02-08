@@ -1,1 +1,1 @@
-./../../../node_modules/.bin/jison cool.jison -o generated_parser.js
+./../../../node_modules/.bin/jison calculator.jison -o generated_calculator_parser.js

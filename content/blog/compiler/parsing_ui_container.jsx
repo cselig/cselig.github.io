@@ -2,9 +2,9 @@ import React, { useState } from "react"
 import { isChild } from './parse_tree_utils'
 
 function ProgramNode({ node, focusedNodeId }) {
-  const children = node.classes.map((classNode, i) => (
-    <ClassNode
-      node={classNode}
+  const children = node.functions.map((n, i) => (
+    <FunctionNode
+      node={n}
       focusedNodeId={focusedNodeId}
       key={i} />
   ))
@@ -19,67 +19,22 @@ function ProgramNode({ node, focusedNodeId }) {
   )
 }
 
-function ClassNode({ node, focusedNodeId }) {
-  const features = node.features.map((featureNode, i) => {
-    if (featureNode.nodeType == "attribute") {
-      return <AttributeNode
-               node={featureNode}
-               focusedNodeId={focusedNodeId}
-               key={i} />
-    } else {
-      return <MethodNode
-               node={featureNode}
-               focusedNodeId={focusedNodeId}
-               key={i} />
-    }
-  })
-  const focused = isChild(node, focusedNodeId)
-  return (
-    <div
-      className={"parse-tree-node class " + (focused ? "focused" : "")} id={node.id}>
-      <p className="node-type">{node.nodeType}</p>
-      <p>Class name: {node.className}</p>
-      {node.classParent != undefined &&
-        <p>Inherits from: {node.classParent}</p>
-      }
-      {features}
-    </div>
-  )
-}
-
-function AttributeNode({ node, focusedNodeId }) {
-  const focused = isChild(node, focusedNodeId)
-  return (
-    <div
-      className={"parse-tree-node attribute " + (focused ? "focused" : "")}
-      id={node.id}>
-      <p className="node-type">attribute</p>
-      <p>Identifier: {node.name}</p>
-      <p>Type: {node.type}</p>
-    </div>
-  )
-}
-
-function MethodNode({ node, focusedNodeId }) {
-  const params = node.params.map((param, i) => (
-    <p key={i}>Name: {param.name}, type: {param.type}</p>
+function FunctionNode({ node, focusedNodeId }) {
+  const children = node.body.map((n, i) => (
+    <ExpressionNode
+      node={n}
+      focusedNodeId={focusedNodeId}
+      key={i} />
   ))
   const focused = isChild(node, focusedNodeId)
   return (
     <div
-      className={"parse-tree-node method " + (focused ? "focused" : "")}
-      id={node.id}>
-      <p className="node-type">method</p>
-      <p>Identifier: {node.name}</p>
-      {params.length === 0 ?
-        <p>No parameters</p>
-        :
-        <>
-          <p>Parameters:</p>
-          {params}
-        </>
-      }
-      <ExpressionNode node={node.body} focusedNodeId={focusedNodeId} />
+      className={"parse-tree-node function " + (focused ? "focused" : "")}
+      id={node.id}
+    >
+      <p className="node-type">{node.nodeType}</p>
+      <p>{`Function name: ${node.fid}`}</p>
+      {children}
     </div>
   )
 }
@@ -91,6 +46,7 @@ function ExpressionNode({ node, focusedNodeId }) {
       className={"parse-tree-node expression " + (focused ? "focused" : "")}
       id={node.id}>
       <p className="node-type">expression</p>
+      <p>{`Expression type: ${node.expressionType}`}</p>
     </div>
   )
 }

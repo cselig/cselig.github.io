@@ -5,7 +5,7 @@
 
   .examples {
     display: flex;
-    
+
     .example {
       padding-right: 10px;
       margin-right: 10px;
@@ -54,8 +54,8 @@
     .STRING { color: $ORANGE; }
     .INTEGER { color: $ORANGE; }
     .COMMENT { color: $GREY; }
-    .IDENTIFIER { color: $LIGHTGREEN; }
-    .TYPE { color: $GREEN; }
+    .VID { color: $LIGHTGREEN; }
+    .FID { color: $GREEN; }
     .OPERATOR { color: $WHITE; }
     .PUNCTUATION { color: $WHITE; }
     .KEYWORD { color: $BLUE; }
