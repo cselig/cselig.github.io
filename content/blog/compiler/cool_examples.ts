@@ -39,3 +39,13 @@ class C inherits B {};`
 export const EXAMPLE4 = `class A {};
 
 class A {};`
+
+export const EXAMPLE5 = `class C {
+  s: String;
+
+  g(y: String, x: Int) : Int {
+    let z: String <- s.concat(y) in {
+      x + 1;
+    }
+  };
+};`

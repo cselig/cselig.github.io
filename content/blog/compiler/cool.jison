@@ -111,12 +111,17 @@ feature
       params = []
       if ($3 != undefined) params.push($3)
       params = params.concat($4)
-      $$ = {nodeType: 'method', name: $1, body: $9, params: params}
+      $$ = {nodeType: 'method', name: $1, body: $9, params: params, returnType: $7}
     }
   // attribute
-  | formal ('<-' expr)?
+  | formal assignmentExpr?
     {
-      $$ = {nodeType: 'attribute', name: $1.name, type: $1.type}
+      $$ = {
+        nodeType: 'attribute',
+        name: $1.name,
+        type: $1.type,
+        assignmentExpr: $2,
+      }
     }
   ;
 
@@ -136,6 +141,9 @@ formal
 
 expr
   : ID '<-' expr
+    {
+      console.log("VARIABLE INIT")
+    }
   // dispatch
   | expr ('@' TYPE)? '.' ID '(' expr? (',' expr)* ')'
   | ID '(' expr? (',' expr)* ')'
@@ -146,16 +154,32 @@ expr
     }
   // while loop
   | WHILE expr LOOP expr POOL
+  // block
   | '{' (expr ';')+ '}'
-  | LET ID ':' TYPE ('<-' expr)? (',' ID ':' TYPE ('<-' expr)?)* IN expr
+    {
+      $$ = {nodeType: 'expression', expressionType: 'block', body: $2}
+    }
+  // let
+  // TODO: multiple let variables
+  | LET ID ':' TYPE assignmentExpr? IN expr
+    {
+      console.log("LET:", $1, $2, $3, $4, $5, $6, $7)
+      let variable = {name: $2, type: $4, assignmentExpr: $5}
+      $$ = {
+        nodeType: 'expression',
+        expressionType: 'let',
+        variables: [variable],
+        body: $7,
+      }
+    }
   // should be => or <- below?
   | CASE expr OF (ID ':' TYPE '=>' expr ';')+ ESAC
   | NEW TYPE
   | ISVOID expr
   | expr '+' expr
-  {
-    $$ = {nodeType: 'expression', operator: '+', lhs: $1, rhs: $3}
-  }
+    {
+      $$ = {nodeType: 'expression', expressionType: 'operation', operator: '+', lhs: $1, rhs: $3}
+    }
   | expr '-' expr
   | expr '*' expr
   | expr '/' expr
@@ -166,11 +190,30 @@ expr
   | NOT expr
   | '(' expr ')'
   | ID
-  {
-    $$ = {nodeType: 'identifier', value: $1}
-  }
+    {
+      $$ = {nodeType: 'identifier', value: $1}
+    }
   | STRING
+    {
+      $$ = {nodeType: 'literal', value: $1, type: 'String'}
+    }
   | INTEGER
+    {
+      $$ = {nodeType: 'literal', value: $1, type: 'Int'}
+    }
   | TRUE
+    {
+      $$ = {nodeType: 'literal', value: true, type: 'Bool'}
+    }
   | FALSE
+    {
+      $$ = {nodeType: 'literal', value: false, type: 'Bool'}
+    }
+  ;
+
+assignmentExpr
+  : '<-' expr
+    {
+      $$ = $2
+    }
   ;

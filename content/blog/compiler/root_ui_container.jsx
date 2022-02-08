@@ -18,7 +18,7 @@ function Example({ selected, setInput, code, name }) {
 }
 
 export default function RootUIContainer() {
-  const [input, setInput] = useState(examples.EXAMPLE2)
+  const [input, setInput] = useState(examples.EXAMPLE5)
 
   const tokens = lex(input)
   const parseTree = parse(input)
@@ -50,6 +50,11 @@ export default function RootUIContainer() {
             setInput={setInput}
             code={examples.EXAMPLE4}
             name="Redefined Class" key="4" />
+          <Example
+            selected={input === examples.EXAMPLE5}
+            setInput={setInput}
+            code={examples.EXAMPLE5}
+            name="Test" key="5" />
         </div>
         <textarea
           value={input}

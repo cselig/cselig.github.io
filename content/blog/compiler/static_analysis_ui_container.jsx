@@ -1,5 +1,5 @@
 import React from "react"
-import { buildInheritanceGraph } from "./cool_static_analysis"
+import { buildInheritanceGraph, freshTypeEnv, typeCheck } from "./cool_static_analysis"
 
 export default function StaticAnalysisUIContainer({ parseTree }) {
   if (parseTree.error) {
@@ -10,7 +10,18 @@ export default function StaticAnalysisUIContainer({ parseTree }) {
   if (error.length > 0) {
     console.error(error)
   }
-  console.log("inheritance graph:", inheritanceGraph)
+
+  console.log("parse tree:", parseTree)
+
+  try {
+    typeCheck(parseTree, freshTypeEnv())
+  } catch(e) {
+    if (typeof e === 'object' && e.errorType === "Type check error") {
+      console.log("ERROR:", e.msg, e.nodeId)
+    } else {
+      throw e
+    }
+  }
 
   return (
     <div id="static-analysis-ui-container">
