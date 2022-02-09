@@ -41,7 +41,7 @@ export default function LexingUIContainer({ tokens, input }) {
     } else {
       lexedInput.push(
         <span
-          class="UNIDENTIFIED"
+          className="UNIDENTIFIED"
           onMouseOver={(e) => onMouseOver(e, {class: "ERROR: unrecognized token"})}
           onMouseOut={onMouseOut}
           key={inputInd}>{

@@ -12,10 +12,7 @@
 '}' return '}'
 '(' return '('
 ')' return ')'
-// ':' return ':'
 ',' return ','
-// '@' return '@'
-// '.' return '.'
 
 // operators
 '+' return '+'
@@ -46,6 +43,7 @@
 
 /* operator associations and precedence */
 %left '+' '-'
+%left '='
 
 // start symbol
 %start program
@@ -60,25 +58,41 @@ program
   ;
 
 function
-  : DEF FID '(' ')' '{' (expr ';')+ '}'
+  : DEF FID '(' params? ')' '{' (expr ';')+ '}'
     {
-      $$ = {nodeType: 'function', body: $6, fid: $2}
+      $$ = {nodeType: 'function', body: $7, fid: $2, params: $4 || []}
+    }
+  ;
+
+params
+  : VID comma_params*
+    {
+      $$ = [$1].concat($2)
+    }
+  ;
+
+comma_params
+  : ',' VID
+    {
+      $$ = $2
     }
   ;
 
 expr
-  : VID '=' expr
+  : FID '(' args? ')'
     {
-      $$ = {nodeType: 'expression', expressionType: 'vinit'}
+      $$ = {nodeType: 'expression', expressionType: 'invocation', args: $3 || []}
     }
-  | FID '(' expr? (',' expr)* ')'
+  | IF expr '=' expr THEN expr ELSE expr FI
     {
-      $$ = {nodeType: 'expression', expressionType: 'invocation'}
-    }
-  // if statement: expr1 >= 0 -> THEN, expr1 < 0 -> ELSE
-  | IF expr THEN expr ELSE expr FI
-    {
-      $$ = {nodeType: 'expression', expressionType: 'if'}
+      $$ = {
+        nodeType: 'expression',
+        expressionType: 'if',
+        predicateLHS: $2,
+        predicateRHS: $4,
+        trueBranch: $6,
+        falseBranch: $8,
+      }
     }
   | expr '+' expr
     {
@@ -95,5 +109,19 @@ expr
   | INTEGER
     {
       $$ = {nodeType: 'expression', expressionType: 'literal', value: $1}
+    }
+  ;
+
+args
+  : expr comma_args*
+    {
+      $$ = [$1].concat($2)
+    }
+  ;
+
+comma_args
+  : ',' expr
+    {
+      $$ = $2
     }
   ;

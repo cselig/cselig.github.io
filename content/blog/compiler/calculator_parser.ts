@@ -7,7 +7,6 @@ export function parse(input: string) {
 
   try {
     const parseTree = parser.parse(input)
-    console.log('->>>', parseTree)
     addIds(parseTree)
     doublyLinkTree(parseTree)
     return parseTree

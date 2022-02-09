@@ -11,10 +11,23 @@ export function isChild(node, parentNodeId) {
 }
 
 function expressionChildren(parseTreeNode) {
-  return []
   switch (parseTreeNode.expressionType) {
-    case "let": parseTreeNode.variables.concat(parseTreeNode.body)
-    case "block": parseTreeNode.body
+    case "invocation": return parseTreeNode.args
+    case "if": return [
+      parseTreeNode.predicateLHS,
+      parseTreeNode.predicateRHS,
+      parseTreeNode.trueBranch,
+      parseTreeNode.falseBranch,
+    ]
+    case "+":
+    case "-":
+      return [parseTreeNode.lhs, parseTreeNode.rhs]
+    case "vid":
+    case "literal":
+      return []
+    default:
+      console.error(`Unknown expression type: ${parseTreeNode.expressionType}`)
+      return []
   }
 }
 
@@ -23,7 +36,9 @@ export function children(parseTreeNode) {
     case "program": return parseTreeNode.functions
     case "function": return parseTreeNode.body
     case "expression": return expressionChildren(parseTreeNode)
-    default: console.error("Unknown node type in children: " + parseTreeNode.nodeType)
+    default:
+      console.error("Unknown node type in children: " + parseTreeNode.nodeType)
+      return []
   }
 }
 

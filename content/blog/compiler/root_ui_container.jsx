@@ -21,12 +21,8 @@ export default function RootUIContainer() {
   const [input, setInput] = useState(examples.EXAMPLE1)
 
   const tokens = lex(input)
-  console.log("tokens:", tokens)
   const parseTree = parse(input)
   console.log("parse tree:", parseTree)
-  if (parseTree.error == null) {
-    console.log('->>>>>>', parseTree.functions[0].body)
-  }
 
   const onChange = (e) => setInput(e.target.value)
 
@@ -39,11 +35,11 @@ export default function RootUIContainer() {
             setInput={setInput}
             code={examples.EXAMPLE1}
             name="Example 1" key="1" />
-          {/* <Example
+          <Example
             selected={input === examples.EXAMPLE2}
             setInput={setInput}
             code={examples.EXAMPLE2}
-            name="Example 2" key="2" /> */}
+            name="Sum To" key="2" />
           {/* <Example
             selected={input === examples.EXAMPLE3}
             setInput={setInput}
