@@ -7,7 +7,7 @@ import backArrow from "../images/handwriting/back_arrow.svg"
 
 import "../css/base_layout.scss"
 
-const BaseLayout = ({ children, home }) => {
+const BaseLayout = ({ children, home, draft }) => {
   return (
     <div id="page-container">
       <Helmet>
@@ -15,7 +15,7 @@ const BaseLayout = ({ children, home }) => {
         <link rel="icon" href={favicon} />
       </Helmet>
       {!home &&
-        <Link to="/">
+        <Link to={draft ? "/drafts" : "/"}>
           <img className="back-button" src={backArrow} alt="back" />
         </Link>
       }

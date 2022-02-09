@@ -18,7 +18,7 @@ const components = {
 export default function Post({ data }) {
   const post = data.mdx
   return (
-    <BaseLayout>
+    <BaseLayout draft={post.frontmatter.draft}>
       <div id={post.fields.slug} className="post-body">
         <div className="title-container">
           <h1 className="title">{post.frontmatter.title}</h1>
@@ -37,6 +37,7 @@ export const query = graphql`
       body
       frontmatter {
         title
+        draft
       }
       fields {
         slug
