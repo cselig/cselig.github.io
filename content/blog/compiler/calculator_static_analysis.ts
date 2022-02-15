@@ -1,5 +1,17 @@
 import { children } from "./parse_tree_utils"
 
+export function checkFunctionNamesUnique(parseTree) {
+  let fNames = new Set()
+  for (const { fid } of parseTree.functions) {
+    if (fNames.has(fid)) {
+      return `Function ${fid} redefined`
+    } else {
+      fNames.add(fid)
+    }
+  }
+  return ""
+}
+
 export function checkMainExists(parseTree) {
   for (const node of parseTree.functions) {
     if (node.fid === 'Main') {
@@ -14,28 +26,23 @@ export function checkMainExists(parseTree) {
 }
 
 export function checkFunctionsInvokedProperly(parseTreeRoot) {
-  const error = checkFunctionsInvokedProperlyHelper(parseTreeRoot, parseTreeRoot)
-  // check for node, then for all children
-  console.log("error:", error)
-  return error || ""
-}
+  function helper(node, root) {
+    if (node.nodeType === 'expression' && node.expressionType === 'invocation') {
+      const nExpected = getFunctionParams(root, node.fid).length
+      const nActual = node.args.length
+      if (nExpected !== nActual) {
+        const error = `Function ${node.fid} called with wrong number of arguments (expected ${nExpected}, got ${nActual})`
+        return error
+      }
+    }
 
-function checkFunctionsInvokedProperlyHelper(node, root) {
-  console.log("checkFunctionsInvokedProperlyHelper")
-  if (node.nodeType === 'expression' && node.expressionType === 'invocation') {
-    const expectedParams = getFunctionParams(root, node.fid)
-    console.log("->>>>", expectedParams, node.args)
-    if (expectedParams.length !== node.args.length) {
-      const error = `Problem with invocation of function ${node.fid}`
-      console.error(error)
-      return error
+    for (const child of children(node)) {
+      const error = helper(child, root)
+      if (error != undefined) return error
     }
   }
 
-  for (const child of children(node)) {
-    const error = checkFunctionsInvokedProperlyHelper(child, root)
-    if (error != undefined) return error
-  }
+  return helper(parseTreeRoot, parseTreeRoot) || ""
 }
 
 function getFunctionParams(parseTreeRoot, fid) {
@@ -44,4 +51,38 @@ function getFunctionParams(parseTreeRoot, fid) {
       return node.params
     }
   }
+}
+
+export function checkDuplicateParams(parseTree) {
+  for (const { fid, params } of parseTree.functions) {
+    let seen = new Set()
+    for (const p of params) {
+      if (seen.has(p)) {
+        return `Function ${fid} has duplicate param ${p}`
+      } else {
+        seen.add(p)
+      }
+    }
+  }
+  return ""
+}
+
+export function checkNoUndefinedVars(parseTree) {
+  function helper(node, params: string[]) {
+    if (node.nodeType === "expression" && node.expressionType == "vid") {
+      if (!params.includes(node.value)) {
+        return `Variable ${node.value} is undefined`
+      }
+    }
+    for (const child of children(node)) {
+      const error = helper(child, params)
+      if (error != undefined) return error
+    }
+  }
+
+  for (const node of parseTree.functions) {
+    const error = helper(node, node.params)
+    if (error != undefined) return error
+  }
+  return ""
 }

@@ -5,7 +5,6 @@ import StaticAnalysisUIContainer from "./static_analysis_ui_container"
 
 import { lex } from "./calculator_lexer"
 import { parse } from "./calculator_parser"
-
 import * as examples from "./calculator_examples"
 
 import "./styles.scss"
@@ -19,7 +18,7 @@ function Example({ selected, setInput, code, name }) {
 }
 
 export default function RootUIContainer() {
-  const [input, setInput] = useState(examples.EXAMPLE1)
+  const [input, setInput] = useState(examples.EXAMPLE2)
 
   const tokens = lex(input)
   const parseTree = parse(input)
@@ -32,21 +31,21 @@ export default function RootUIContainer() {
       <div className="left">
         <div className="input-container">
           <div className="examples">
-            <Example
+            {/* <Example
               selected={input === examples.EXAMPLE1}
               setInput={setInput}
               code={examples.EXAMPLE1}
-              name="Example 1" key="1" />
+              name="Example 1" key="1" /> */}
             <Example
               selected={input === examples.EXAMPLE2}
               setInput={setInput}
               code={examples.EXAMPLE2}
               name="Sum To" key="2" />
-            {/* <Example
+            <Example
               selected={input === examples.EXAMPLE3}
               setInput={setInput}
               code={examples.EXAMPLE3}
-              name="Cyclic Inheritance" key="3" /> */}
+              name="Errors" key="3" />
             {/* <Example
               selected={input === examples.EXAMPLE4}
               setInput={setInput}

@@ -1,12 +1,3 @@
-export const EXAMPLE1 = `def Fun() {
-  if a = 1 then 1 else 2 fi
-}
-
-def Main() {
-  Fun()
-}
-`
-
 export const EXAMPLE2 = `def SumTo(x) {
   if x = 0 then
     0
@@ -17,4 +8,12 @@ export const EXAMPLE2 = `def SumTo(x) {
 
 def Main() {
   SumTo(10)
+}`
+
+export const EXAMPLE3 = `def Fun(x, x) {
+  if a = 1 then 1 else 2 fi
+}
+
+def Fun() {
+  Fun(1)
 }`
