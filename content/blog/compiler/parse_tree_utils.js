@@ -34,7 +34,7 @@ function expressionChildren(parseTreeNode) {
 export function children(parseTreeNode) {
   switch (parseTreeNode.nodeType) {
     case "program": return parseTreeNode.functions
-    case "function": return parseTreeNode.body
+    case "function": return [parseTreeNode.body]
     case "expression": return expressionChildren(parseTreeNode)
     default:
       console.error("Unknown node type in children: " + parseTreeNode.nodeType)

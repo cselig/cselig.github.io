@@ -58,7 +58,7 @@ program
   ;
 
 function
-  : DEF FID '(' params? ')' '{' (expr ';')+ '}'
+  : DEF FID '(' params? ')' '{' expr '}'
     {
       $$ = {nodeType: 'function', body: $7, fid: $2, params: $4 || []}
     }

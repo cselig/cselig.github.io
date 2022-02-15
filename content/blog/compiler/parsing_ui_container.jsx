@@ -20,12 +20,6 @@ function ProgramNode({ node, focusedNodeId }) {
 }
 
 function FunctionNode({ node, focusedNodeId }) {
-  const children = node.body.map((n, i) => (
-    <ExpressionNode
-      node={n}
-      focusedNodeId={focusedNodeId}
-      key={i} />
-  ))
   const focused = isChild(node, focusedNodeId)
   return (
     <div
@@ -35,7 +29,7 @@ function FunctionNode({ node, focusedNodeId }) {
       <p className="node-type">{node.nodeType}</p>
       <p>{`Function name: ${node.fid}`}</p>
       <p>Function body:</p>
-      {children}
+      <ExpressionNode node={node.body} focusedNodeId={focusedNodeId} />
     </div>
   )
 }
