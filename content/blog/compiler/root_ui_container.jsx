@@ -8,6 +8,7 @@ import { parse } from "./calculator_parser"
 
 import * as examples from "./calculator_examples"
 
+import "./styles.scss"
 
 function Example({ selected, setInput, code, name }) {
   return (
@@ -28,41 +29,45 @@ export default function RootUIContainer() {
 
   return (
     <div id="root-ui-container">
-      <div className="input-container">
-        <div className="examples">
-          <Example
-            selected={input === examples.EXAMPLE1}
-            setInput={setInput}
-            code={examples.EXAMPLE1}
-            name="Example 1" key="1" />
-          <Example
-            selected={input === examples.EXAMPLE2}
-            setInput={setInput}
-            code={examples.EXAMPLE2}
-            name="Sum To" key="2" />
-          {/* <Example
-            selected={input === examples.EXAMPLE3}
-            setInput={setInput}
-            code={examples.EXAMPLE3}
-            name="Cyclic Inheritance" key="3" /> */}
-          {/* <Example
-            selected={input === examples.EXAMPLE4}
-            setInput={setInput}
-            code={examples.EXAMPLE4}
-            name="Redefined Class" key="4" /> */}
-          {/* <Example
-            selected={input === examples.EXAMPLE5}
-            setInput={setInput}
-            code={examples.EXAMPLE5}
-            name="Test" key="5" /> */}
+      <div className="left">
+        <div className="input-container">
+          <div className="examples">
+            <Example
+              selected={input === examples.EXAMPLE1}
+              setInput={setInput}
+              code={examples.EXAMPLE1}
+              name="Example 1" key="1" />
+            <Example
+              selected={input === examples.EXAMPLE2}
+              setInput={setInput}
+              code={examples.EXAMPLE2}
+              name="Sum To" key="2" />
+            {/* <Example
+              selected={input === examples.EXAMPLE3}
+              setInput={setInput}
+              code={examples.EXAMPLE3}
+              name="Cyclic Inheritance" key="3" /> */}
+            {/* <Example
+              selected={input === examples.EXAMPLE4}
+              setInput={setInput}
+              code={examples.EXAMPLE4}
+              name="Redefined Class" key="4" /> */}
+            {/* <Example
+              selected={input === examples.EXAMPLE5}
+              setInput={setInput}
+              code={examples.EXAMPLE5}
+              name="Test" key="5" /> */}
+          </div>
+          <textarea
+            value={input}
+            onChange={onChange}></textarea>
         </div>
-        <textarea
-          value={input}
-          onChange={onChange}></textarea>
       </div>
-      <LexingUIContainer tokens={tokens} input={input} />
-      <ParsingUIContainer parseTree={parseTree} />
-      {/* <StaticAnalysisUIContainer parseTree={parseTree} /> */}
+      <div className="right">
+        <LexingUIContainer tokens={tokens} input={input} />
+        <ParsingUIContainer parseTree={parseTree} />
+        <StaticAnalysisUIContainer parseTree={parseTree} />
+      </div>
     </div>
   )
 }

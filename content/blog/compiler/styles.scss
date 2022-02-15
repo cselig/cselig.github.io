@@ -1,6 +1,6 @@
 .input-container {
-  width: 80%;
-  margin: 0 auto;
+  width: 50%;
+  // margin: 0 auto;
   overflow-y: scroll;
 
   .examples {
@@ -27,6 +27,23 @@
     height: 200px;
     font-family: monospace;
     font-size: 13px;
+  }
+}
+
+#root-ui-container {
+  margin-left: -20%;
+  margin-right: -20%;
+  display: flex;
+
+  .left {
+    width: 50%;
+    position: fixed;
+  }
+
+  .right {
+    width: 50%;
+    padding-left: 50%;
+    padding-bottom: 100px;
   }
 }
 
