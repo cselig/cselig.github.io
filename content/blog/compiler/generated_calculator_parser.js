@@ -105,7 +105,12 @@ case 4: case 12:
 break;
 case 5:
 
-      this.$ = {nodeType: 'expression', expressionType: 'invocation', args: $$[$0-1] || []}
+      this.$ = {
+        nodeType: 'expression',
+        expressionType: 'invocation',
+        args: $$[$0-1] || [],
+        fid: $$[$0-3],
+      }
     
 break;
 case 6:

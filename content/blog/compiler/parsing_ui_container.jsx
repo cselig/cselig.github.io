@@ -72,6 +72,7 @@ function InvocationExpressionNode({ node, focusedNodeId }) {
       className={"parse-tree-node expression " + (focused ? "focused" : "")}
       id={node.id}>
       <p className="node-type">Function Invocation</p>
+      <p>{`Invoked function: ${node.fid}`}</p>
       <p>Arguments:</p>
       {args}
     </div>

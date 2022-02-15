@@ -79,9 +79,15 @@ comma_params
   ;
 
 expr
+  // Function invocation
   : FID '(' args? ')'
     {
-      $$ = {nodeType: 'expression', expressionType: 'invocation', args: $3 || []}
+      $$ = {
+        nodeType: 'expression',
+        expressionType: 'invocation',
+        args: $3 || [],
+        fid: $1,
+      }
     }
   | IF expr '=' expr THEN expr ELSE expr FI
     {
