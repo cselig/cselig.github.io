@@ -17,3 +17,7 @@ export const EXAMPLE3 = `def Fun(x, x) {
 def Fun() {
   Fun(1)
 }`
+
+export const EXAMPLE4 = `def Main() {
+  1 + 2
+}`

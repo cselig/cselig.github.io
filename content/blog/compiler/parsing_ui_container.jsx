@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { isChild } from './parse_tree_utils'
 
 function ProgramNode({ node, focusedNodeId }) {
@@ -12,7 +12,7 @@ function ProgramNode({ node, focusedNodeId }) {
   return (
     <div
       className={"parse-tree-node program " + (focused ? "focused" : "")}
-      id={node.id}>
+      data-id={node.id}>
       <p className="node-type">{node.nodeType}</p>
       {children}
     </div>
@@ -24,7 +24,7 @@ function FunctionNode({ node, focusedNodeId }) {
   return (
     <div
       className={"parse-tree-node function " + (focused ? "focused" : "")}
-      id={node.id}
+      data-id={node.id}
     >
       <p className="node-type">{node.nodeType}</p>
       <p>{`Function name: ${node.fid}`}</p>
@@ -53,7 +53,7 @@ function UnknownExpressionNode({ node, focusedNodeId }) {
   return (
     <div
       className={"parse-tree-node expression " + (focused ? "focused" : "")}
-      id={node.id}>
+      data-id={node.id}>
       <p style={{color: 'red'}}>Unknown</p>
       <p className="node-type">expression</p>
       <p>{`Expression type: ${node.expressionType}`}</p>
@@ -70,7 +70,7 @@ function InvocationExpressionNode({ node, focusedNodeId }) {
   return (
     <div
       className={"parse-tree-node expression " + (focused ? "focused" : "")}
-      id={node.id}>
+      data-id={node.id}>
       <p className="node-type">Function Invocation</p>
       <p>{`Invoked function: ${node.fid}`}</p>
       <p>Arguments:</p>
@@ -84,7 +84,7 @@ function IfExpressionNode({ node, focusedNodeId }) {
   return (
     <div
       className={"parse-tree-node expression " + (focused ? "focused" : "")}
-      id={node.id}>
+      data-id={node.id}>
       <p className="node-type">If-then-else</p>
       <p>Predicate LHS:</p>
       <ExpressionNode node={node.predicateLHS} focusedNodeId={focusedNodeId} />
@@ -103,7 +103,7 @@ function AdditionExpressionNode({ node, focusedNodeId }) {
   return (
     <div
       className={"parse-tree-node expression " + (focused ? "focused" : "")}
-      id={node.id}>
+      data-id={node.id}>
       <p className="node-type">Addition</p>
       <p>LHS:</p>
       <ExpressionNode node={node.lhs} focusedNodeId={focusedNodeId} />
@@ -118,7 +118,7 @@ function SubtractionExpressionNode({ node, focusedNodeId }) {
   return (
     <div
       className={"parse-tree-node expression " + (focused ? "focused" : "")}
-      id={node.id}>
+      data-id={node.id}>
       <p className="node-type">Subtraction</p>
       <p>LHS:</p>
       <ExpressionNode node={node.lhs} focusedNodeId={focusedNodeId} />
@@ -133,7 +133,7 @@ function VidExpressionNode({ node, focusedNodeId }) {
   return (
     <div
       className={"parse-tree-node expression " + (focused ? "focused" : "")}
-      id={node.id}>
+      data-id={node.id}>
       <p className="node-type">Variable reference</p>
       <p>{`Variable name: ${node.value}`}</p>
     </div>
@@ -145,19 +145,17 @@ function LiteralExpressionNode({ node, focusedNodeId }) {
   return (
     <div
       className={"parse-tree-node expression " + (focused ? "focused" : "")}
-      id={node.id}>
+      data-id={node.id}>
       <p className="node-type">Literal</p>
       <p>{`Value: ${node.value}`}</p>
     </div>
   )
 }
 
-export default function ParsingUIContainer({ parseTree }) {
-  const [focusedNodeId, setFocusedNodeId] = useState(null)
-
+export default function ParsingUIContainer({ parseTree, focusedNodeId, setFocusedNodeId }) {
   const onMouseOver = (e) => {
     if (!e.target.classList.contains("parse-tree-node")) return
-    const nodeId = e.target.getAttribute("id")
+    const nodeId = e.target.getAttribute("data-id")
     setFocusedNodeId(nodeId)
   }
   const onMouseOut = (e) => {
