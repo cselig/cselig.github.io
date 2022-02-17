@@ -20,33 +20,20 @@ function Example({ selected, setInput, code, name }) {
 
 function FocusManager({ parseTree, tokens, input }) {
   const [focusedNodeId, setFocusedNodeId] = useState(null)
-  const [showLexing, setShowLexing] = useState(false)
-  const [showParsing, setShowParsing] = useState(true)
-  const [showStaticAnalysis, setShowStaticAnalysis] = useState(false)
-  const [showCodeGen, setShowCodeGen] = useState(true)
-
   return (
     <div>
-      <div className="selectors">
-        <button onClick={() => setShowLexing(!showLexing)}>Lexing</button>
-        <button onClick={() => setShowParsing(!showParsing)}>Parsing</button>
-        <button onClick={() => setShowStaticAnalysis(!showStaticAnalysis)}>Static Analysis</button>
-        <button onClick={() => setShowCodeGen(!showCodeGen)}>Code Generation</button>
-      </div>
+      <StaticAnalysisUIContainer
+        parseTree={parseTree}
+        setFocusedNodeId={setFocusedNodeId} />
       <div className="compiler-phases">
-        {showLexing &&
-          <LexingUIContainer tokens={tokens} input={input} />}
-        {showParsing &&
-          <ParsingUIContainer
-            parseTree={parseTree}
-            focusedNodeId={focusedNodeId}
-            setFocusedNodeId={setFocusedNodeId} />}
-        {showStaticAnalysis &&
-          <StaticAnalysisUIContainer parseTree={parseTree} />}
-        {showCodeGen &&
-          <CodeGenerationUIContainer
-            parseTree={parseTree}
-            focusedNodeId={focusedNodeId} />}
+        {/* <LexingUIContainer tokens={tokens} input={input} /> */}
+        <ParsingUIContainer
+          parseTree={parseTree}
+          focusedNodeId={focusedNodeId}
+          setFocusedNodeId={setFocusedNodeId} />
+        <CodeGenerationUIContainer
+          parseTree={parseTree}
+          focusedNodeId={focusedNodeId} />
       </div>
     </div>
   )
