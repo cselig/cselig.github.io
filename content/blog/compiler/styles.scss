@@ -32,8 +32,12 @@
 
 #root-ui-container {
   .compiler-phases {
-    display: grid;
-    grid-template-columns: auto auto;
+    display: flex;
+
+    #parsing-ui-container {
+      max-height: 800px;
+      overflow-y: scroll;
+    }
   }
 }
 
@@ -131,7 +135,18 @@
 }
 
 #code-generation-ui-container {
-  .focused {
-    font-weight: 800;
+  &.focused {
+    span {
+      transition: opacity 150ms;
+      opacity: 0.3;
+    }
+
+    span.focused {
+      opacity: 1;
+    }
+  }
+
+  .label {
+    color: blue;
   }
 }

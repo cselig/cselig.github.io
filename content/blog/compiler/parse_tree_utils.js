@@ -1,13 +1,18 @@
 import { v4 as uuidv4 } from 'uuid';
 
-// Returns true if parentNodeId == node.id
-export function isChild(node, parentNodeId) {
-  if (parentNodeId === node.id) return true
-  while (node.parent) {
-    if (parentNodeId === node.id) return true
-    node = node.parent
+export function isAncestor(node, parentNodeId) {
+  if (node.id === parentNodeId) return true
+  if (!node.parent) return false
+  return isAncestor(node.parent, parentNodeId)
+}
+
+export function getParentFunction(node) {
+  if (node.nodeType === "function") return node
+  if (!node.parent) {
+    console.error("Incorrect use of getParentFunction()")
+    return null
   }
-  return false
+  return getParentFunction(node.parent)
 }
 
 function expressionChildren(parseTreeNode) {

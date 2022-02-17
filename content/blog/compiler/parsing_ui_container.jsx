@@ -1,5 +1,5 @@
 import React from "react"
-import { isChild } from './parse_tree_utils'
+import { isAncestor } from './parse_tree_utils'
 
 function ProgramNode({ node, focusedNodeId }) {
   const children = node.functions.map((n, i) => (
@@ -8,7 +8,7 @@ function ProgramNode({ node, focusedNodeId }) {
       focusedNodeId={focusedNodeId}
       key={i} />
   ))
-  const focused = isChild(node, focusedNodeId)
+  const focused = isAncestor(node, focusedNodeId)
   return (
     <div
       className={"parse-tree-node program " + (focused ? "focused" : "")}
@@ -20,7 +20,7 @@ function ProgramNode({ node, focusedNodeId }) {
 }
 
 function FunctionNode({ node, focusedNodeId }) {
-  const focused = isChild(node, focusedNodeId)
+  const focused = isAncestor(node, focusedNodeId)
   return (
     <div
       className={"parse-tree-node function " + (focused ? "focused" : "")}
@@ -49,7 +49,7 @@ function ExpressionNode({ node, focusedNodeId }) {
 }
 
 function UnknownExpressionNode({ node, focusedNodeId }) {
-  const focused = isChild(node, focusedNodeId)
+  const focused = isAncestor(node, focusedNodeId)
   return (
     <div
       className={"parse-tree-node expression " + (focused ? "focused" : "")}
@@ -66,7 +66,7 @@ function InvocationExpressionNode({ node, focusedNodeId }) {
     <ExpressionNode node={arg} focusedNodeId={focusedNodeId} key={arg.id} />
   ))
 
-  const focused = isChild(node, focusedNodeId)
+  const focused = isAncestor(node, focusedNodeId)
   return (
     <div
       className={"parse-tree-node expression " + (focused ? "focused" : "")}
@@ -80,7 +80,7 @@ function InvocationExpressionNode({ node, focusedNodeId }) {
 }
 
 function IfExpressionNode({ node, focusedNodeId }) {
-  const focused = isChild(node, focusedNodeId)
+  const focused = isAncestor(node, focusedNodeId)
   return (
     <div
       className={"parse-tree-node expression " + (focused ? "focused" : "")}
@@ -99,7 +99,7 @@ function IfExpressionNode({ node, focusedNodeId }) {
 }
 
 function AdditionExpressionNode({ node, focusedNodeId }) {
-  const focused = isChild(node, focusedNodeId)
+  const focused = isAncestor(node, focusedNodeId)
   return (
     <div
       className={"parse-tree-node expression " + (focused ? "focused" : "")}
@@ -114,7 +114,7 @@ function AdditionExpressionNode({ node, focusedNodeId }) {
 }
 
 function SubtractionExpressionNode({ node, focusedNodeId }) {
-  const focused = isChild(node, focusedNodeId)
+  const focused = isAncestor(node, focusedNodeId)
   return (
     <div
       className={"parse-tree-node expression " + (focused ? "focused" : "")}
@@ -129,7 +129,7 @@ function SubtractionExpressionNode({ node, focusedNodeId }) {
 }
 
 function VidExpressionNode({ node, focusedNodeId }) {
-  const focused = isChild(node, focusedNodeId)
+  const focused = isAncestor(node, focusedNodeId)
   return (
     <div
       className={"parse-tree-node expression " + (focused ? "focused" : "")}
@@ -141,7 +141,7 @@ function VidExpressionNode({ node, focusedNodeId }) {
 }
 
 function LiteralExpressionNode({ node, focusedNodeId }) {
-  const focused = isChild(node, focusedNodeId)
+  const focused = isAncestor(node, focusedNodeId)
   return (
     <div
       className={"parse-tree-node expression " + (focused ? "focused" : "")}
