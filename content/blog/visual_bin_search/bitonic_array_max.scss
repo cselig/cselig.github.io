@@ -1,0 +1,32 @@
+#bitonic-array-max {
+  display: flex;
+  flex-direction: column;
+
+  button {
+    margin: 10px;
+  }
+
+  button[name=advance] {
+    font-size: 24px;
+    display: block;
+  }
+}
+
+.dot {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  display: inline-block;
+
+  &.start {
+    background-color: green;
+  }
+
+  &.mid {
+    background-color: yellow;
+  }
+
+  &.end {
+    background-color: red;
+  }
+}
