@@ -3,7 +3,7 @@ import React from "react"
 import { isAncestor } from "./parse_tree_utils"
 import generateCode from "./calculator_code_generation"
 
-export default function CodeGenerationUIContainer({ parseTree, focusedNodeId }) {
+export default function CodeGenerationUIContainer({ parseTree, focusedNodeId, setFocusedNodeId }) {
   if (parseTree.error) {
     return <></>
   }
@@ -18,7 +18,15 @@ export default function CodeGenerationUIContainer({ parseTree, focusedNodeId }) 
           const className =
             (isAncestor(node, focusedNodeId) ? "focused " : "") +
             (line.startsWith("label:") ? "label " : "")
-          return <span className={className} key={i}>{line + "\n"}</span>
+          return (
+            <span
+              className={className}
+              onMouseOver={() => setFocusedNodeId(node.id)}
+              onMouseOut={() => setFocusedNodeId(null)}
+              key={i}>
+                {line + "\n"}
+            </span>
+          )
         })}
       </pre>
     </div>

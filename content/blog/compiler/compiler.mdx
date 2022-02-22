@@ -4,7 +4,57 @@ date: 2021-12-09
 draft: true
 ---
 
-https://www.edx.org/course/compilers
+After taking [this](https://www.edx.org/course/compilers) online compilers class, I thought it would be
+fun to build compiler for a simple language that displays output of some intermediate compiler phases.
+
+## A Simple Calculator Language
+
+The language I chose to implement is a very simple one that only supports functions (with parameters), if-then-else expressions,
+addition, subtraction, and integer constants. The body of each function is a single expression.
+
+## Parsing
+
+The first step of the compiler is lexing and parsing which I implemented with [Jison](https://gerhobbelt.github.io/jison/docs/).
+Jison and similar tools like Bison and Yacc require you to specify the grammar of your language.
+
+A specification for the calculator language would look something like:
+- A **program** is made of one or more **functions**
+- Each **function** may have parameters, and has a single **expression** for the body
+- An **expression** can be **addition**, subtraction, if-then-else, function invocation, parameter ID, or a constant.
+- An **addition expression** has left-hand and right-hand side expressions.
+- And so on...
+
+Jison takes this specification and returns a parse tree.
+
+## Static Analysis
+
+Static analysis is run over the parse tree to ensure that the program follows some rules of the language.
+
+The rules are:
+- There should be one function named `Main` that takes no parameters
+- Function names should be unique
+- Parameter names for each function should be unique
+- Functions should be invoked with the correct number of arguments
+- All variables in a function should refer to one of the function's parameters
+
+You can click on the example "Static Analysis Errors" below to see a program that breaks some of these rules.
+
+## Code Generation
+
+Code generation is the final step of this compiler and runs via a recursive descent of the parse tree.
+
+Code generation targets the simple instruction set of [MIPS](https://en.wikipedia.org/wiki/MIPS_architecture).
+The following registers are used:
+- `$a0`: the accumulator
+- `$t1`: for temporary results
+- `$sp`: the stack pointer
+  - Address of next unallocated location on stack kept here
+- `$fp`: the frame pointer
+  - Pointer to currently active stack frame
+- `$ra`: the return address
+
+Evaluating an expression will always leave the stack unchanged and the result of the expression in
+`$a0`, the accumulator register.
 
 import RootUIContainer from "./root_ui_container"
 

@@ -33,14 +33,15 @@ function FocusManager({ parseTree, tokens, input }) {
           setFocusedNodeId={setFocusedNodeId} />
         <CodeGenerationUIContainer
           parseTree={parseTree}
-          focusedNodeId={focusedNodeId} />
+          focusedNodeId={focusedNodeId}
+          setFocusedNodeId={setFocusedNodeId} />
       </div>
     </div>
   )
 }
 
 export default function RootUIContainer() {
-  const [input, setInput] = useState(examples.EXAMPLE2)
+  const [input, setInput] = useState(examples.EXAMPLE4)
 
   const tokens = lex(input)
   const parseTree = parse(input)
@@ -58,6 +59,11 @@ export default function RootUIContainer() {
             code={examples.EXAMPLE1}
             name="Example 1" key="1" /> */}
           <Example
+            selected={input === examples.EXAMPLE4}
+            setInput={setInput}
+            code={examples.EXAMPLE4}
+            name="Simple Example" key="4" />
+          <Example
             selected={input === examples.EXAMPLE2}
             setInput={setInput}
             code={examples.EXAMPLE2}
@@ -66,12 +72,7 @@ export default function RootUIContainer() {
             selected={input === examples.EXAMPLE3}
             setInput={setInput}
             code={examples.EXAMPLE3}
-            name="Errors" key="3" />
-          <Example
-            selected={input === examples.EXAMPLE4}
-            setInput={setInput}
-            code={examples.EXAMPLE4}
-            name="Simple" key="4" />
+            name="Static Analysis Errors" key="3" />
           {/* <Example
             selected={input === examples.EXAMPLE5}
             setInput={setInput}
