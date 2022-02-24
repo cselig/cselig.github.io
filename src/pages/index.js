@@ -17,6 +17,7 @@ import D3Sketch from "../images/sketches/d3.jsx"
 import KeyboardSketch from "../images/sketches/keyboard.jsx"
 import CursorSketch from "../images/sketches/cursor.jsx"
 import PianoSketch from "../images/sketches/piano.jsx"
+import CompilerSketch from "../images/sketches/compiler.jsx"
 
 function sketchForSlug(slug) {
   switch (slug) {
@@ -40,6 +41,8 @@ function sketchForSlug(slug) {
       return <CursorSketch />
     case "musical-typing":
       return <PianoSketch />
+    case "compiler":
+      return <CompilerSketch />
   }
 }
 
