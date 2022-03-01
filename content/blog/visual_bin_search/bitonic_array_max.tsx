@@ -276,9 +276,9 @@ export default function UI() {
 
   return (
     <div id="bitonic-array-max">
-      <h2>Solution Code</h2>
+      <h3>Solution Code</h3>
       <Code state={state} />
-      <h2>Input Array</h2>
+      <h3>Input Array</h3>
       <ArrayInput
         arr={arr}
         setArr={setArr}

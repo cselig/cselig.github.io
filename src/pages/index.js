@@ -18,6 +18,7 @@ import KeyboardSketch from "../images/sketches/keyboard.jsx"
 import CursorSketch from "../images/sketches/cursor.jsx"
 import PianoSketch from "../images/sketches/piano.jsx"
 import CompilerSketch from "../images/sketches/compiler.jsx"
+import BinarySearchSketch from "../images/sketches/binary_search"
 
 function sketchForSlug(slug) {
   switch (slug) {
@@ -43,6 +44,8 @@ function sketchForSlug(slug) {
       return <PianoSketch />
     case "compiler":
       return <CompilerSketch />
+    case "visual-bin-search":
+      return <BinarySearchSketch />
   }
 }
 
