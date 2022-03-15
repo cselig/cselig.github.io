@@ -62,11 +62,11 @@ function Code({ state }) {
     `initialize end`,
     `if start < end, we keep searching`,
     `calculate the mid point`,
-    `is the midpoint in the increasing or decreasing half?`,
+    `is the midpoint in the decreasing half?`,
     `if in the decreasing half, adjust end`,
     ``,
     `if in the increasing half, adjust start`,
-    `we found the answer – both start and end will point to the peak`,
+    `we found the answer and start == end`,
   ]
   return (
     <div id="code">
@@ -108,7 +108,7 @@ function Chart({ arr, start, end, mid }) {
     .range([Y_MIN, Y_MAX])
 
   return (
-    <svg width={WIDTH} height={HEIGHT}>
+    <svg id="chart" width={WIDTH} height={HEIGHT}>
       {
         [
           [start, "green"],
@@ -276,34 +276,37 @@ export default function UI() {
 
   return (
     <div id="bitonic-array-max">
-      <h3>Solution Code</h3>
-      <Code state={state} />
+      <button name="advance" onClick={advance}>{state === State.INITIAL ? "Start" : "Advance"}</button>
+      <button name="reset" onClick={reset}>Reset</button>
       <h3>Input Array</h3>
       <ArrayInput
         arr={arr}
         setArr={setArr}
         reset={reset}
         setError={setError}
-        />
+      />
+      <h3>Solution Code</h3>
+      <Code state={state} />
       {error &&
         <p><span>❌</span> Error: {error}</p>
       }
       {!error &&
-        <div>
-          <Chart
-            arr={arr}
-            start={start}
-            end={end}
-            mid={mid}
-          />
-          <div>
-            <p><span className="dot start"></span>Start: {start}</p>
-            <p><span className="dot mid"></span>Mid: {mid}</p>
-            <p><span className="dot end"></span>End: {end}</p>
-            <button name="advance" onClick={advance}>{state === State.INITIAL ? "Start" : "Advance"}</button>
-            <button name="reset" onClick={reset}>Reset</button>
+        <>
+          <h3>Array Visualization</h3>
+          <div id="array-viz">
+            <Chart
+              arr={arr}
+              start={start}
+              end={end}
+              mid={mid}
+            />
+            <div>
+              <p><span className="dot start"></span>Start: {start}</p>
+              <p><span className="dot mid"></span>Mid: {mid}</p>
+              <p><span className="dot end"></span>End: {end}</p>
+            </div>
           </div>
-        </div>
+        </>
       }
     </div>
   )

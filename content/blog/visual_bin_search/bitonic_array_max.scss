@@ -1,6 +1,9 @@
 #bitonic-array-max {
   display: flex;
   flex-direction: column;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  padding: 20px;
 
   button {
     margin: 10px;
@@ -8,8 +11,24 @@
 
   button[name=advance] {
     font-size: 20px;
-    display: block;
   }
+
+  button[name=advance], button[name=reset] {
+    width: fit-content;
+    margin: 10px auto;
+  }
+}
+
+#code {
+  background-color: #ffecb3;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+#array-viz {
+  background-color: #bbdefb;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .dot {
