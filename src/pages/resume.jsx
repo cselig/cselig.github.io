@@ -37,10 +37,11 @@ function Resume() {
             <div className="body">
               <h3>Cisco Systems <span className="position">Software Engineer</span></h3>
               <ul>
-                <li>Rewrote a large C++ data serialization system to improve developer experience</li>
-                <li>Improved internal tools for managing news feeds to make moderation more efficient</li>
+                <li>Integrated acquired startup's "digital chief of staff" product into Webex</li>
+                <li>Rewrote a large C++ data serialization system, improving maintainability and code velocity</li>
+                <li>Built internal tools for managing news feeds to make moderation more efficient</li>
                 <li>Responded to and debugged issues in production using application and system logs</li>
-                <li><b>Technologies used:</b> ClojureScript, React, Ruby on Rails, D3.js, C++, PostgreSQL, Redis</li>
+                <li><b>Technologies used:</b> Ruby, C++, ClojureScript, React, Rails, PostgreSQL, Redis, D3.js</li>
               </ul>
             </div>
 
@@ -78,7 +79,7 @@ function Resume() {
               <h3>Manara <span className="position">Volunteer</span></h3>
               <ul>
                 <li>Gave 1-3 mock technical interviews per week to trainees</li>
-                <li>Diagrammed and explained solutions for various coding questions</li>
+                <li>TA'd for a coding interview prep class</li>
               </ul>
             </div>
             <div className="info">
@@ -90,9 +91,10 @@ function Resume() {
             <div className="body">
               <h3>Great Expectations <span className="position">Open Source Contributor</span></h3>
               <ul>
-                <li>Implemented a PySpark back-end to enable working with large datasets</li>
-                <li>Implemented caching for performance improvements</li>
-                <li>See this{' '}
+                <li>Built a PySpark back-end to enable working with large datasets</li>
+                <li>Designed and implemented a caching layer to improve performance</li>
+                <li>Proactively worked with library creators to pitch these features and get approval for designs</li>
+                <li>Please see this{' '}
                   <a href="https://greatexpectations.io/blog/great-expectations-now-supports-executions-in-spark-a-blog-with-much-clapping/">article</a>
                   {' '}highlighting my contributions
                 </li>
@@ -118,9 +120,9 @@ function Resume() {
 
           <h4>Computer Science Coursework:</h4>
           <ul>
+            <li>Compilers <span className="detail">Stanford CS 143 through edX</span></li>
             <li>Data Structures and Algorithms <span className="detail">UW CSE 373</span></li>
             <li>Introduction to AI <span className="detail">UW CSE 415</span></li>
-            <li>Compilers <span className="detail">Stanford CS 143 through edX</span></li>
           </ul>
 
         </div>
