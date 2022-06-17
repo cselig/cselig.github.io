@@ -13,9 +13,8 @@ function About() {
           My name is Christian Selig and I'm a software engineer based in the Bay Area.
         </p>
         <p>
-          I currently work for Cisco on <a href="https://www.cisco.com/c/dam/en/us/solutions/collaboration/people-insights-whitepaper.pdf">People Insights</a>.{' '}
-          I do end-to-end feature development including front end (React, ClojureScript) and backend (Rails, Postgres) work,{' '}
-          as well as more systems-oriented work in C++.
+          I most recently worked for Cisco on <a href="https://www.cisco.com/c/dam/en/us/solutions/collaboration/people-insights-whitepaper.pdf">People Insights</a>.{' '}
+          I do end-to-end feature development including front end (React, ClojureScript) and backend (Rails, Postgres, C++) work.
         </p>
         <p>
           Previously I worked for a data science consultancy called Cascade Data Labs doing data analysis, engineering, and modeling.
