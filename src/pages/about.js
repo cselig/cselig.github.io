@@ -13,22 +13,23 @@ function About() {
           My name is Christian Selig and I'm a software engineer based in the Bay Area.
         </p>
         <p>
-          I most recently worked for Cisco on <a href="https://www.cisco.com/c/dam/en/us/solutions/collaboration/people-insights-whitepaper.pdf">People Insights</a>.{' '}
+          I currently work at Google building software tools for silicon chip development.
+        </p>
+        <p>
+          Previously I worked for Cisco on <a href="https://www.cisco.com/c/dam/en/us/solutions/collaboration/people-insights-whitepaper.pdf">People Insights</a>.{' '}
           I do end-to-end feature development including front end (React, ClojureScript) and backend (Rails, Postgres, C++) work.
         </p>
         <p>
-          Previously I worked for a data science consultancy called Cascade Data Labs doing data analysis, engineering, and modeling.
-        </p>
-        <p>
-          I've done a little bit of open source development for a Python data quality library
-          called Great Expectations - you can read about my contributions <a href="https://greatexpectations.io/blog/great-expectations-now-supports-executions-in-spark-a-blog-with-much-clapping/">here</a>.
-        </p>
-        <p>
+          Out of college I worked for a data science consultancy called Cascade Data Labs doing data analysis, engineering, and modeling.
           I have a Bachelors degree in Chemical Engineering from the University of Washington.
         </p>
         <p>
-          Finally, I'm a very active cellist and I love playing orchestral and chamber music (and attending summer music festivals
-          when I get the chance).
+          I've done a little bit of open source development for a Python data quality library
+          called Great Expectations – you can read about my contributions <a href="https://greatexpectations.io/blog/great-expectations-now-supports-executions-in-spark-a-blog-with-much-clapping/">here</a>.
+        </p>
+        <p>
+          Finally, I'm a cellist and I love playing chamber music with my friends. I also play electric bass
+          in an indie rock band called <a href="https://open.spotify.com/artist/3Uuudd2od8XP5vpOk7LDHw?si=P3-Ykr8nT_yQ0_KJsYdjLQ">The Lamps</a>!
         </p>
         <p>
           You can connect with me on: <a href="https://github.com/cselig">GitHub</a> | <a href="https://www.linkedin.com/in/c-selig/">LinkedIn</a>
