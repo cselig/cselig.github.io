@@ -1,10 +1,24 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+
+import boogiemanSam from './data/boogieman_sam.json';
+import ridealong from './data/ridealong.json';
+
+const DATA_MAP = {
+  'boogieman_sam': boogiemanSam,
+  'ridealong': ridealong,
+}
 
 const k = {
   svg_height: 400,
   svg_width: 700,
   grid_cell_size: 15,
-  colors: ['red', 'blue', 'green', 'purple', 'none'],
+  colors: [
+    // https://m1.material.io/style/color.html#color-color-palette
+    // 800, 400, 100
+    ['#283593', '#5C6BC0', '#C5CAE9'], // blue
+    ['#C62828', '#EF5350', '#FFCDD2'], // red
+    ['#2E7D32', '#66BB6A','#C8E6C9'], // green
+  ],
   color_picker_circle_radius: 20,
 };
 k.x_transform = k.grid_cell_size * 7;
@@ -55,7 +69,50 @@ const GridLines = () => {
   return <g className="grid-lines">{lines}</g>;
 }
 
-const SectionLabels = ({sections, shortenSection, lengthenSection, addSection}) => {
+const Cells = ({cells, setCells, sections, instruments, mouseClicked, setMouseClicked, activeColor, interactable}) => {
+  let maxX = sections.reduce((total, section) => total + section.length, 0) * k.grid_cell_size;
+  let maxY = instruments.length * 4 * k.grid_cell_size;
+  let cellSvgs = [];
+  for (const [cellId, color] of Object.entries(cells)) {
+    const [i, j] = cellId.split(':');
+    const [x, y] = [j * k.grid_cell_size, i * k.grid_cell_size];
+    const [gridX, gridY] = [x - k.x_transform, y - k.y_transform];
+    const isPaintable = maxX > 0 && maxY > 0 && gridX >= 0 && gridY >= 0 && gridX < maxX && gridY < maxY;
+
+    const colorCell = () => {
+      const newCells = deepcopy(cells);
+      newCells[cellId] = activeColor || 'none';
+      setCells(newCells);
+    }
+    const mouseOver = () => {
+      if (isPaintable && mouseClicked && interactable) {
+        colorCell(cellId);
+      }
+    }
+    const mouseDown = () => {
+      if (!isPaintable || !interactable) return;
+      colorCell();
+      setMouseClicked(true);
+    }
+    const mouseUp = () => {
+      if (interactable) setMouseClicked(false);
+    }
+    cellSvgs.push(
+      <rect
+        className="cell" key={cellId}
+        onMouseOver={mouseOver} onMouseDown={mouseDown} onMouseUp={mouseUp}
+        onClick={() => console.log("click", i, j)}
+        x={x} y={y}
+        fill={color}
+        height={k.grid_cell_size} width={k.grid_cell_size}
+        style={{pointerEvents: 'all', cursor: isPaintable ? 'pointer' : 'auto'}}
+      ></rect>
+    )
+  }
+  return cellSvgs;
+}
+
+const SectionLabels = ({sections, shortenSection, lengthenSection, addSection, interactable}) => {
   const lines = [];
   const labels = [];
   let i = 0;
@@ -76,22 +133,24 @@ const SectionLabels = ({sections, shortenSection, lengthenSection, addSection}) 
         key={section}
       >{section}</text>
     );
-    // Shorten button
-    labels.push(
-      <text
-        x={(i - length / 2) * k.grid_cell_size - 10} y={-2.5 * k.grid_cell_size}
-        fill="black" key={section + "Shorten"} onClick={() => shortenSection(section)}
-        style={{textAnchor: 'middle', dominantBaseline: 'middle', cursor: 'pointer'}}
-      >-</text>
-    );
-    // Lengthen button
-    labels.push(
-      <text
-        x={(i - length / 2) * k.grid_cell_size + 10} y={-2.5 * k.grid_cell_size}
-        fill="black" key={section + "Lengthen"} onClick={() => lengthenSection(section)}
-        style={{textAnchor: 'middle', dominantBaseline: 'middle', cursor: 'pointer'}}
-      >+</text>
-    );
+    if (interactable) {
+      // Shorten button
+      labels.push(
+        <text
+          x={(i - length / 2) * k.grid_cell_size - 10} y={-2.5 * k.grid_cell_size}
+          fill="black" key={section + "Shorten"} onClick={() => shortenSection(section)}
+          style={{textAnchor: 'middle', dominantBaseline: 'middle', cursor: 'pointer'}}
+        >-</text>
+      );
+      // Lengthen button
+      labels.push(
+        <text
+          x={(i - length / 2) * k.grid_cell_size + 10} y={-2.5 * k.grid_cell_size}
+          fill="black" key={section + "Lengthen"} onClick={() => lengthenSection(section)}
+          style={{textAnchor: 'middle', dominantBaseline: 'middle', cursor: 'pointer'}}
+        >+</text>
+      );
+    }
   }
   const addSectionButton = <text
       onClick={addSection}
@@ -101,11 +160,11 @@ const SectionLabels = ({sections, shortenSection, lengthenSection, addSection}) 
   return <g className="sections">
     <g>{lines}</g>
     <g>{labels}</g>
-    {addSectionButton}
+    {interactable && addSectionButton}
   </g>;
 }
 
-const InstrumentLabels = ({instruments, addInstrument}) => {
+const InstrumentLabels = ({instruments, addInstrument, interactable}) => {
   const lines = [];
   const labels = [];
   for (let i = 0; i < instruments.length; i++) {
@@ -133,61 +192,42 @@ const InstrumentLabels = ({instruments, addInstrument}) => {
   return <g className="instruments">
     <g>{lines}</g>
     <g>{labels}</g>
-    {addInstrumentButton}
+    {interactable && addInstrumentButton}
   </g>;
-}
-
-const Sections = ({sections, instruments, onSectionClick, activeColor}) => {
-  const rectangles = [];
-  for (let i = 0; i < instruments.length; i++) {
-    let x = 0;
-    for (let j = 0; j < sections.length; j++) {
-      const width = sections[j].length * k.grid_cell_size;
-      const color = instruments[i].sections.hasOwnProperty(sections[j].section)
-        ? instruments[i].sections[sections[j].section] : 'none';
-      rectangles.push(
-        <rect
-          x={x} y={i * 4 * k.grid_cell_size}
-          height={4 * k.grid_cell_size} width={width}
-          fill={color} key={instruments[i].instrument + ':' + sections[j].section}
-          onClick={() => onSectionClick(instruments[i].instrument, sections[j].section)}
-          style={{pointerEvents: 'all', cursor: activeColor ? 'pointer' : 'auto'}}
-        ></rect>
-      );
-      x += width;
-    }
-  }
-  return <g>{rectangles}</g>;
 }
 
 const ColorPicker = ({activeColor, onColorClick}) => {
   const circles = [];
   for (let i = 0; i < k.colors.length; i++) {
-    circles.push(
-      <circle
-        r={k.color_picker_circle_radius} style={{cursor: 'pointer'}}
-        cx={(i + 1) * k.color_picker_circle_radius * 2.5}
-        cy={k.color_picker_circle_radius * 1.5}
-        fill={k.colors[i]} key={k.colors[i]} onClick={() => onColorClick(k.colors[i])}
-        pointerEvents="all"
-      ></circle>
-    );
-    circles.push(
-      <circle
-        r={k.color_picker_circle_radius} style={{cursor: 'pointer'}}
-        cx={(i + 1) * k.color_picker_circle_radius * 2.5}
-        cy={k.color_picker_circle_radius * 1.5}
-        fill="none" stroke="black" strokeWidth={activeColor === k.colors[i] ? 5 : 1}
-        key={k.colors[i] + "Ring"}
-        onClick={() => onColorClick(k.colors[i])}
-      ></circle>
-    );
+    for (let j = 0; j < k.colors[i].length; j++) {
+      const cx = (j + 1) * k.color_picker_circle_radius * 1.5;
+      const cy = (i + 1) * k.color_picker_circle_radius * 1.5;
+      circles.push(
+        <circle
+          r={k.color_picker_circle_radius} style={{cursor: 'pointer'}}
+          cx={cx} cy={cy}
+          fill={k.colors[i][j]} key={k.colors[i][j]} onClick={() => onColorClick(k.colors[i][j])}
+          pointerEvents="all"
+        ></circle>
+      );
+      circles.push(
+        <circle
+          r={k.color_picker_circle_radius} style={{cursor: 'pointer'}}
+          cx={cx} cy={cy}
+          fill="none" stroke="black"
+          strokeWidth={activeColor === k.colors[i][j] ? 5 : 1}
+          key={k.colors[i][j] + "Ring"}
+          onClick={() => onColorClick(k.colors[i][j])}
+        ></circle>
+      );
+    }
   }
   return <g>{circles}</g>;
 }
 
-const SongTitle = ({title, setTitle}) => {
+const SongTitle = ({title, setTitle, interactable}) => {
   const editTitle = () => {
+    if (!interactable) return;
     const title = window.prompt("Enter song title:");
     if (!title) return;
     setTitle(title);
@@ -206,67 +246,76 @@ const SongTitle = ({title, setTitle}) => {
   >{title}</text>;
 }
 
-const SaveLoadControls = ({instruments, sections, title, load}) => {
-  const copy = () => {
-    const data = {instruments: instruments, sections: sections, title: title};
-    navigator.clipboard.writeText(JSON.stringify(data));
+const SaveLoadControls = ({copy, load}) => {
+  const loadFromClipboard = async () => {
+    const text = await navigator.clipboard.readText();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (error) {
+      console.error("Couldn't parse JSON");
+      return;
+    }
+    load(data);
   }
   return <div>
     <button onClick={copy}>Copy data</button>
-    <button onClick={load}>Load data from clipboard</button>
+    <button onClick={loadFromClipboard}>Load data from clipboard</button>
   </div>
 }
-
-const MOCK_INSTRUMENTS = [
-  {
-    instrument: 'Drums',
-    sections: {},
-  },
-  {
-    instrument: 'Bass',
-    sections: {
-      'intro': 'blue',
-      'chorus': 'red',
-    }
-  },
-  {
-    instrument: 'Guitar 1',
-    sections: {
-      verse: 'green',
-    },
-  },
-];
-
-const MOCK_SECTIONS = [
-  {section: 'intro', length: 4},
-  {section: 'verse', length: 8},
-  {section: 'chorus', length: 4},
-];
 
 function deepcopy(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 
-const BandParts = () => {
+function createCells() {
+  let cells = {};
+  for (let i = 0; i * k.grid_cell_size < k.svg_height; i++) {
+    for (let j = 0; j * k.grid_cell_size < k.svg_width; j++) {
+      const cellId = `${i}:${j}`;
+      cells[cellId] = 'none';
+    }
+  }
+  return cells;
+}
+
+const BandParts = ({dataFile}) => {
   const [instruments, setInstruments] = useState([]);
+  // [{length: int, section: string}]
   const [sections, setSections] = useState([]);
   const [title, setTitle] = useState('Click to edit title');
   const [activeColor, setActiveColor] = useState(null);
+  // { cellId: {}}, cellId: {i, j}
+  const [cells, setCells] = useState(createCells);
+  const [mouseClicked, setMouseClicked] = useState(false);
+  const [interactable, setInteractable] = useState(true);
 
-  const onSectionClick = (instrument, section) => {
-    if (!activeColor) return;
-    const newInstruments = deepcopy(instruments);
-    for (const i of newInstruments) {
-      if (i.instrument === instrument) {
-        i.sections[section] = activeColor;
-      }
-    }
-    setInstruments(newInstruments);
+  const copy = () => {
+    const data = {title: title, sections: sections, instruments: instruments, cells: cells};
+    navigator.clipboard.writeText(JSON.stringify(data));
   }
+
+  const load = (data) => {
+    setInstruments(data.instruments);
+    setSections(data.sections);
+    setCells(data.cells);
+    setTitle(data.title);
+  }
+
+  useEffect(() => {
+    if (dataFile) {
+      if (!DATA_MAP.hasOwnProperty(dataFile)) {
+        console.error(`Data file not found: ${dataFile}`);
+        return;
+      }
+      load(DATA_MAP[dataFile]);
+      setInteractable(false);
+    }
+  }, []);
 
   const onColorClick = (color) => {
     if (activeColor === color) {
-      setActiveColor(null);
+      setActiveColor('none');
     } else {
       setActiveColor(color);
     }
@@ -308,7 +357,7 @@ const BandParts = () => {
     setSections(newSections);
   }
 
-  const addIntrument = () => {
+  const addInstrument = () => {
     const instrumentName = window.prompt("Enter instrument name:");
     if (!instrumentName) return;
     for (const i of instruments) {
@@ -322,53 +371,49 @@ const BandParts = () => {
     setInstruments(newInstruments);
   }
 
-  const load = async () => {
-    const text = await navigator.clipboard.readText();
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch (error) {
-      console.error("Couldn't parse JSON");
-      return;
-    }
-    setInstruments(data.instruments);
-    setSections(data.sections);
-    setTitle(data.title);
-  }
-
   return (
     <div>
-      <svg height={65} width={300}>
-        <ColorPicker activeColor={activeColor} onColorClick={onColorClick} />
-      </svg>
       <svg height={k.svg_height} width={k.svg_width}
         style={{border: '1px solid lightgrey'}}
       >
+        <Cells
+          cells={cells}
+          setCells={setCells}
+          sections={sections}
+          instruments={instruments}
+          mouseClicked={mouseClicked}
+          setMouseClicked={setMouseClicked}
+          activeColor={activeColor}
+          interactable={interactable} />
         <GridLines/>
         <g style={{transform: `translate(${k.x_transform}px, ${k.y_transform}px)`}}>
-          <Sections
-            sections={sections}
-            instruments={instruments}
-            onSectionClick={onSectionClick}
-            activeColor={activeColor}
-          />
           <SectionLabels
             sections={sections}
             shortenSection={shortenSection}
             lengthenSection={lengthenSection}
-            addSection={addSection} />
+            addSection={addSection}
+            interactable={interactable} />
           <InstrumentLabels
             instruments={instruments}
-            addInstrument={addIntrument} />
+            addInstrument={addInstrument}
+            interactable={interactable} />
         </g>
         <Axes/>
-        <SongTitle title={title} setTitle={setTitle} />
+        <SongTitle title={title} setTitle={setTitle} interactable={interactable} />
       </svg>
-      <SaveLoadControls
-        instruments={instruments}
-        sections={sections}
-        title={title}
-        load={load} />
+      {interactable &&
+        <>
+          <svg height={150} width={300}>
+            <ColorPicker activeColor={activeColor} onColorClick={onColorClick} />
+          </svg>
+          <SaveLoadControls
+            instruments={instruments}
+            sections={sections}
+            title={title}
+            copy={copy}
+            load={load} />
+        </>
+      }
     </div>
   );
 }
