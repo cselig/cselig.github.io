@@ -8,6 +8,8 @@ const DATA_MAP = {
   'ridealong': ridealong,
 }
 
+const DEFAULT_SONG_TITLE = 'Click to edit title';
+
 const k = {
   svg_height: 400,
   svg_width: 700,
@@ -112,12 +114,18 @@ const Cells = ({cells, setCells, sections, instruments, mouseClicked, setMouseCl
   return cellSvgs;
 }
 
-const SectionLabels = ({sections, shortenSection, lengthenSection, addSection, interactable}) => {
+const SectionLabels = ({sections, shortenSection, lengthenSection, addSection, interactable, changeSectionName}) => {
   const lines = [];
   const labels = [];
   let i = 0;
   for (const {section, length} of sections) {
     i += length;
+    const editSection = () => {
+      if (!interactable) return;
+      const newName = window.prompt("Edit section name:", section);
+      if (!newName) return;
+      changeSectionName(section, newName);
+    }
     lines.push(
       <line
         x1={i * k.grid_cell_size} x2={i * k.grid_cell_size}
@@ -129,8 +137,8 @@ const SectionLabels = ({sections, shortenSection, lengthenSection, addSection, i
     labels.push(
       <text
         x={(i - length / 2) * k.grid_cell_size} y={-1 * k.grid_cell_size}
-        fill="black" style={{textAnchor: 'middle', dominantBaseline: 'middle'}}
-        key={section}
+        fill="black" style={{textAnchor: 'middle', dominantBaseline: 'middle', cursor: 'pointer'}}
+        key={section} onClick={editSection}
       >{section}</text>
     );
     if (interactable) {
@@ -164,10 +172,16 @@ const SectionLabels = ({sections, shortenSection, lengthenSection, addSection, i
   </g>;
 }
 
-const InstrumentLabels = ({instruments, addInstrument, interactable}) => {
+const InstrumentLabels = ({instruments, addInstrument, interactable, changeInstrumentName}) => {
   const lines = [];
   const labels = [];
   for (let i = 0; i < instruments.length; i++) {
+    const editInstrument = () => {
+      if (!interactable) return;
+      const newName = window.prompt("Edit instrument name:", instruments[i].instrument);
+      if (!newName) return;
+      changeInstrumentName(instruments[i].instrument, newName);
+    }
     lines.push(
       <line
         x1={-1 * k.x_transform} x2={k.svg_width - k.x_transform}
@@ -179,8 +193,9 @@ const InstrumentLabels = ({instruments, addInstrument, interactable}) => {
     labels.push(
       <text
         x={-1 * k.x_transform / 2} y={(i * 4 + 2) * k.grid_cell_size}
-        fill="black" style={{textAnchor: 'middle', dominantBaseline: 'middle'}}
+        fill="black" style={{textAnchor: 'middle', dominantBaseline: 'middle', cursor: 'pointer'}}
         key={instruments[i].instrument}
+        onClick={editInstrument}
       >{instruments[i].instrument}</text>
     )
   }
@@ -228,9 +243,14 @@ const ColorPicker = ({activeColor, onColorClick}) => {
 const SongTitle = ({title, setTitle, interactable}) => {
   const editTitle = () => {
     if (!interactable) return;
-    const title = window.prompt("Enter song title:");
-    if (!title) return;
-    setTitle(title);
+    let newTitle;
+    if (title === DEFAULT_SONG_TITLE) {
+      newTitle = window.prompt("Enter song title:");
+    } else {
+      newTitle = window.prompt("Edit song title:", title);
+    }
+    if (!newTitle) return;
+    setTitle(newTitle);
   }
 
   return <text
@@ -283,7 +303,7 @@ const BandParts = ({dataFile}) => {
   const [instruments, setInstruments] = useState([]);
   // [{length: int, section: string}]
   const [sections, setSections] = useState([]);
-  const [title, setTitle] = useState('Click to edit title');
+  const [title, setTitle] = useState(DEFAULT_SONG_TITLE);
   const [activeColor, setActiveColor] = useState(null);
   // { cellId: {}}, cellId: {i, j}
   const [cells, setCells] = useState(createCells);
@@ -343,31 +363,75 @@ const BandParts = ({dataFile}) => {
     modifySectionLength(section, 1);
   }
 
+  const sectionNameExists = (name) => {
+    for (const s of sections) {
+      if (s.section === name) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   const addSection = () => {
     const sectionName = window.prompt("Enter section name:");
     if (!sectionName) return;
-    for (const s of sections) {
-      if (s.section === sectionName) {
-        window.alert("Section name already exists!");
-        return;
-      }
+    if (sectionNameExists(sectionName)) {
+      window.alert("Section name already exists!");
+      return;
     }
     const newSections = deepcopy(sections);
     newSections.push({section: sectionName, length: 4});
     setSections(newSections);
   }
 
+  const changeSectionName = (oldName, newName) => {
+    if (oldName === newName) return;
+    if (sectionNameExists(newName)) {
+      window.alert("Section name already exists!");
+      return;
+    }
+    const newSections = deepcopy(sections);
+    for (let i = 0; i < newSections.length; i++) {
+      if (newSections[i].section === oldName) {
+        newSections[i].section = newName;
+      }
+    }
+    setSections(newSections);
+  }
+
+  const instrumentNameExists = (name) => {
+    for (const i of instruments) {
+      if (i.instrument === name) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   const addInstrument = () => {
     const instrumentName = window.prompt("Enter instrument name:");
     if (!instrumentName) return;
-    for (const i of instruments) {
-      if (i.instrument === instrumentName) {
-        window.alert("Instrument name already exists!");
-        return;
-      }
+    if (instrumentNameExists(instrumentName)) {
+      window.alert("Instrument name already exists!");
+      return;
     }
     const newInstruments = deepcopy(instruments);
     newInstruments.push({instrument: instrumentName, sections: {}});
+    setInstruments(newInstruments);
+  }
+
+  const changeInstrumentName = (oldName, newName) => {
+    if (oldName === newName) return;
+    if (instrumentNameExists(newName)) {
+      window.alert("Instrument name already exists!");
+      return;
+    }
+    const newInstruments = deepcopy(instruments);
+    for (let i = 0; i < newInstruments.length; i++) {
+      if (newInstruments[i].instrument === oldName) {
+        newInstruments[i].instrument = newName;
+      }
+    }
     setInstruments(newInstruments);
   }
 
@@ -392,11 +456,13 @@ const BandParts = ({dataFile}) => {
             shortenSection={shortenSection}
             lengthenSection={lengthenSection}
             addSection={addSection}
-            interactable={interactable} />
+            interactable={interactable}
+            changeSectionName={changeSectionName} />
           <InstrumentLabels
             instruments={instruments}
             addInstrument={addInstrument}
-            interactable={interactable} />
+            interactable={interactable}
+            changeInstrumentName={changeInstrumentName} />
         </g>
         <Axes/>
         <SongTitle title={title} setTitle={setTitle} interactable={interactable} />
