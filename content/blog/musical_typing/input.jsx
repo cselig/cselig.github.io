@@ -5,7 +5,11 @@ import './styles.scss'
 
 var $ = require('jquery')
 
-const TEXT = "Type this text above and hear a nice scale being played. For each correct character you'll hear a note from the pentatonic scale, and for each incorrect character you'll hear a \"wrong\" note. I think this idea is interesting because it plays with the similarities between a computer keyboard and a piano keyboard and uses multiple senses to inform the user of incorrect input."
+const TEXT = `Type this text above and hear a nice scale being played. \
+For each correct character you'll hear a note from the pentatonic scale, \
+and for each incorrect character you'll hear a \"wrong\" note. The most \
+interesting thing about this idea is that it uses multiple senses to \
+inform the user of incorrect input.`
 
 const SCALE = ["C4", "D4", "E4", "G4", "A4", "C5", "D5", "E5", "G5", "A5", "C6"]
 const WRONG_NOTES = ["C#4", "D#4", "D#4", "F#4", "Ab4", "C#5", "D#5", "D#5", "F#5", "Ab5", "C#6"]
@@ -56,6 +60,7 @@ export default function Input() {
   return (
     <div id="input-container">
       <input
+        autoFocus
         onChange={onChange}
       ></input>
 

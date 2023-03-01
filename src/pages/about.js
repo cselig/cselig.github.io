@@ -17,7 +17,7 @@ function About() {
         </p>
         <p>
           Previously I worked for Cisco on <a href="https://www.cisco.com/c/dam/en/us/solutions/collaboration/people-insights-whitepaper.pdf">People Insights</a>.{' '}
-          I do end-to-end feature development including front end (React, ClojureScript) and backend (Rails, Postgres, C++) work.
+          I did end-to-end feature development including front end (React, ClojureScript, D3) and backend (Rails, Postgres, C++) work.
         </p>
         <p>
           Out of college I worked for a data science consultancy called Cascade Data Labs doing data analysis, engineering, and modeling.
