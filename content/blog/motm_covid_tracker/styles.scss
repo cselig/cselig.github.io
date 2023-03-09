@@ -1,0 +1,7 @@
+.current-locations {
+  ul > li {
+    &.healthy { color: green; }
+    &.infected { color: orange; }
+    &.tested-positive { color: red; }
+  }
+}
