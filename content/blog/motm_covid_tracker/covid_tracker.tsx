@@ -225,9 +225,23 @@ const EVENTS = [
 
 const deepcopy = (data) => JSON.parse(JSON.stringify(data));
 
+interface PersonState {
+  covidStatus: CovidStatus;
+  location: Locations;
+}
+
+interface PeopleState {
+  [person: number]: PersonState;
+}
+
+interface State {
+  eventIndex: number;
+  peopleState: PeopleState;
+}
+
 export default function CovidTracker() {
-  const [eventIndex, setEventIndex] = useState(-1);
-  const [peopleState, setPeopleState] = useState(INITIAL_PEOPLE_STATE);
+  const [history, setHistory] = useState<[State]>([{eventIndex: -1, peopleState: INITIAL_PEOPLE_STATE}]);
+  const {eventIndex, peopleState} = history[history.length - 1];
 
   let currentLocations = []
   for (const location in Locations) {
@@ -257,7 +271,7 @@ export default function CovidTracker() {
     for (const person of people) {
       newPeopleState[person].location = newLocation;
     }
-    setPeopleState(newPeopleState);
+    return newPeopleState;
   }
 
   const updatePeopleCovidStatus = (people, status) => {
@@ -265,36 +279,46 @@ export default function CovidTracker() {
     for (const person of people) {
       newPeopleState[person].covidStatus = status;
     }
-    setPeopleState(newPeopleState);
+    return newPeopleState;
   }
 
   const handleEvent = (event) => {
     switch (event.type) {
       case EventType.TRAVEL:
-        updatePeopleLocations(event.people, event.destination);
-        break;
+        return updatePeopleLocations(event.people, event.destination);
       case EventType.COVID_STATUS_CHANGE:
-        updatePeopleCovidStatus(event.people, event.status);
-        break;
+        return updatePeopleCovidStatus(event.people, event.status);
       default:
         console.error(`Unhandled event type ${event.type}`)
+        return {}
     }
   }
 
   const advance = () => {
     if (eventIndex >= EVENTS.length - 1) return;
-    setEventIndex(eventIndex + 1);
-    handleEvent(EVENTS[eventIndex + 1]);
+    const newEventIndex = eventIndex + 1;
+    const newPeopleState = handleEvent(EVENTS[newEventIndex]);
+    const newHistory = deepcopy(history);
+    newHistory.push({eventIndex: newEventIndex, peopleState: newPeopleState});
+    setHistory(newHistory);
+  }
+
+  const back = () => {
+    if (eventIndex == -1) return;
+    const newHistory = deepcopy(history);
+    newHistory.pop();
+    const {eventIndex: newEventIndex, peopleState: newPeopleState} = newHistory[newHistory.length - 1];
+    setHistory(newHistory);
   }
 
   const restart = () => {
-    setEventIndex(-1);
-    setPeopleState(INITIAL_PEOPLE_STATE);
+    setHistory([{eventIndex: -1, peopleState: INITIAL_PEOPLE_STATE}]);
   }
 
   return (
     <div>
       <h2>Covid Tracker</h2>
+      <button disabled={eventIndex > -1 ? null : true} onClick={back}>Back</button>
       <button disabled={eventIndex >= EVENTS.length - 1 ? true : null} onClick={advance}>Advance</button>
       <button onClick={restart}>Restart</button>
       <p>Current time: {eventIndex >= 0 ? EVENTS[eventIndex].time : 'Friday morning'}</p>
