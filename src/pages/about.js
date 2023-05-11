@@ -25,7 +25,7 @@ function About() {
         </p>
         <p>
           I've done a little bit of open source development for a Python data quality library
-          called Great Expectations – you can read about my contributions <a href="https://greatexpectations.io/blog/great-expectations-now-supports-executions-in-spark-a-blog-with-much-clapping/">here</a>.
+          called Great Expectations – you can read about my contributions <a href="https://greatexpectations.io/blog/great-expectations-now-supports-execution-in-spark">here</a>.
         </p>
         <p>
           Finally, I'm a cellist and I love playing chamber music with my friends. I also play electric bass
