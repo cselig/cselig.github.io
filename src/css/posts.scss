@@ -178,6 +178,7 @@
     .solution {
       p {
         background-color: black;
+        transition: background-color 200ms linear;
 
         &:hover {
           background-color: white;

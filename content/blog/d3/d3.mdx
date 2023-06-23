@@ -11,10 +11,9 @@ import SunburstChart from "./sunburst_chart"
 import EditDistance from "./edit_distance"
 import TechViz from "./tech_viz"
 
-I'm using some of my "shelter in place" free time to learn D3 and create some toy visualizations.
-See complete code [here](https://github.com/cselig/cselig.github.io/tree/develop/content/blog/d3).
+I'm using some of my shelter in place free time to learn D3 and create some toy visualizations.
 
-### Some sort of bubble chart
+### Bubble Chart (?)
 
 I'm not sure what this chart would be called, but something like this could be used for visualizing a single variable.
 
@@ -38,7 +37,7 @@ This chart (in conjunction with some informative text/tooltips) could be used to
 I thought it would be cool to visualize the shortest edit distance between two words with the below animation.
 However, it isn't completely correct - the key function I'm providing to `.data()` is just the letter itself,
 which means that repeat letters aren't keyed properly. To solve this I'd have to write a more sophisticated key
-function, which sounds tricky.
+function.
 
 Type a new word or phrase and hit "Update".
 
@@ -49,3 +48,5 @@ Type a new word or phrase and hit "Update".
 A cool way of displaying technologies I've worked with, with the detail that a technology can be in multiple categories.
 
 <TechViz />
+
+Code for all the above is [here](https://github.com/cselig/cselig.github.io/tree/develop/content/blog/d3).

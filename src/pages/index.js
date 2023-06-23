@@ -89,7 +89,7 @@ const IndexPage = ({ data }) => {
           </p>
           <p>
             This is my collection of code sketches: bite-sized visualizations,{' '}
-            puzzles, prototypes, explorations, and generally anything I find interesting.
+            puzzles, prototypes, explorations, toys, and tools.
           </p>
           <p>
             I hope you enjoy!
