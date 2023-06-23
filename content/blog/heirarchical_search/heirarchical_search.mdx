@@ -1,0 +1,34 @@
+---
+title: Heirarchical Categories
+date: 2023-08-12
+---
+
+import Component from "./heirarchical_search";
+import Sketch from "./sketch";
+
+Heirarchical categories are a common data type to encouter on the web. For example on a
+jobs posting website you often see options for searching by job
+category and location.
+
+Often the relevance of search results to a user follows the structure of these categories.
+I might be particularly keen on UX engineering positions, but I also might be
+interested in UX design or research which are neighboring categories in the job type
+heirarchy. On the other hand I'm probably not at all interested in marketing positions,
+a distant category in the job type heirarchy.
+
+Usually these fields are represented by drop-down menus, which do not reflect the
+nested structure of the values.
+An alternate representation I thought of is a series of stacked chips.
+
+<Sketch scale={1.5} />
+
+Here's an implementation of a set of filters using this representation. Imagine below
+the filters a list of results that updates as you change the filter values.
+
+<Component />
+
+Now remember the user from above.
+As a second example imagine a user lives in Berlin and would like to find a new job there,
+but is open to relocacting within Germany.
+I think this system allows both these users to browse results for their preferences more
+efficiently and intuitively than a flat drop-down would.

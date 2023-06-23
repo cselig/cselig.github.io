@@ -61,6 +61,11 @@ p a {
   50%  { @include cursor-start() }
   100% { @include cursor-end() }
 }
+@keyframes move-up {
+  0%   { transform:translate(0,0); }
+  50% { transform:translate(0,-10px); }
+  100% { transform:translate(0,0); }
+}
 
 #page-container {
   #about {
@@ -121,7 +126,7 @@ p a {
           &.d3 .animate { animation-name: wipe-up; }
           &.keyboard .animate { animation-name: wipe-right; }
           &.cursor .animate { animation-name: cursor-animation; }
-          // &.piano .animate { animation-name: wipe-down; } // looks weird :(
+          &.categories .animate { animation-name: move-up; }
         }
       }
 

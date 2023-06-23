@@ -20,6 +20,7 @@ import PianoSketch from "../images/sketches/piano.jsx"
 import CompilerSketch from "../images/sketches/compiler.jsx"
 import BinarySearchSketch from "../images/sketches/binary_search"
 import GuitarSketch from "../images/sketches/guitar";
+import HeirarchicalCategoriesSketch from "../images/sketches/heirarchical_categories";
 
 function sketchForSlug(slug) {
   switch (slug) {
@@ -49,6 +50,8 @@ function sketchForSlug(slug) {
       return <BinarySearchSketch />
     case "band-parts":
       return <GuitarSketch />
+    case "heirarchical-search":
+      return <HeirarchicalCategoriesSketch />
   }
 }
 
