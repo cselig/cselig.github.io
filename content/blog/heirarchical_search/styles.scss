@@ -1,41 +1,52 @@
 #categories {
-  display: flex;
   border: 3px solid lightgrey;
   border-radius: 10px;
   padding: 15px;
 
-  .filter {
+  .chip {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 10px;
+    padding: 8px;
+
+    p {
+      color: white;
+      margin: 0;
+      font-size: 20px;
+    }
+  }
+
+  .filter-chip {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+
+    .chip {
+      padding-right: 15px;
+      &:last-child { margin-right: 8px; }
+    }
+  }
+
+  .value-chip  {
+    margin-right: 8px;
+    .chip {
+      padding: 6px;
+      p {
+        font-size: 12px;
+      }
+    }
   }
 
   .chips {
-    .chip:nth-child(1) { background-color: #3949AB; }
-    .chip:nth-child(2) { background-color: #5C6BC0; }
-    .chip:nth-child(3) { background-color: #9FA8DA; }
-    .chip:last-child { margin-right: 8px; }
 
     display: flex;
     margin: 0;
 
     .chip {
-      position: relative;
-      width: fit-content;
-      height: fit-content;
-      border-radius: 10px;
-      padding: 8px;
-
-      padding-right: 15px;
       &:not(:first-child) {
         padding-left: 22px;
         margin-left: -16px;
-      }
-
-      p {
-        color: white;
-        margin: 0;
-        font-size: 20px;
       }
 
       .remove {
@@ -61,6 +72,39 @@
       margin-right: 5px;
       border-radius: 5px;
       cursor: pointer;
+    }
+  }
+
+  .job-list {
+    height: 400px;
+    overflow-y: scroll;
+    padding-top: 10px;
+
+    &.empty {
+      text-align: center;
+
+      p {
+        font-weight: 500;
+      }
+    }
+
+    .job-card {
+      border: 1px solid lightgrey;
+      border-radius: 5px;
+      padding: 5px;
+      margin-bottom: 10px;
+
+      .title {
+        font-size: 18px;
+      }
+
+      .description {
+        font-size: 12px;
+      }
+
+      .value-chips {
+        display: flex;
+      }
     }
   }
 }
