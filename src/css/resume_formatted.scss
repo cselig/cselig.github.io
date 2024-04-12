@@ -1,0 +1,132 @@
+$grey: lightgrey;
+
+/* Only uncomment when printing resume – these styles bleed over to the rest of
+   the site for some reason */
+body {
+  // padding: 0;
+  // margin: 0;
+  // position: relative;
+}
+
+#resume-formatted {
+  padding: 60px 80px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 850px;
+}
+
+h1 {
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 28px;
+}
+
+h3 {
+  font-size: 24px;
+  margin: 0;
+}
+
+p, ul {
+  font-size: 16px;
+}
+
+#header {
+  text-align: center;
+
+  h1 {
+    margin: 5px;
+  }
+
+  p {
+    margin: 0;
+    color: $grey;
+    font-weight: 500;
+  }
+}
+
+.section {
+  margin: 0;
+  margin-bottom: 32px;
+
+  h2 {
+    margin: 0;
+  }
+
+  hr {
+    margin: 0;
+    border: none;
+    border-top: 1px solid grey;
+  }
+
+  .list {
+    margin: 0 16px;
+    margin-top: 8px;
+
+    .experience {
+      display: flex;
+      justify-content: space-between;
+      margin: 0;
+      padding: 10px 0;
+
+      .body {
+        h3 {
+          margin: 0;
+          margin-bottom: 8px;
+
+          .position {
+            color: $grey;
+            font-size: 20px;
+          }
+        }
+
+        ul {
+          margin: 0;
+          padding: 0 15px;
+        }
+      }
+
+
+      .info {
+        text-align: right;
+        color: $grey;
+        font-weight: 500;
+
+        p {
+          font-size: 14px;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+#skills {
+  p {
+    margin: 4px;
+  }
+}
+
+#education {
+  p {
+    font-size: 16px;
+  }
+
+  h4 {
+    margin: 0;
+    margin-bottom: 4px;
+    font-weight: 400;
+  }
+
+  ul {
+    margin: 0;
+
+    li {
+      .detail {
+        color: $grey;
+      }
+    }
+  }
+}
