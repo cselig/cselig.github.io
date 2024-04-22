@@ -1,11 +1,12 @@
 $grey: lightgrey;
+$darkgrey: #757575;
 
 /* Only uncomment when printing resume – these styles bleed over to the rest of
    the site for some reason */
 body {
-  // padding: 0;
-  // margin: 0;
-  // position: relative;
+  padding: 0;
+  margin: 0;
+  position: relative;
 }
 
 #resume-formatted {
@@ -49,7 +50,7 @@ p, ul {
 
 .section {
   margin: 0;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 
   h2 {
     margin: 0;
@@ -67,14 +68,19 @@ p, ul {
 
     .experience {
       display: flex;
+      flex-direction: column;
       justify-content: space-between;
       margin: 0;
       padding: 10px 0;
 
-      .body {
+      .header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+
         h3 {
           margin: 0;
-          margin-bottom: 8px;
+          margin-bottom: 0px;
 
           .position {
             color: $grey;
@@ -82,6 +88,13 @@ p, ul {
           }
         }
 
+        .summary {
+          margin: 0;
+          color: $darkgrey;
+        }
+      }
+
+      .body {
         ul {
           margin: 0;
           padding: 0 15px;
