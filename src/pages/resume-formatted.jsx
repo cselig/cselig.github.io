@@ -35,9 +35,9 @@ function Resume() {
                 <li>Built a Python placement engine for structured standard-cell placements. Used this engine
                   on several modules to produce double-digit power savings as compared to standard PnR tools.
                 </li>
+                <li>Prototyped a series of UIs for physical layout input.</li>
               </ul>
             </div>
-
 
           </div>
 
@@ -72,8 +72,8 @@ function Resume() {
             <div className="body">
               <ul>
                 {/* <li>Integrated acquired startup's "digital chief of staff" product into Webex</li> */}
+                <li>Worked directly with internal users to improve web tools for efficient moderation of news feeds.</li>
                 <li>Rewrote a large C++ data serialization system, improving maintainability and code velocity.</li>
-                <li>Worked directly with internal users to build tools for efficient moderation of news feeds.</li>
                 {/* <li>Responded to and debugged issues in production using application and system logs</li> */}
                 {/* <li><b>Technologies used:</b> Ruby, C++, ClojureScript, React, Rails, PostgreSQL, Redis, D3.js</li> */}
               </ul>
@@ -148,8 +148,8 @@ function Resume() {
                 Great Expectations is an OS library for data quality assertions. During my time at Cascade Data Labs
                 I implemented a PySpark backend so we could integrate GE into our stack. I also completed a major
                 refactor of the codebase and introduced a metrics caching layer for performance.
-                Please see this <a href="https://greatexpectations.io/blog/great-expectations-now-supports-executions-in-spark-a-blog-with-much-clapping/">article</a>
-                {' '}for more details.
+                {/* Please see this <a href="https://greatexpectations.io/blog/great-expectations-now-supports-executions-in-spark-a-blog-with-much-clapping/">article</a>
+                {' '}for more details. */}
               </p>
             </div>
           </div>
@@ -167,12 +167,12 @@ function Resume() {
             <b>University of Washington</b> in 2017 with a GPA of 3.69
           </p>
 
-          <h4>Computer Science Coursework:</h4>
+          {/* <h4>Computer Science Coursework:</h4>
           <ul>
-            <li>Compilers <span className="detail">Stanford CS 143 through edX, 2022</span></li>
+            <li>Compilers <span className="detail">Stanford CS 143 through edX, 2022</span></li> */}
             {/* <li>Introduction to AI <span className="detail">UW CSE 415, 2017</span></li> */}
-            <li>Data Structures and Algorithms <span className="detail">UW CSE 373, 2016</span></li>
-          </ul>
+            {/* <li>Data Structures and Algorithms <span className="detail">UW CSE 373, 2016</span></li>
+          </ul> */}
 
         </div>
       </div>
