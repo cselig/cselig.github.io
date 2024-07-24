@@ -1,0 +1,27 @@
+#uketabs {
+  .controls {
+    input[name=edit-bar] {
+      font-family: monospace;
+    }
+  }
+
+  .display {
+    display: flex;
+
+    .beat {
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+      cursor: pointer;
+
+      &.selected {
+        font-weight: 800;
+      }
+
+      .note {
+        width: 12px;
+        height: 15px;
+      }
+    }
+  }
+}
